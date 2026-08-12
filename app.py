@@ -558,3 +558,4 @@ if selected_cycle_id:
                 height=500,
                 scrolling=True
             )
+
