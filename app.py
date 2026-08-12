@@ -82,7 +82,7 @@ st.markdown(
         direction: rtl !important;
         text-align: right !important;
         background-color: #ffffff !important;
-        color: #000000 !important;
+        color: #0284c7 !important;
         border: 2px solid #0284c7 !important;
         border-radius: 6px !important;
         font-weight: 700 !important;
@@ -191,7 +191,7 @@ STANDARD_BENCHMARKS = pd.DataFrame(
 # 3. إدارة قاعدة البيانات وقوانين المخزون
 # ---------------------------------------------------------
 def get_connection():
-    return sqlite3.connect("farm_manager_v9.db", check_same_thread=False)
+    return sqlite3.connect("farm_manager.db", check_same_thread=False)
 
 def init_db():
     conn = get_connection()
@@ -241,7 +241,7 @@ st.title("🐔 BFM - نظام إدارة مزارع التسمين")
 
 conn = get_connection()
 
-with st.expander("لوحة التحكم", expanded=True):
+with st.expander("بدأ او تعديل دورة", expanded=True):
     col_m1, col_m2 = st.columns(2)
     
     with col_m1:
