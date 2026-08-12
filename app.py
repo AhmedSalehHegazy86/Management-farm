@@ -10,21 +10,15 @@ import streamlit.components.v1 as components
 # 1. إعدادات الصفحة وتصميم الخلفية الزرقاء المتدرجة الداكنة
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Broiler Farm Manager - Dark Gradient Blue",
+    page_title="Broiler Farm Manager - Secure Auth",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
 )
 
 st.markdown(
     """
     <style>
-    /* إخفاء الشريط الجانبي تماماً */
-    [data-testid="stSidebar"], [data-testid="collapsedControl"], section[data-testid="stSidebarNav"] {
-        display: none !important;
-        visibility: View !important;
-    }
-
     /* خلفية التطبيق العامة بلون أزرق متدرج وداكن أنيق */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: rtl !important;
@@ -33,6 +27,18 @@ st.markdown(
         color: #ffffff !important;
     }
     
+    /* تخصيص الشريط الجانبي ليكون داكناً ومنسقاً من اليمين */
+    [data-testid="stSidebar"] {
+        direction: rtl !important;
+        background-color: #0f172a !important;
+        border-left: 2px solid #38bdf8 !important;
+    }
+    [data-testid="stSidebar"] * {
+        direction: rtl !important;
+        text-align: right !important;
+        color: #f8fafc !important;
+    }
+
     /* محاذاة ووضوح كافة النصوص والعناوين العلوية على الخلفية الداكنة */
     .stMarkdown, .stText, p, span, label, div {
         direction: rtl !important;
@@ -41,14 +47,14 @@ st.markdown(
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* عناوين الواجهة الرئيسية بارزة وفاتحة لتتوارى بانسجام مع الخلفية الداكنة */
+    /* عناوين الواجهة الرئيسية بارزة وفاتحة */
     h1, h2, h3 {
         color: #e0f2fe !important;
         font-weight: 800 !important;
         text-align: right !important;
     }
 
-    /* مربعات الإحصائيات (Metrics) والنمادج (Forms) - خلفية بيضاء نقية وخطوط سوداء داكنة حصرياً للوضوح التام */
+    /* مربعات الإحصائيات (Metrics) والنمادج (Forms) - خلفية بيضاء نقية وخطوط سوداء داكنة */
     .stMetric, div[data-testid="stForm"] { 
         background: #ffffff !important; 
         padding: 20px !important; 
@@ -82,7 +88,7 @@ st.markdown(
         direction: rtl !important;
         text-align: right !important;
         background-color: #ffffff !important;
-        color: #0284c7 !important;
+        color: #000000 !important;
         border: 2px solid #0284c7 !important;
         border-radius: 6px !important;
         font-weight: 700 !important;
@@ -103,6 +109,7 @@ st.markdown(
     }
     .stTabs [aria-selected="true"] {
         background-color: #0284c7 !important;
+        color: white !important;
     }
 
     /* الأزرار بلون أزرق ملكي بارز وخطوط بيضاء واضحة */
@@ -188,14 +195,27 @@ STANDARD_BENCHMARKS = pd.DataFrame(
 )
 
 # ---------------------------------------------------------
-# 3. إدارة قاعدة البيانات وقوانين المخزون
+# 3. إدارة قاعدة البيانات وإنشاء جداول المستخدمين والدورات
 # ---------------------------------------------------------
 def get_connection():
-    return sqlite3.connect("farm_manager.db", check_same_thread=False)
+    return sqlite3.connect("farm_manager_v9.db", check_same_thread=False)
 
 def init_db():
     conn = get_connection()
     c = conn.cursor()
+
+    # جدول المستخدمين
+    c.execute("""CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE,
+        password TEXT,
+        role TEXT
+    )""")
+
+    # إضافة حساب مدير افتراضي إذا لم يكن موجوداً
+    c.execute("SELECT COUNT(*) FROM users")
+    if c.fetchone()[0] == 0:
+        c.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", ("admin", "admin123", "مدير"))
 
     c.execute("""CREATE TABLE IF NOT EXISTS cycles (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -233,72 +253,123 @@ def init_db():
     conn.commit()
 
 init_db()
+conn = get_connection()
 
 # ---------------------------------------------------------
-# 4. لوحة التحكم لإدارة الدورات
+# 4. نظام المصادقة وتسجيل الدخول (Authentication)
+# ---------------------------------------------------------
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+    st.session_state.username = ""
+    st.session_state.role = ""
+
+if not st.session_state.logged_in:
+    st.title("🔐 تسجيل الدخول - نظام إدارة مزارع التسمين")
+    with st.form("login_form"):
+        u_input = st.text_input("اسم المستخدم")
+        p_input = st.text_input("الرقم السري", type="password")
+        submit_login = st.form_submit_button("دخول للنظام")
+
+        if submit_login:
+            user_row = pd.read_sql(f"SELECT * FROM users WHERE username='{u_input}' AND password='{p_input}'", conn)
+            if not user_row.empty:
+                st.session_state.logged_in = True
+                st.session_state.username = user_row.iloc[0]["username"]
+                st.session_state.role = user_row.iloc[0]["role"]
+                st.success("تم تسجيل الدخول بنجاح!")
+                st.rerun()
+            else:
+                st.error("اسم المستخدم أو الرقم السري غير صحيح!")
+    st.stop()
+
+# ---------------------------------------------------------
+# 5. الشريط الجانبي (Sidebar) للتحكم وإدارة الدورات والمستخدمين
+# ---------------------------------------------------------
+st.sidebar.title(f"👤 مرحبًا: {st.session_state.username}")
+st.sidebar.markdown(f"**الصلاحية:** {st.session_state.role}")
+
+if st.sidebar.button("🚪 تسجيل الخروج"):
+    st.session_state.logged_in = False
+    st.rerun()
+
+st.sidebar.markdown("---")
+st.sidebar.title("🐔 لوحة التحكم والإدارة")
+
+# خيار خاص بالمدير لإضافة مستخدمين جدد
+if st.session_state.role == "مدير":
+    with st.sidebar.expander("👥 إدارة المستخدمين (إضافة مستخدم)", expanded=False):
+        with st.form("add_user_form"):
+            new_user = st.text_input("اسم المستخدم الجديد")
+            new_pass = st.text_input("الرقم السري", type="password")
+            new_role = st.selectbox("الصلاحية", ["مستخدم عادي", "مدير"])
+            if st.form_submit_button("إضافة المستخدم"):
+                if new_user and new_pass:
+                    try:
+                        c = conn.cursor()
+                        c.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", (new_user, new_pass, new_role))
+                        conn.commit()
+                        st.success(f"تم إضافة المستخدم {new_user} بنجاح!")
+                    except sqlite3.IntegrityError:
+                        st.error("اسم المستخدم موجود مسبقاً!")
+                else:
+                    st.warning("يرجى إدخال اسم المستخدم والرقم السري!")
+
+with st.sidebar.expander("➕ إضافة دورة تسمين جديدة", expanded=False):
+    with st.form("add_new_cycle_form_sidebar"):
+        c_name = st.text_input("اسم الدورة الجديدة", f"دورة جديدة {datetime.date.today()}")
+        c_chicks = st.number_input("عدد الكتاكيت الأولي", value=2000, step=100)
+        c_chick_p = st.number_input("سعر الكتكوت (جنية)", value=35.0)
+        c_feed_p = st.number_input("سعر طن العلف (جنية)", value=24000.0)
+        c_sell_p = st.number_input("سعر بيع الكيلو (جنية)", value=85.0)
+        c_target_w = st.number_input("الوزن المستهدف (كجم)", value=2.2)
+        if st.form_submit_button("حفظ وتفعيل الدورة"):
+            c = conn.cursor()
+            c.execute(
+                """INSERT INTO cycles (name, chicks_count, chick_price, feed_price_ton, sell_price_kg, target_weight, start_date)
+                VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                (c_name, c_chicks, c_chick_p, c_feed_p, c_sell_p, c_target_w, str(datetime.date.today())),
+            )
+            conn.commit()
+            st.success("تم إضافة الدورة بنجاح!")
+            st.rerun()
+
+st.sidebar.markdown("---")
+st.sidebar.subheader("🔄 اختيار وتعديل الدورة النشطة")
+cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
+
+if cycles_df.empty:
+    st.sidebar.warning("⚠️ لا توجد دورة نشطة حالياً. أضف دورة جديدة من الخيار أعلاه.")
+    selected_cycle_id = None
+else:
+    cycle_dict = dict(zip(cycles_df["name"], cycles_df["id"]))
+    selected_cycle_name = st.sidebar.selectbox("اختر الدورة النشطة للعمل عليها", list(cycle_dict.keys()))
+    selected_cycle_id = cycle_dict[selected_cycle_name]
+    curr_cycle = cycles_df[cycles_df["id"] == selected_cycle_id].iloc[0]
+
+    st.sidebar.markdown(f"🗓️ **تاريخ البدء:** {curr_cycle['start_date']}")
+    st.sidebar.markdown(f"🐤 **العدد الأولي:** {curr_cycle['chicks_count']:,} طائر")
+
+    with st.sidebar.expander("⚙️ تعديل أسعار وإعدادات الدورة الحالية"):
+        with st.form("edit_cycle_form_sidebar"):
+            e_chick_p = st.number_input("تعديل سعر الكتكوت (جنية)", value=float(curr_cycle["chick_price"]))
+            e_feed_p = st.number_input("تعديل سعر طن العلف (جنية)", value=float(curr_cycle["feed_price_ton"]))
+            e_sell_p = st.number_input("تعديل سعر البيع/كجم (جنية)", value=float(curr_cycle["sell_price_kg"]))
+            if st.form_submit_button("حفظ التحديثات"):
+                c = conn.cursor()
+                c.execute(
+                    "UPDATE cycles SET chick_price=?, feed_price_ton=?, sell_price_kg=? WHERE id=?",
+                    (e_chick_p, e_feed_p, e_sell_p, selected_cycle_id),
+                )
+                conn.commit()
+                st.success("تم التحديث بنجاح!")
+                st.rerun()
+
+# ---------------------------------------------------------
+# 6. واجهة التشغيل والعمليات الحسابية الرئيسية
 # ---------------------------------------------------------
 st.title("🐔 BFM - نظام إدارة مزارع التسمين")
 
-conn = get_connection()
-
-with st.expander("بدأ او تعديل دورة", expanded=True):
-    col_m1, col_m2 = st.columns(2)
-    
-    with col_m1:
-        st.subheader("➕ إضافة دورة تسمين جديدة")
-        with st.form("add_new_cycle_form_main"):
-            c_name = st.text_input("اسم الدورة الجديدة", f"دورة جديدة {datetime.date.today()}")
-            c_chicks = st.number_input("عدد الكتاكيت الأولي", value=2000, step=100)
-            c_chick_p = st.number_input("سعر الكتكوت (جنية)", value=35.0)
-            c_feed_p = st.number_input("سعر طن العلف (جنية)", value=24000.0)
-            c_sell_p = st.number_input("سعر بيع الكيلو (جنية)", value=85.0)
-            c_target_w = st.number_input("الوزن المستهدف (كجم)", value=2.2)
-            if st.form_submit_button("حفظ وتفعيل الدورة"):
-                c = conn.cursor()
-                c.execute(
-                    """INSERT INTO cycles (name, chicks_count, chick_price, feed_price_ton, sell_price_kg, target_weight, start_date)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)""",
-                    (c_name, c_chicks, c_chick_p, c_feed_p, c_sell_p, c_target_w, str(datetime.date.today())),
-                )
-                conn.commit()
-                st.success("تم إضافة الدورة بنجاح!")
-                st.rerun()
-
-    with col_m2:
-        st.subheader("🔄  اختيار وتعديل الدورة النشطة")
-        cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
-        
-        if cycles_df.empty:
-            st.warning("⚠️ لا توجد دورة نشطة حالياً. أضف دورة جديدة من الخيار المجاور.")
-            selected_cycle_id = None
-        else:
-            cycle_dict = dict(zip(cycles_df["name"], cycles_df["id"]))
-            selected_cycle_name = st.selectbox("اختر الدورة النشطة للعمل عليها", list(cycle_dict.keys()))
-            selected_cycle_id = cycle_dict[selected_cycle_name]
-            curr_cycle = cycles_df[cycles_df["id"] == selected_cycle_id].iloc[0]
-
-            st.markdown(f"🗓️ **تاريخ البدء:** {curr_cycle['start_date']} | 🐤 **العدد الأولي:** {curr_cycle['chicks_count']:,} طائر")
-
-            with st.form("edit_cycle_form_main"):
-                e_chick_p = st.number_input("تعديل سعر الكتكوت (جنية)", value=float(curr_cycle["chick_price"]))
-                e_feed_p = st.number_input("تعديل سعر طن العلف (جنية)", value=float(curr_cycle["feed_price_ton"]))
-                e_sell_p = st.number_input("تعديل سعر البيع/كجم (جنية)", value=float(curr_cycle["sell_price_kg"]))
-                if st.form_submit_button("حفظ التحديثات"):
-                    c = conn.cursor()
-                    c.execute(
-                        "UPDATE cycles SET chick_price=?, feed_price_ton=?, sell_price_kg=? WHERE id=?",
-                        (e_chick_p, e_feed_p, e_sell_p, selected_cycle_id),
-                    )
-                    conn.commit()
-                    st.success("تم التحديث بنجاح!")
-                    st.rerun()
-
-st.markdown("---")
-
-# ---------------------------------------------------------
-# 5. واجهة التشغيل والعمليات الحسابية
-# ---------------------------------------------------------
-if 'selected_cycle_id' in locals() and selected_cycle_id:
+if selected_cycle_id:
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
         [
             "📊 لوحة التحكم الأوتوماتيكية",
