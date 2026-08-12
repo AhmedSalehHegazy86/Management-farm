@@ -7,22 +7,22 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم واجهة "زرقة البحر" (الشريط مخفي افتراضياً والخلفية أفتح)
+# 1. إعدادات الصفحة وتصميم واجهة "زرقة البحر" (الشريط مغلق افتراضياً)
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Broiler Farm Manager V9 - Sea Blue Theme",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="collapsed",  # إخفاء الشريط الجانبي افتراضياً للفتح من السهم العلوي
+    initial_sidebar_state="collapsed",  # إخفاء الشريط الجانبي تماماً عند البداية (يفتح من سهم القائمة العلوية)
 )
 
 st.markdown(
     """
     <style>
-    /* خلفية البرنامج بلون أزرق سماوي فاتح جداً (أفتح بوضوح من الشريط الجانبي) */
+    /* خلفية البرنامج بلون أزرق سماوي فاتح جداً ومهدئ (أفتح بوضوح من الشريط الجانبي) */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: rtl;
-        background-color: #f0f7ff !important;
+        background-color: #f4f9fd !important;
     }
     
     /* تنسيق الشريط الجانبي في اليمين بلون أزرق البحر العميق */
@@ -213,7 +213,6 @@ init_db()
 st.sidebar.title("🐔 إدارة دورات التسمين")
 conn = get_connection()
 
-# إتاحة إضافة دورة جديدة في أي وقت من القائمة الجانبية
 with st.sidebar.expander("➕ إضافة دورة جديدة أخرى"):
     with st.form("add_new_cycle_form"):
         c_name = st.text_input("اسم الدورة الجديدة", f"دورة جديدة {datetime.date.today()}")
