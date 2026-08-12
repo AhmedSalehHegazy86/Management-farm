@@ -7,10 +7,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم التباين الأزرق الفائق
+# 1. إعدادات الصفحة وتصميم الخلفية الزرقاء المتدرجة الداكنة
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Broiler Farm Manager V9 - Blue Contrast",
+    page_title="Broiler Farm Manager - Dark Gradient Blue",
     page_icon="🐔",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -25,40 +25,45 @@ st.markdown(
         visibility: hidden !important;
     }
 
-    /* خلفية التطبيق العامة بلون أزرق نقي وفاتح يريح العين */
+    /* خلفية التطبيق العامة بلون أزرق متدرج وداكن أنيق */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: rtl !important;
         text-align: right !important;
-        background-color: #f0f9ff !important; 
-        color: #000000 !important;
+        background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important; 
+        color: #ffffff !important;
     }
     
-    /* محاذاة ووضوح كافة النصوص والخطوط للون الأسود الداكن حصرياً */
-    .stMarkdown, .stText, p, span, label, div, h1, h2, h3, h4, h5, h6 {
+    /* محاذاة ووضوح كافة النصوص والعناوين العلوية على الخلفية الداكنة */
+    .stMarkdown, .stText, p, span, label, div {
         direction: rtl !important;
         text-align: right !important;
-        color: #000000 !important;
+        color: #f8fafc !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* عناوين الواجهة الرئيسية بارزة وداكنة */
+    /* عناوين الواجهة الرئيسية بارزة وفاتحة لتتوارى بانسجام مع الخلفية الداكنة */
     h1, h2, h3 {
-        color: #0c4a6e !important;
+        color: #e0f2fe !important;
         font-weight: 800 !important;
         text-align: right !important;
     }
 
-    /* مربعات الإحصائيات (Metrics) والنمادج (Forms) - تباين أزرق مع خطوط سوداء */
+    /* مربعات الإحصائيات (Metrics) والنمادج (Forms) - خلفية بيضاء نقية وخطوط سوداء داكنة حصرياً للوضوح التام */
     .stMetric, div[data-testid="stForm"] { 
         background: #ffffff !important; 
         padding: 20px !important; 
         border-radius: 12px !important; 
-        border: 2px solid #bae6fd !important;
+        border: 2px solid #38bdf8 !important;
         border-right: 8px solid #0284c7 !important; 
-        box-shadow: 0 4px 6px rgba(2, 132, 199, 0.08) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
         text-align: right !important;
     }
     
+    .stMetric *, div[data-testid="stForm"] * {
+        color: #000000 !important;
+        text-align: right !important;
+    }
+
     [data-testid="stMetricValue"] {
         color: #0369a1 !important;
         font-weight: 900 !important;
@@ -78,22 +83,22 @@ st.markdown(
         text-align: right !important;
         background-color: #ffffff !important;
         color: #000000 !important;
-        border: 2px solid #38bdf8 !important;
+        border: 2px solid #0284c7 !important;
         border-radius: 6px !important;
         font-weight: 700 !important;
     }
 
-    /* التبويبات (Tabs) بتصميم أزرق متناسق */
+    /* التبويبات (Tabs) بتصميم أزرق متناسق وعالي التباين */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
         direction: rtl !important;
     }
     .stTabs [data-baseweb="tab"] {
-        background-color: #e0f2fe;
-        border: 1px solid #7dd3fc;
+        background-color: #1e293b;
+        border: 1px solid #38bdf8;
         border-radius: 8px 8px 0 0;
         padding: 10px 20px;
-        color: #0c4a6e;
+        color: #e0f2fe;
         font-weight: bold;
     }
     .stTabs [aria-selected="true"] {
@@ -101,12 +106,12 @@ st.markdown(
         color: white !important;
     }
 
-    /* الأزرار بلون أزرق ملكي وخطوط بيضاء واضحة */
+    /* الأزرار بلون أزرق ملكي بارز وخطوط بيضاء واضحة */
     .stButton>button {
         background-color: #0284c7 !important;
         color: white !important;
         border-radius: 8px;
-        border: 2px solid #0369a1;
+        border: 2px solid #38bdf8;
         font-weight: 900 !important;
         padding: 0.6rem 1.2rem;
         width: 100%;
@@ -119,7 +124,7 @@ st.markdown(
     [data-testid="stDataFrame"] {
         background-color: #ffffff;
         border-radius: 10px;
-        border: 2px solid #7dd3fc;
+        border: 2px solid #38bdf8;
         direction: rtl !important;
         text-align: right !important;
     }
@@ -233,7 +238,7 @@ init_db()
 # ---------------------------------------------------------
 # 4. لوحة التحكم وقائمة منسدلة من اتجاه اليمين لإدارة الدورات
 # ---------------------------------------------------------
-st.title("🐔 Broiler Farm Manager V9 - نظام إدارة مزارع التسمين")
+st.title("🐔 BFM - نظام إدارة مزارع التسمين")
 
 conn = get_connection()
 
@@ -584,7 +589,7 @@ if 'selected_cycle_id' in locals() and selected_cycle_id:
             
             print_html = f"""
             <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #0284c7; border-radius: 10px; background-color: #ffffff; color: #000000; text-align: right;">
-                <h2 style="text-align: center; color: #0284c7;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
+                <h2 style="text-align: center; color: #0284c7;">🐔 تقرير أداء دورة التسمين</h2>
                 <hr>
                 <table style="width:100%; text-align:right; border-collapse: collapse;">
                     <tr><td><strong>اسم الدورة:</strong> {curr_cycle['name']}</td><td><strong>تاريخ البدء:</strong> {curr_cycle['start_date']}</td></tr>
