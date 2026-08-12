@@ -236,13 +236,13 @@ def init_db():
 init_db()
 
 # ---------------------------------------------------------
-# 4. لوحة التحكم وقائمة منسدلة من اتجاه اليمين لإدارة الدورات
+# 4. لوحة التحكم لإدارة الدورات
 # ---------------------------------------------------------
 st.title("🐔 BFM - نظام إدارة مزارع التسمين")
 
 conn = get_connection()
 
-with st.expander("⚙️ لوحة التحكم المركزية (القائمة المنسدلة لإدارة الدورات وتعديلها)", expanded=True):
+with st.expander("لوحة التحكم")", expanded=True):
     col_m1, col_m2 = st.columns(2)
     
     with col_m1:
@@ -266,7 +266,7 @@ with st.expander("⚙️ لوحة التحكم المركزية (القائمة 
                 st.rerun()
 
     with col_m2:
-        st.subheader("🔄 القائمة المنسدلة لاختيار وتعديل الدورة النشطة")
+        st.subheader("🔄  اختيار وتعديل الدورة النشطة")
         cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
         
         if cycles_df.empty:
