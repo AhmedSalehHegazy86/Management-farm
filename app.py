@@ -7,7 +7,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة والتصميم فائق الوضوح (High-Contrast Theme)
+# 1. إعدادات الصفحة وتنسيق الخطوط والألوان فائقة الوضوح
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Broiler Farm Manager V9",
@@ -19,37 +19,36 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* خلفية التطبيق العامة: رمادي فاتح نقي يريح العين */
+    /* خلفية التطبيق العامة */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: rtl;
-        background-color: #f1f5f9 !important; 
+        background-color: #f8fafc !important; 
         color: #0f172a !important;
     }
     
-    /* الشريط الجانبي: كحلي داكن جداً وواضحة نصوصه البيضاء */
+    /* تثبيت وضوح كافة النصوص في الواجهة الرئيسية (لون داكن قوي) */
+    .stMarkdown, .stText, p, span, label, div, h1, h2, h3, h4, h5, h6 {
+        color: #0f172a !important;
+    }
+
+    /* عناوين الواجهة الرئيسية بارزة وواضحة */
+    h1, h2, h3 {
+        color: #0f172a !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 700 !important;
+    }
+
+    /* الشريط الجانبي: كحلي داكن مع خطوط بيضاء صافية تماماً */
     [data-testid="stSidebar"] {
         direction: rtl !important;
-        background-color: #090d16 !important;
+        background-color: #0f172a !important;
     }
     [data-testid="stSidebar"] * {
         color: #ffffff !important;
         text-align: right !important;
     }
 
-    /* العناوين الرئيسية والفرعية (واضحة وقوية) */
-    h1, h2, h3, h4, h5, h6 {
-        color: #0f172a !important;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: 700 !important;
-    }
-    
-    /* النصوص العادية والعلامات لضمان أقصى درجات الوضوح */
-    p, span, label, div {
-        color: #1e293b !important;
-        font-weight: 500;
-    }
-
-    /* مربعات الإحصائيات (Metrics) والنمادج (Forms) - بطاقات بيضاء بحدود واضحة */
+    /* مربعات الإحصائيات (Metrics) والنمادج (Forms) - خلفية بيضاء وخطوط واضحة */
     .stMetric, div[data-testid="stForm"] { 
         background: #ffffff !important; 
         padding: 20px !important; 
@@ -65,19 +64,20 @@ st.markdown(
         font-size: 1.8rem !important;
     }
     [data-testid="stMetricLabel"] {
-        color: #475569 !important;
+        color: #334155 !important;
         font-weight: 700 !important;
     }
 
-    /* حقول الإدخال (Inputs) لتكون واضحة ومقروءة تماماً */
+    /* حقول الإدخال والنصوص بداخله */
     input, select, textarea {
         background-color: #ffffff !important;
         color: #0f172a !important;
         border: 1px solid #94a3b8 !important;
         border-radius: 6px !important;
+        font-weight: 600 !important;
     }
 
-    /* التبويبات (Tabs) بشكل واضح جداً */
+    /* التبويبات (Tabs) */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
     }
@@ -85,7 +85,7 @@ st.markdown(
         background-color: #e2e8f0;
         border-radius: 8px 8px 0 0;
         padding: 10px 20px;
-        color: #334155;
+        color: #1e293b;
         font-weight: bold;
     }
     .stTabs [aria-selected="true"] {
@@ -93,7 +93,7 @@ st.markdown(
         color: white !important;
     }
 
-    /* الأزرار بتصميم واضح وبارز */
+    /* الأزرار */
     .stButton>button {
         background-color: #0284c7 !important;
         color: white !important;
@@ -584,7 +584,7 @@ if selected_cycle_id:
                     <tr style="background-color: #f1f5f9;"><th style="color:#0f172a; padding: 6px;">البند</th><th style="color:#0f172a; padding: 6px;">القيمة (جنية)</th></tr>
                     <tr><td style="padding: 6px;">إجمالي التكاليف</td><td style="padding: 6px;">{total_costs:,.2f} ج.م</td></tr>
                     <tr><td style="padding: 6px;">إجمالي الإيرادات المتوقعة</td><td style="padding: 6px;">{est_revenue:,.2f} ج.م</td></tr>
-                    <tr style="font-weight: bold; background-color: #e2e8f0;"><td style="color:#0f172a; padding: 6px;">صافي الربح</td><td style="color:#0f172a; padding: 6px;">{net_profit:,.2f} ج.م</td></tr>
+                    <tr style="font-weight: bold; background-color: #e2e8f0;"><td style="color:#0f172a; padding: 6px;">صافي الربح</td><td style="padding: 6px;">{net_profit:,.2f} ج.م</td></tr>
                 </table>
             </div>
             """
