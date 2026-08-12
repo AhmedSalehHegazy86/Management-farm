@@ -7,55 +7,98 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة والتصميم العريض باللغة العربية
+# 1. إعدادات الصفحة وتصميم واجهة الألوان والشريط الجانبي الأيمن
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Broiler Farm Manager V9 - Auto App",
+    page_title="Broiler Farm Manager V9 - Pro UI",
     page_icon="🐔",
     layout="wide",
 )
 
-# تنسيق الواجهة باللغة العربية RTL وتعديل الشريط الجانبي
 st.markdown(
     """
     <style>
-    /* تغيير اتجاه التطبيق بالكامل ليصبح من اليمين لليسار */
-    [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+    /* ضبط اتجاه التطبيق بالكامل والخلفية العامة */
+    [data-testid="stAppViewContainer"] {
         direction: rtl;
-        text-align: right;
+        background-color: #f8fafc;
     }
     
-    /* ضبط الشريط الجانبي ليكون في اليمين */
+    /* تثبيت الشريط الجانبي في اليمين بشكل قاطع وتنسيق ألوانه */
     [data-testid="stSidebar"] {
+        right: 0 !important;
+        left: auto !important;
         direction: rtl !important;
         text-align: right !important;
-    }
-    
-    /* محاذاة النصوص داخل جميع العناصر */
-    .stMarkdown, div, p, span, h1, h2, h3, h4, h5, h6, input, button { 
-        text-align: right; 
-    }
-    
-    /* ضبط حقول الإدخال */
-    .stTextInput input, .stNumberInput input, .stSelectbox select {
-        direction: rtl;
-        text-align: right;
+        background-color: #eef2f3 !important;
+        border-left: 3px solid #2e7d32;
+        border-right: none;
     }
 
-    /* تنسيق مربعات الإحصائيات (Metrics) */
-    [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {
+    /* محاذاة وتنسيق عناصر الشريط الجانبي */
+    [data-testid="stSidebar"] div, 
+    [data-testid="stSidebar"] label, 
+    [data-testid="stSidebar"] p, 
+    [data-testid="stSidebar"] span {
         text-align: right !important;
-        direction: rtl;
+        color: #1e293b;
+        font-weight: 500;
     }
+
+    /* عناوين الواجهة الرئيسية بألوان مميزة */
+    h1, h2, h3 {
+        color: #1b4332;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* تنسيق مربعات الإحصائيات (Metrics) بألوان جذابة */
     .stMetric { 
-        background-color: #f8f9fa; 
-        padding: 12px; 
-        border-radius: 8px; 
-        border-right: 4px solid #28a745; 
-        border-left: none;
+        background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); 
+        padding: 15px; 
+        border-radius: 12px; 
+        border-right: 6px solid #2e7d32; 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
     }
-    
-    /* إخفاء واجهة التطبيق عند الطباعة ليظهر التقرير فقط */
+    [data-testid="stMetricValue"] {
+        color: #1b4332 !important;
+        font-weight: 700;
+    }
+    [data-testid="stMetricLabel"] {
+        color: #386641 !important;
+        font-weight: 600;
+    }
+
+    /* تنسيق التبويبات (Tabs) بشكل عصري */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 6px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        background-color: #e2e8f0;
+        border-radius: 8px 8px 0 0;
+        padding: 10px 18px;
+        color: #475569;
+        font-weight: bold;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #2e7d32 !important;
+        color: white !important;
+    }
+
+    /* الأزرار بتصميم متناسق */
+    .stButton>button {
+        background-color: #2e7d32;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .stButton>button:hover {
+        background-color: #1b4332;
+        color: white;
+    }
+
+    /* إخفاء واجهة التطبيق عند الطباعة */
     @media print {
         header, [data-testid="stSidebar"], .stTabs [role="tablist"], button { 
             display: none !important; 
@@ -299,8 +342,8 @@ if selected_cycle_id:
             st.write("### 🌡️ درجة الحرارة والرطوبة اليومية")
             if not logs_df.empty:
                 fig_env = go.Figure()
-                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة (°C)", line=dict(color="red", width=2)))
-                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة (%)", line=dict(color="blue", width=2)))
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة (°C)", line=dict(color="#d90429", width=2)))
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة (%)", line=dict(color="#0077b6", width=2)))
                 fig_env.update_layout(xaxis_title="اليوم", yaxis_title="القيمة", margin=dict(l=20, r=20, t=30, b=20))
                 st.plotly_chart(fig_env, use_container_width=True)
 
@@ -308,8 +351,8 @@ if selected_cycle_id:
             st.write("### 💧 استهلاك العلف والمياه اليومي")
             if not logs_df.empty:
                 fig_cons = go.Figure()
-                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["feed_kg"], name="العلف (كجم)", marker_color="orange"))
-                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه (لتر)", marker_color="teal"))
+                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["feed_kg"], name="العلف (كجم)", marker_color="#fb8500"))
+                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه (لتر)", marker_color="#219ebc"))
                 fig_cons.update_layout(barmode="group", xaxis_title="اليوم", yaxis_title="الكمية", margin=dict(l=20, r=20, t=30, b=20))
                 st.plotly_chart(fig_cons, use_container_width=True)
 
@@ -369,8 +412,8 @@ if selected_cycle_id:
         merged_df = pd.merge(STANDARD_BENCHMARKS, logs_df[["day", "weight_g", "feed_kg"]], on="day", how="left")
 
         fig_w = go.Figure()
-        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="gray", dash="dash", width=2)))
-        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="green", width=3)))
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="#6c757d", dash="dash", width=2)))
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#2e7d32", width=3)))
         fig_w.update_layout(title="منحنى النمو مقارنة بالمعايير القياسية", xaxis_title="اليوم", yaxis_title="متوسط الوزن (جم)")
         st.plotly_chart(fig_w, use_container_width=True)
 
@@ -457,7 +500,7 @@ if selected_cycle_id:
         cost_per_kg = total_costs / tot_weight_kg if tot_weight_kg > 0 else 0.0
 
         m1, m2, m3, m4 = st.columns(4)
-        m1.metric("إجمالي التكاليف الفعيلية", f"{total_costs:,.2f} ج.م")
+        m1.metric("إجمالي التكاليف الفعلية", f"{total_costs:,.2f} ج.م")
         m2.metric("إجمالي قيمة الوزن الحقيقي", f"{est_revenue:,.2f} ج.م")
         m3.metric("صافي الربح الحقيقي حالياً", f"{net_profit:,.2f} ج.م")
         m4.metric("نقطة التعادل (كجم)", f"{breakeven_kg:,.1f} كجم")
@@ -525,8 +568,8 @@ if selected_cycle_id:
             st.write("### 🖨️ 2. طباعة تقرير الدورة / حفظ كـ PDF")
             
             print_html = f"""
-            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #28a745; border-radius: 10px;">
-                <h2 style="text-align: center; color: #28a745;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
+            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #2e7d32; border-radius: 10px; background-color: #ffffff;">
+                <h2 style="text-align: center; color: #2e7d32;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
                 <hr>
                 <table style="width:100%; text-align:right; border-collapse: collapse;">
                     <tr><td><strong>اسم الدورة:</strong> {curr_cycle['name']}</td><td><strong>تاريخ البدء:</strong> {curr_cycle['start_date']}</td></tr>
@@ -537,20 +580,19 @@ if selected_cycle_id:
                 <hr>
                 <h3 style="color: #333;">💰 الملخص المالي</h3>
                 <table style="width:100%; text-align:right; border: 1px solid #ddd; padding: 8px;">
-                    <tr style="background-color: #f2f2f2;"><th>البند</th><th>القيمة (جنية)</th></tr>
+                    <tr style="background-color: #e8f5e9;"><th>البند</th><th>القيمة (جنية)</th></tr>
                     <tr><td>إجمالي التكاليف</td><td>{total_costs:,.2f} ج.م</td></tr>
                     <tr><td>إجمالي الإيرادات المتوقعة</td><td>{est_revenue:,.2f} ج.م</td></tr>
-                    <tr style="font-weight: bold; background-color: #e6ffe6;"><td>صافي الربح</td><td>{net_profit:,.2f} ج.م</td></tr>
+                    <tr style="font-weight: bold; background-color: #c8e6c9;"><td>صافي الربح</td><td>{net_profit:,.2f} ج.م</td></tr>
                 </table>
             </div>
             """
             
-            # تم زيادة الارتفاع لضمان عدم اختفاء الزر أسفل الإطار الوهمي وتفعيل التمرير
             components.html(
                 f"""
                 {print_html}
                 <div style="margin-top: 20px;">
-                    <button onclick="window.print()" style="background-color: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif;">
+                    <button onclick="window.print()" style="background-color: #2e7d32; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif;">
                         🖨️ اضغط هنا لطباعة التقرير / حفظ PDF
                     </button>
                 </div>
@@ -558,4 +600,3 @@ if selected_cycle_id:
                 height=500,
                 scrolling=True
             )
-
