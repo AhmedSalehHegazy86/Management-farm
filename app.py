@@ -207,7 +207,7 @@ init_db()
 # ---------------------------------------------------------
 # 4. القائمة الجانبية وإدارة الدورات
 # ---------------------------------------------------------
-st.sidebar.title("🐔 Broiler Farm Manager V9")
+st.sidebar.title("🐔 BFM")
 conn = get_connection()
 cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
 
@@ -277,7 +277,7 @@ else:
 # ---------------------------------------------------------
 # 5. واجهة التطبيق والعمليات الحسابية
 # ---------------------------------------------------------
-st.title("🐔 Broiler Farm Manager V9 - نظام إدارة مزارع التسمين")
+st.title("🐔 BFM - نظام إدارة مزارع التسمين")
 
 if selected_cycle_id:
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
