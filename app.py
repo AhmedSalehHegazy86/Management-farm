@@ -69,7 +69,7 @@ st.markdown(
 
     [data-testid="stSidebar"] {
         direction: rtl !important;
-        position: left !important;
+        position: right !important;
         top: 0 !important;
         right: 0 !important;
         left: 0 !important;
