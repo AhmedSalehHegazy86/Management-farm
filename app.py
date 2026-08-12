@@ -15,17 +15,54 @@ st.set_page_config(
     layout="wide",
 )
 
-# تنسيق الواجهة باللغة العربية RTL
+# تنسيق الواجهة باللغة العربية RTL وتعديل الشريط الجانبي
 st.markdown(
     """
     <style>
-    body, div, p, span, h1, h2, h3, h4, h5, h6, input, button { direction: rtl; text-align: right; }
-    .stMetric { text-align: right; background-color: #f8f9fa; padding: 12px; border-radius: 8px; border-right: 4px solid #28a745; }
+    /* تغيير اتجاه التطبيق بالكامل ليصبح من اليمين لليسار */
+    [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+        direction: rtl;
+        text-align: right;
+    }
+    
+    /* ضبط الشريط الجانبي ليكون في اليمين */
+    [data-testid="stSidebar"] {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+    
+    /* محاذاة النصوص داخل جميع العناصر */
+    .stMarkdown, div, p, span, h1, h2, h3, h4, h5, h6, input, button { 
+        text-align: right; 
+    }
+    
+    /* ضبط حقول الإدخال */
+    .stTextInput input, .stNumberInput input, .stSelectbox select {
+        direction: rtl;
+        text-align: right;
+    }
+
+    /* تنسيق مربعات الإحصائيات (Metrics) */
+    [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {
+        text-align: right !important;
+        direction: rtl;
+    }
+    .stMetric { 
+        background-color: #f8f9fa; 
+        padding: 12px; 
+        border-radius: 8px; 
+        border-right: 4px solid #28a745; 
+        border-left: none;
+    }
+    
+    /* إخفاء واجهة التطبيق عند الطباعة ليظهر التقرير فقط */
     @media print {
-        .stApp > header, .stSidebar, button, .stTabs [role="tablist"] { display: none !important; }
+        header, [data-testid="stSidebar"], .stTabs [role="tablist"], button { 
+            display: none !important; 
+        }
     }
     </style>
-""",
+    """,
     unsafe_allow_html=True,
 )
 
@@ -77,13 +114,11 @@ STANDARD_BENCHMARKS = pd.DataFrame(
     ]
 )
 
-
 # ---------------------------------------------------------
 # 3. إدارة قاعدة البيانات وقوانين المخزون
 # ---------------------------------------------------------
 def get_connection():
     return sqlite3.connect("farm_manager_v9.db", check_same_thread=False)
-
 
 def init_db():
     conn = get_connection()
@@ -111,7 +146,6 @@ def init_db():
         symptoms TEXT, diagnosis TEXT, treatment TEXT, withdrawal_days INT
     )""")
 
-    # إدخال المشتريات والحد الأدنى الافتراضي
     c.execute("SELECT COUNT(*) FROM inventory_purchases")
     if c.fetchone()[0] == 0:
         c.executemany(
@@ -123,9 +157,7 @@ def init_db():
                 ("مطهر (لتر)", 20.0, 5.0),
             ],
         )
-
     conn.commit()
-
 
 init_db()
 
@@ -217,25 +249,19 @@ if selected_cycle_id:
         ]
     )
 
-    # جلب التسجيلات اليومية للدورة
     logs_df = pd.read_sql(
         f"SELECT * FROM daily_logs WHERE cycle_id={selected_cycle_id} ORDER BY day ASC",
         conn,
     )
 
-    # الحسابات الإحصائية والدقيقة
     tot_chicks = int(curr_cycle["chicks_count"])
     tot_mortality = int(logs_df["mortality"].sum()) if not logs_df.empty else 0
     live_birds = tot_chicks - tot_mortality
     mortality_pct = (tot_mortality / tot_chicks) * 100.0 if tot_chicks > 0 else 0.0
     liveability = 100.0 - mortality_pct
 
-    tot_feed_kg = (
-        float(logs_df["feed_kg"].sum()) if not logs_df.empty else 0.0
-    )
-    tot_water_l = (
-        float(logs_df["water_l"].sum()) if not logs_df.empty else 0.0
-    )
+    tot_feed_kg = float(logs_df["feed_kg"].sum()) if not logs_df.empty else 0.0
+    tot_water_l = float(logs_df["water_l"].sum()) if not logs_df.empty else 0.0
 
     last_day = int(logs_df["day"].max()) if not logs_df.empty else 1
     last_weight_g = (
@@ -244,13 +270,8 @@ if selected_cycle_id:
         else 45.0
     )
 
-    # الكتلة الحية الإجمالية (كجم)
     tot_weight_kg = (live_birds * last_weight_g) / 1000.0
-
-    # FCR التراكمي الدقيق
     fcr = (tot_feed_kg / tot_weight_kg) if tot_weight_kg > 0 else 0.0
-
-    # EPEF الدقيق
     epef = (
         ((liveability * (last_weight_g / 1000.0)) / (last_day * fcr)) * 100.0
         if (fcr > 0 and last_day > 0)
@@ -278,77 +299,31 @@ if selected_cycle_id:
             st.write("### 🌡️ درجة الحرارة والرطوبة اليومية")
             if not logs_df.empty:
                 fig_env = go.Figure()
-                fig_env.add_trace(
-                    go.Scatter(
-                        x=logs_df["day"],
-                        y=logs_df["temp"],
-                        name="الحرارة (°C)",
-                        line=dict(color="red", width=2),
-                    )
-                )
-                fig_env.add_trace(
-                    go.Scatter(
-                        x=logs_df["day"],
-                        y=logs_df["humidity"],
-                        name="الرطوبة (%)",
-                        line=dict(color="blue", width=2),
-                    )
-                )
-                fig_env.update_layout(
-                    xaxis_title="اليوم",
-                    yaxis_title="القيمة",
-                    margin=dict(l=20, r=20, t=30, b=20),
-                )
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة (°C)", line=dict(color="red", width=2)))
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة (%)", line=dict(color="blue", width=2)))
+                fig_env.update_layout(xaxis_title="اليوم", yaxis_title="القيمة", margin=dict(l=20, r=20, t=30, b=20))
                 st.plotly_chart(fig_env, use_container_width=True)
 
         with col_right:
             st.write("### 💧 استهلاك العلف والمياه اليومي")
             if not logs_df.empty:
                 fig_cons = go.Figure()
-                fig_cons.add_trace(
-                    go.Bar(
-                        x=logs_df["day"],
-                        y=logs_df["feed_kg"],
-                        name="العلف (كجم)",
-                        marker_color="orange",
-                    )
-                )
-                fig_cons.add_trace(
-                    go.Bar(
-                        x=logs_df["day"],
-                        y=logs_df["water_l"],
-                        name="المياه (لتر)",
-                        marker_color="teal",
-                    )
-                )
-                fig_cons.update_layout(
-                    barmode="group",
-                    xaxis_title="اليوم",
-                    yaxis_title="الكمية",
-                    margin=dict(l=20, r=20, t=30, b=20),
-                )
+                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["feed_kg"], name="العلف (كجم)", marker_color="orange"))
+                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه (لتر)", marker_color="teal"))
+                fig_cons.update_layout(barmode="group", xaxis_title="اليوم", yaxis_title="الكمية", margin=dict(l=20, r=20, t=30, b=20))
                 st.plotly_chart(fig_cons, use_container_width=True)
 
     # --- Tab 2: التسجيل اليومي ---
     with tab2:
         st.subheader("📝 إدخال وتعديل البيانات اليومية للدورة")
-
         with st.form("daily_entry_form"):
             col1, col2, col3, col4, col5 = st.columns(5)
             next_day_val = int(last_day if logs_df.empty else min(last_day + 1, 40))
-            in_day = col1.number_input(
-                "اليوم (1 - 40)", min_value=1, max_value=40, value=next_day_val
-            )
-            in_feed = col2.number_input(
-                "استهلاك العلف (كجم)", min_value=0.0, step=10.0
-            )
-            in_water = col3.number_input(
-                "استهلاك المياه (لتر)", min_value=0.0, step=10.0
-            )
+            in_day = col1.number_input("اليوم (1 - 40)", min_value=1, max_value=40, value=next_day_val)
+            in_feed = col2.number_input("استهلاك العلف (كجم)", min_value=0.0, step=10.0)
+            in_water = col3.number_input("استهلاك المياه (لتر)", min_value=0.0, step=10.0)
             in_mort = col4.number_input("النفوق اليومي (طائر)", min_value=0, step=1)
-            in_weight = col5.number_input(
-                "متوسط الوزن الفعلي (جم)", min_value=0.0, step=10.0
-            )
+            in_weight = col5.number_input("متوسط الوزن الفعلي (جم)", min_value=0.0, step=10.0)
 
             col6, col7, col8, col9 = st.columns(4)
             in_temp = col6.number_input("الحرارة (°C)", value=30.0)
@@ -362,18 +337,7 @@ if selected_cycle_id:
                     """INSERT OR REPLACE INTO daily_logs 
                     (cycle_id, day, feed_kg, water_l, mortality, weight_g, temp, humidity, ammonia, notes)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (
-                        selected_cycle_id,
-                        in_day,
-                        in_feed,
-                        in_water,
-                        in_mort,
-                        in_weight,
-                        in_temp,
-                        in_hum,
-                        in_amm,
-                        in_notes,
-                    ),
+                    (selected_cycle_id, in_day, in_feed, in_water, in_mort, in_weight, in_temp, in_hum, in_amm, in_notes),
                 )
                 conn.commit()
                 st.success(f"تم حفظ بيانات اليوم {in_day} بنجاح!")
@@ -381,169 +345,69 @@ if selected_cycle_id:
 
         st.markdown("---")
         st.write("### 📋 جدول السجلات اليومية المكتملة")
-
-        # حساب FCR التراكمي والكتلة الحية لكل يوم
         if not logs_df.empty:
             calc_df = logs_df.copy()
             calc_df["feed_cum"] = calc_df["feed_kg"].cumsum()
             calc_df["mort_cum"] = calc_df["mortality"].cumsum()
             calc_df["live_birds_day"] = tot_chicks - calc_df["mort_cum"]
-            calc_df["biomass_day_kg"] = (
-                calc_df["live_birds_day"] * calc_df["weight_g"]
-            ) / 1000.0
+            calc_df["biomass_day_kg"] = (calc_df["live_birds_day"] * calc_df["weight_g"]) / 1000.0
             calc_df["fcr_cum"] = calc_df["feed_cum"] / calc_df["biomass_day_kg"]
             calc_df["fcr_cum"] = calc_df["fcr_cum"].round(2)
 
-            display_cols = [
-                "day",
-                "feed_kg",
-                "water_l",
-                "mortality",
-                "weight_g",
-                "biomass_day_kg",
-                "fcr_cum",
-                "temp",
-                "humidity",
-                "ammonia",
-                "notes",
-            ]
+            display_cols = ["day", "feed_kg", "water_l", "mortality", "weight_g", "biomass_day_kg", "fcr_cum", "temp", "humidity", "ammonia", "notes"]
             renamed_cols = {
-                "day": "اليوم",
-                "feed_kg": "العلف (كجم)",
-                "water_l": "المياه (لتر)",
-                "mortality": "النفوق",
-                "weight_g": "الوزن (جم)",
-                "biomass_day_kg": "الكتلة الحية (كجم)",
-                "fcr_cum": "FCR تراكمي",
-                "temp": "الحرارة °C",
-                "humidity": "الرطوبة %",
-                "ammonia": "الأمونيا PPM",
-                "notes": "ملاحظات",
+                "day": "اليوم", "feed_kg": "العلف (كجم)", "water_l": "المياه (لتر)",
+                "mortality": "النفوق", "weight_g": "الوزن (جم)", "biomass_day_kg": "الكتلة الحية (كجم)",
+                "fcr_cum": "FCR تراكمي", "temp": "الحرارة °C", "humidity": "الرطوبة %",
+                "ammonia": "الأمونيا PPM", "notes": "ملاحظات",
             }
-            st.dataframe(
-                calc_df[display_cols].rename(columns=renamed_cols),
-                use_container_width=True,
-            )
+            st.dataframe(calc_df[display_cols].rename(columns=renamed_cols), use_container_width=True)
 
     # --- Tab 3: المقارنة بالمعايير القياسية ---
     with tab3:
         st.subheader("📈 مقارنة نمو الوزن الفعلي بجدول السلالة القياسي")
-
-        merged_df = pd.merge(
-            STANDARD_BENCHMARKS,
-            logs_df[["day", "weight_g", "feed_kg"]],
-            on="day",
-            how="left",
-        )
+        merged_df = pd.merge(STANDARD_BENCHMARKS, logs_df[["day", "weight_g", "feed_kg"]], on="day", how="left")
 
         fig_w = go.Figure()
-        fig_w.add_trace(
-            go.Scatter(
-                x=merged_df["day"],
-                y=merged_df["std_weight"],
-                name="الوزن القياسي (جم)",
-                line=dict(color="gray", dash="dash", width=2),
-            )
-        )
-        fig_w.add_trace(
-            go.Scatter(
-                x=merged_df["day"],
-                y=merged_df["weight_g"],
-                name="الوزن الفعلي (جم)",
-                line=dict(color="green", width=3),
-            )
-        )
-        fig_w.update_layout(
-            title="منحنى النمو مقارنة بالمعايير القياسية",
-            xaxis_title="اليوم",
-            yaxis_title="متوسط الوزن (جم)",
-        )
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="gray", dash="dash", width=2)))
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="green", width=3)))
+        fig_w.update_layout(title="منحنى النمو مقارنة بالمعايير القياسية", xaxis_title="اليوم", yaxis_title="متوسط الوزن (جم)")
         st.plotly_chart(fig_w, use_container_width=True)
 
     # --- Tab 4: إدارة المخزون الديناميكي ---
     with tab4:
         st.subheader("📦 رصيد المخزون الأوتوماتيكي وحالة التوريد")
+        starter_used = logs_df[logs_df["day"] <= 10]["feed_kg"].sum() if not logs_df.empty else 0.0
+        grower_used = logs_df[(logs_df["day"] > 10) & (logs_df["day"] <= 25)]["feed_kg"].sum() if not logs_df.empty else 0.0
+        finisher_used = logs_df[logs_df["day"] > 25]["feed_kg"].sum() if not logs_df.empty else 0.0
 
-        # حساب الاستهلاك الديناميكي من السجلات اليومية لمنع الأخطاء
-        starter_used = (
-            logs_df[logs_df["day"] <= 10]["feed_kg"].sum()
-            if not logs_df.empty
-            else 0.0
-        )
-        grower_used = (
-            logs_df[(logs_df["day"] > 10) & (logs_df["day"] <= 25)][
-                "feed_kg"
-            ].sum()
-            if not logs_df.empty
-            else 0.0
-        )
-        finisher_used = (
-            logs_df[logs_df["day"] > 25]["feed_kg"].sum()
-            if not logs_df.empty
-            else 0.0
-        )
-
-        purchases_df = pd.read_sql(
-            "SELECT item_name, SUM(qty_added) as total_added, min_limit FROM inventory_purchases GROUP BY item_name",
-            conn,
-        )
+        purchases_df = pd.read_sql("SELECT item_name, SUM(qty_added) as total_added, min_limit FROM inventory_purchases GROUP BY item_name", conn)
 
         inventory_status = []
         for _, row in purchases_df.iterrows():
             item = row["item_name"]
             added = float(row["total_added"])
             limit = float(row["min_limit"])
-
-            if "بادئ" in item:
-                used = starter_used
-            elif "نامي" in item:
-                used = grower_used
-            elif "ناهي" in item:
-                used = finisher_used
-            else:
-                used = 0.0
-
+            used = starter_used if "بادئ" in item else grower_used if "نامي" in item else finisher_used if "ناهي" in item else 0.0
             avail = added - used
             status = "⚠️ إعادة طلب" if avail < limit else "✅ متوفر"
-            inventory_status.append(
-                {
-                    "الصنف": item,
-                    "إجمالي المشتروات": added,
-                    "المستهلك للدورة": used,
-                    "الرصيد المتاح": avail,
-                    "حد الأمان": limit,
-                    "الحالة": status,
-                }
-            )
+            inventory_status.append({"الصنف": item, "إجمالي المشتروات": added, "المستهلك للدورة": used, "الرصيد المتاح": avail, "حد الأمان": limit, "الحالة": status})
 
         inv_summary_df = pd.DataFrame(inventory_status)
-
-        # التنبيهات
-        reorder = inv_summary_df[
-            inv_summary_df["الرصيد المتاح"] < inv_summary_df["حد الأمان"]
-        ]
+        reorder = inv_summary_df[inv_summary_df["الرصيد المتاح"] < inv_summary_df["حد الأمان"]]
         if not reorder.empty:
             for _, r in reorder.iterrows():
-                st.warning(
-                    f"⚠️ تنبيه إعادة طلب: صنف ({r['الصنف']}) انخفض رصيده إلى {r['الرصيد المتاح']:.1f} (حد الأمان: {r['حد الأمان']})"
-                )
+                st.warning(f"⚠️ تنبيه إعادة طلب: صنف ({r['الصنف']}) انخفض رصيده إلى {r['الرصيد المتاح']:.1f} (حد الأمان: {r['حد الأمان']})")
 
         st.dataframe(inv_summary_df, use_container_width=True)
 
         with st.expander("➕ إضافة شحنة/توريد جديد للمخزون"):
             with st.form("add_stock_form"):
-                st_item = st.selectbox(
-                    "الصنف", inv_summary_df["الصنف"].tolist()
-                )
-                st_qty = st.number_input(
-                    "الكمية المضافة", min_value=0.0, step=100.0
-                )
+                st_item = st.selectbox("الصنف", inv_summary_df["الصنف"].tolist())
+                st_qty = st.number_input("الكمية المضافة", min_value=0.0, step=100.0)
                 if st.form_submit_button("حفظ التوريد"):
                     c = conn.cursor()
-                    c.execute(
-                        "INSERT INTO inventory_purchases (item_name, qty_added, min_limit) VALUES (?, ?, ?)",
-                        (st_item, st_qty, 500.0),
-                    )
+                    c.execute("INSERT INTO inventory_purchases (item_name, qty_added, min_limit) VALUES (?, ?, ?)", (st_item, st_qty, 500.0))
                     conn.commit()
                     st.success("تم إضافة الكمية للمخزون!")
                     st.rerun()
@@ -554,73 +418,41 @@ if selected_cycle_id:
         with st.form("vet_entry"):
             c1, c2, c3, c4 = st.columns(4)
             v_date = c1.date_input("التاريخ", datetime.date.today())
-            v_age = c2.number_input(
-                "العمر (أيام)", min_value=1, value=int(last_day)
-            )
+            v_age = c2.number_input("العمر (أيام)", min_value=1, value=int(last_day))
             v_sym = c3.text_input("الأعراض المرضية")
             v_diag = c4.text_input("التشخيص البيطري")
 
             c5, c6 = st.columns(2)
             v_treat = c5.text_input("العلاج / التحصينة")
-            v_withdraw = c6.number_input(
-                "فترة سحب الدواء (أيام)", min_value=0, value=3
-            )
+            v_withdraw = c6.number_input("فترة سحب الدواء (أيام)", min_value=0, value=3)
 
             if st.form_submit_button("💾 حفظ السجل البيطري"):
                 c = conn.cursor()
                 c.execute(
                     """INSERT INTO vet_logs (cycle_id, date, age, symptoms, diagnosis, treatment, withdrawal_days)
                     VALUES (?, ?, ?, ?, ?, ?, ?)""",
-                    (
-                        selected_cycle_id,
-                        str(v_date),
-                        v_age,
-                        v_sym,
-                        v_diag,
-                        v_treat,
-                        v_withdraw,
-                    ),
+                    (selected_cycle_id, str(v_date), v_age, v_sym, v_diag, v_treat, v_withdraw),
                 )
                 conn.commit()
                 st.success("تم تسجيل التشخيص والعلاج بنجاح!")
                 st.rerun()
 
-        vet_df = pd.read_sql(
-            f"SELECT * FROM vet_logs WHERE cycle_id={selected_cycle_id}", conn
-        )
+        vet_df = pd.read_sql(f"SELECT * FROM vet_logs WHERE cycle_id={selected_cycle_id}", conn)
         if not vet_df.empty:
-            vet_df["انتهاء فترة السحب (عمر)"] = (
-                vet_df["age"] + vet_df["withdrawal_days"]
-            )
-            renamed_vet = {
-                "date": "التاريخ",
-                "age": "العمر",
-                "symptoms": "الأعراض",
-                "diagnosis": "التشخيص",
-                "treatment": "العلاج",
-                "withdrawal_days": "فترة السحب (أيام)",
-            }
-            st.dataframe(
-                vet_df.rename(columns=renamed_vet), use_container_width=True
-            )
+            vet_df["انتهاء فترة السحب (عمر)"] = vet_df["age"] + vet_df["withdrawal_days"]
+            renamed_vet = {"date": "التاريخ", "age": "العمر", "symptoms": "الأعراض", "diagnosis": "التشخيص", "treatment": "العلاج", "withdrawal_days": "فترة السحب (أيام)"}
+            st.dataframe(vet_df.rename(columns=renamed_vet), use_container_width=True)
 
     # --- Tab 6: التحليل المالي وحساسية الأرباح ---
     with tab6:
         st.subheader("💰 التحليل المالي ونقطة التعادل للدورة")
-
         chick_cost = tot_chicks * float(curr_cycle["chick_price"])
-        feed_cost = (tot_feed_kg / 1000.0) * float(
-            curr_cycle["feed_price_ton"]
-        )
+        feed_cost = (tot_feed_kg / 1000.0) * float(curr_cycle["feed_price_ton"])
         total_costs = chick_cost + feed_cost
 
         est_revenue = tot_weight_kg * float(curr_cycle["sell_price_kg"])
         net_profit = est_revenue - total_costs
-        breakeven_kg = (
-            total_costs / float(curr_cycle["sell_price_kg"])
-            if float(curr_cycle["sell_price_kg"]) > 0
-            else 0.0
-        )
+        breakeven_kg = total_costs / float(curr_cycle["sell_price_kg"]) if float(curr_cycle["sell_price_kg"]) > 0 else 0.0
         cost_per_chick = total_costs / tot_chicks if tot_chicks > 0 else 0.0
         cost_per_kg = total_costs / tot_weight_kg if tot_weight_kg > 0 else 0.0
 
@@ -630,56 +462,25 @@ if selected_cycle_id:
         m3.metric("صافي الربح الحقيقي حالياً", f"{net_profit:,.2f} ج.م")
         m4.metric("نقطة التعادل (كجم)", f"{breakeven_kg:,.1f} كجم")
 
-        st.info(
-            f"💡 **تكلفة الكتكوت الإجمالية:** {cost_per_chick:.2f} جنية | **تكلفة إنتاج كجم لحم:** {cost_per_kg:.2f} جنية"
-        )
+        st.info(f"💡 **تكلفة الكتكوت الإجمالية:** {cost_per_chick:.2f} جنية | **تكلفة إنتاج كجم لحم:** {cost_per_kg:.2f} جنية")
 
         st.markdown("---")
         st.subheader("🎛️ تحليل الحساسية للربحية والسيناريوهات")
-
         col_s1, col_s2, col_s3 = st.columns(3)
-        sim_feed_price = col_s1.slider(
-            "سعر طن العلف (جنية)",
-            min_value=15000,
-            max_value=35000,
-            value=int(curr_cycle["feed_price_ton"]),
-            step=500,
-        )
-        sim_sell_price = col_s2.slider(
-            "سعر بيع الكيلو (جنية)",
-            min_value=50,
-            max_value=120,
-            value=int(curr_cycle["sell_price_kg"]),
-            step=1,
-        )
-        sim_mortality = col_s3.slider(
-            "نسبة النفوق المتوقعة النهائي (%)",
-            min_value=1.0,
-            max_value=15.0,
-            value=float(mortality_pct if mortality_pct > 0 else 3.0),
-            step=0.5,
-        )
+        sim_feed_price = col_s1.slider("سعر طن العلف (جنية)", min_value=15000, max_value=35000, value=int(curr_cycle["feed_price_ton"]), step=500)
+        sim_sell_price = col_s2.slider("سعر بيع الكيلو (جنية)", min_value=50, max_value=120, value=int(curr_cycle["sell_price_kg"]), step=1)
+        sim_mortality = col_s3.slider("نسبة النفوق المتوقعة النهائي (%)", min_value=1.0, max_value=15.0, value=float(mortality_pct if mortality_pct > 0 else 3.0), step=0.5)
 
         sim_live_birds = tot_chicks * (1.0 - sim_mortality / 100.0)
-        sim_tot_weight_kg = sim_live_birds * (
-            float(curr_cycle["target_weight"])
-            if last_weight_g < 500
-            else (last_weight_g / 1000.0)
-        )
-        sim_costs = chick_cost + (
-            (sim_tot_weight_kg * 1.6) / 1000.0
-        ) * sim_feed_price
+        sim_tot_weight_kg = sim_live_birds * (float(curr_cycle["target_weight"]) if last_weight_g < 500 else (last_weight_g / 1000.0))
+        sim_costs = chick_cost + ((sim_tot_weight_kg * 1.6) / 1000.0) * sim_feed_price
         sim_revenue = sim_tot_weight_kg * sim_sell_price
         sim_profit = sim_revenue - sim_costs
 
         s_col1, s_col2, s_col3 = st.columns(3)
         s_col1.metric("التكلفة التقديرية", f"{sim_costs:,.2f} ج.م")
         s_col2.metric("الإيراد التقديري", f"{sim_revenue:,.2f} ج.م")
-        s_col3.metric(
-            "صافي الربح التقديري",
-            f"{sim_profit:,.2f} ج.م",
-            delta=f"{sim_profit - net_profit:,.2f} ج.م",
-        )
+        s_col3.metric("صافي الربح التقديري", f"{sim_profit:,.2f} ج.م", delta=f"{sim_profit - net_profit:,.2f} ج.م")
 
     # --- Tab 7: التقارير المطبوعة وتصدير Excel ---
     with tab7:
@@ -687,85 +488,30 @@ if selected_cycle_id:
 
         col_exp1, col_exp2 = st.columns(2)
 
-        # 1. تصدير Excel شامل متعدد الصفحات
         with col_exp1:
             st.write("### 📥 1. تصدير التقرير المالي والتشغيلي كملف Excel")
-            st.write(
-                "يحتوي هذا الملف على كافة بيانات الدورة، التسجيل اليومي، المخزون، والسجل البيطري في شيتات منفصلة."
-            )
-
             buffer = io.BytesIO()
             with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
-                # شيت الملخص
-                summary_report = pd.DataFrame(
-                    [
-                        {
-                            "المؤشر": "اسم الدورة",
-                            "القيمة": str(curr_cycle["name"]),
-                        },
-                        {
-                            "المؤشر": "تاريخ البدء",
-                            "القيمة": str(curr_cycle["start_date"]),
-                        },
-                        {
-                            "المؤشر": "عدد الطيور الأولي",
-                            "القيمة": tot_chicks,
-                        },
-                        {"المؤشر": "الطيور الحية", "القيمة": live_birds},
-                        {
-                            "المؤشر": "نسبة النفوق %",
-                            "القيمة": f"{mortality_pct:.2f}%",
-                        },
-                        {
-                            "المؤشر": "إجمالي العلف (كجم)",
-                            "القيمة": tot_feed_kg,
-                        },
-                        {
-                            "المؤشر": "معدل التحويل (FCR)",
-                            "القيمة": round(fcr, 2),
-                        },
-                        {
-                            "المؤشر": "معامل الكفاءة (EPEF)",
-                            "القيمة": round(epef, 1),
-                        },
-                        {
-                            "المؤشر": "إجمالي التكاليف (ج.م)",
-                            "القيمة": total_costs,
-                        },
-                        {
-                            "المؤشر": "إجمالي الإيرادات (ج.م)",
-                            "القيمة": est_revenue,
-                        },
-                        {
-                            "المؤشر": "صافي الربح (ج.م)",
-                            "القيمة": net_profit,
-                        },
-                    ]
-                )
-                summary_report.to_excel(
-                    writer, sheet_name="ملخص_الدورة", index=False
-                )
-
-                # شيت التسجيل اليومي
+                summary_report = pd.DataFrame([
+                    {"المؤشر": "اسم الدورة", "القيمة": str(curr_cycle["name"])},
+                    {"المؤشر": "تاريخ البدء", "القيمة": str(curr_cycle["start_date"])},
+                    {"المؤشر": "عدد الطيور الأولي", "القيمة": tot_chicks},
+                    {"المؤشر": "الطيور الحية", "القيمة": live_birds},
+                    {"المؤشر": "نسبة النفوق %", "القيمة": f"{mortality_pct:.2f}%"},
+                    {"المؤشر": "إجمالي العلف (كجم)", "القيمة": tot_feed_kg},
+                    {"المؤشر": "معدل التحويل (FCR)", "القيمة": round(fcr, 2)},
+                    {"المؤشر": "معامل الكفاءة (EPEF)", "القيمة": round(epef, 1)},
+                    {"المؤشر": "إجمالي التكاليف (ج.م)", "القيمة": total_costs},
+                    {"المؤشر": "إجمالي الإيرادات (ج.م)", "القيمة": est_revenue},
+                    {"المؤشر": "صافي الربح (ج.م)", "القيمة": net_profit},
+                ])
+                summary_report.to_excel(writer, sheet_name="ملخص_الدورة", index=False)
                 if not logs_df.empty:
-                    logs_df.to_excel(
-                        writer, sheet_name="التسجيل_اليومي", index=False
-                    )
-
-                # شيت المخزون
-                inv_summary_df.to_excel(
-                    writer, sheet_name="حالة_المخزون", index=False
-                )
-
-                # شيت السجل البيطري
-                vet_df = pd.read_sql(
-                    f"SELECT * FROM vet_logs WHERE cycle_id={selected_cycle_id}",
-                    conn,
-                )
+                    logs_df.to_excel(writer, sheet_name="التسجيل_اليومي", index=False)
+                inv_summary_df.to_excel(writer, sheet_name="حالة_المخزون", index=False)
+                vet_df = pd.read_sql(f"SELECT * FROM vet_logs WHERE cycle_id={selected_cycle_id}", conn)
                 if not vet_df.empty:
-                    vet_df.to_excel(
-                        writer, sheet_name="السجل_البيطري", index=False
-                    )
+                    vet_df.to_excel(writer, sheet_name="السجل_البيطري", index=False)
 
             buffer.seek(0)
             st.download_button(
@@ -775,13 +521,9 @@ if selected_cycle_id:
                 mime="application/vnd.ms-excel",
             )
 
-        # 2. معاينة وتقارير جاهزة للطباعة PDF
         with col_exp2:
             st.write("### 🖨️ 2. طباعة تقرير الدورة / حفظ كـ PDF")
-            st.write(
-                "اضغط على الزر أدناه لفتح واجهة الطباعة مباشرة وتصدير التقرير كـ PDF."
-            )
-
+            
             print_html = f"""
             <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #28a745; border-radius: 10px;">
                 <h2 style="text-align: center; color: #28a745;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
@@ -802,11 +544,17 @@ if selected_cycle_id:
                 </table>
             </div>
             """
-            st.components.v1.html(
+            
+            # تم زيادة الارتفاع لضمان عدم اختفاء الزر أسفل الإطار الوهمي وتفعيل التمرير
+            components.html(
                 f"""
                 {print_html}
-                <br>
-                <button onclick="window.print()" style="background-color: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%;">🖨️ اضغط هنا لطباعة التقرير / حفظ PDF</button>
-            """,
-                height=350,
+                <div style="margin-top: 20px;">
+                    <button onclick="window.print()" style="background-color: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif;">
+                        🖨️ اضغط هنا لطباعة التقرير / حفظ PDF
+                    </button>
+                </div>
+                """,
+                height=500,
+                scrolling=True
             )
