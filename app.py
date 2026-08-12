@@ -71,8 +71,8 @@ st.markdown(
         direction: rtl !important;
         position: right !important;
         top: 0 !important;
-        right: -1 !important;
-        left: 0 !important;
+        right: 0 !important;
+        left: hidden !important;
         bottom: 0 !important;
         width: 350px !important;
         min-width: 350px !important;
