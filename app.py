@@ -7,64 +7,67 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم واجهة الألوان والشريط الجانبي الأيمن
+# 1. إعدادات الصفحة وتصميم واجهة الأزرق الفاتح والشريط الجانبي المخفي الأرزق الغامق
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Broiler Farm Manager V9 - Pro UI",
+    page_title="Broiler Farm Manager V9 - Blue Theme",
     page_icon="🐔",
     layout="wide",
+    initial_sidebar_state="collapsed",  # جعل الشريط الجانبي مخفياً افتراضياً
 )
 
 st.markdown(
     """
     <style>
-    /* ضبط اتجاه التطبيق بالكامل والخلفية العامة */
+    /* ضبط اتجاه التطبيق بالكامل وخلفية الواجهة بالأزرق الفاتح */
     [data-testid="stAppViewContainer"] {
         direction: rtl;
-        background-color: #ADD8E6;
+        background-color: #f0f7ff;
     }
     
-    /* تثبيت الشريط الجانبي في اليمين بشكل قاطع وتنسيق ألوانه */
+    /* تثبيت الشريط الجانبي في اليمين وتمليئه باللون الأزرق الغامق */
     [data-testid="stSidebar"] {
         right: 0 !important;
-        left: 0 !important;
+        left: auto !important;
         direction: rtl !important;
         text-align: right !important;
-        background-color: #eef2f3 !important;
-        border-left: 3px solid #2e7d32;
-        border-right: none;
+        background-color: #1e3a8a !important; /* أزرق غامق */
+        border-left: 3px solid #3b82f6;
     }
 
-    /* محاذاة وتنسيق عناصر الشريط الجانبي */
+    /* محاذاة وتنسيق عناصر النصوص داخل الشريط الجانبي لتكون واضحة (لون أبيض) */
     [data-testid="stSidebar"] div, 
     [data-testid="stSidebar"] label, 
     [data-testid="stSidebar"] p, 
-    [data-testid="stSidebar"] span {
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3 {
         text-align: right !important;
-        color: #1e293b;
+        color: #f8fafc !important;
         font-weight: 500;
     }
 
-    /* عناوين الواجهة الرئيسية بألوان مميزة */
+    /* عناوين الواجهة الرئيسية بألوان متناسقة */
     h1, h2, h3 {
-        color: #1b4332;
+        color: #1e3a8a;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* تنسيق مربعات الإحصائيات (Metrics) بألوان جذابة */
+    /* تنسيق مربعات الإحصائيات (Metrics) بتدرجات الأزرق الفاتح */
     .stMetric { 
-        background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); 
+        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); 
         padding: 15px; 
         border-radius: 12px; 
-        border-right: 6px solid #2e7d32; 
+        border-right: 6px solid #1e3a8a; 
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
     }
     [data-testid="stMetricValue"] {
-        color: #1b4332 !important;
+        color: #1e3a8a !important;
         font-weight: 700;
     }
     [data-testid="stMetricLabel"] {
-        color: #386641 !important;
+        color: #0369a1 !important;
         font-weight: 600;
     }
 
@@ -80,13 +83,13 @@ st.markdown(
         font-weight: bold;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #2e7d32 !important;
+        background-color: #1e3a8a !important;
         color: white !important;
     }
 
     /* الأزرار بتصميم متناسق */
     .stButton>button {
-        background-color: #2e7d32;
+        background-color: #1e3a8a;
         color: white;
         border-radius: 8px;
         border: none;
@@ -94,7 +97,7 @@ st.markdown(
         transition: 0.3s;
     }
     .stButton>button:hover {
-        background-color: #1b4332;
+        background-color: #1d4ed8;
         color: white;
     }
 
@@ -207,7 +210,7 @@ init_db()
 # ---------------------------------------------------------
 # 4. القائمة الجانبية وإدارة الدورات
 # ---------------------------------------------------------
-st.sidebar.title("🐔 BFM")
+st.sidebar.title("🐔 Broiler Farm Manager V9")
 conn = get_connection()
 cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
 
@@ -277,7 +280,7 @@ else:
 # ---------------------------------------------------------
 # 5. واجهة التطبيق والعمليات الحسابية
 # ---------------------------------------------------------
-st.title("🐔 BFM - نظام إدارة مزارع التسمين")
+st.title("🐔 Broiler Farm Manager V9 - نظام إدارة مزارع التسمين")
 
 if selected_cycle_id:
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
@@ -413,7 +416,7 @@ if selected_cycle_id:
 
         fig_w = go.Figure()
         fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="#6c757d", dash="dash", width=2)))
-        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#2e7d32", width=3)))
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#1e3a8a", width=3)))
         fig_w.update_layout(title="منحنى النمو مقارنة بالمعايير القياسية", xaxis_title="اليوم", yaxis_title="متوسط الوزن (جم)")
         st.plotly_chart(fig_w, use_container_width=True)
 
@@ -568,8 +571,8 @@ if selected_cycle_id:
             st.write("### 🖨️ 2. طباعة تقرير الدورة / حفظ كـ PDF")
             
             print_html = f"""
-            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #2e7d32; border-radius: 10px; background-color: #ffffff;">
-                <h2 style="text-align: center; color: #2e7d32;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
+            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #1e3a8a; border-radius: 10px; background-color: #ffffff;">
+                <h2 style="text-align: center; color: #1e3a8a;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
                 <hr>
                 <table style="width:100%; text-align:right; border-collapse: collapse;">
                     <tr><td><strong>اسم الدورة:</strong> {curr_cycle['name']}</td><td><strong>تاريخ البدء:</strong> {curr_cycle['start_date']}</td></tr>
@@ -580,10 +583,10 @@ if selected_cycle_id:
                 <hr>
                 <h3 style="color: #333;">💰 الملخص المالي</h3>
                 <table style="width:100%; text-align:right; border: 1px solid #ddd; padding: 8px;">
-                    <tr style="background-color: #e8f5e9;"><th>البند</th><th>القيمة (جنية)</th></tr>
+                    <tr style="background-color: #e0f2fe;"><th>البند</th><th>القيمة (جنية)</th></tr>
                     <tr><td>إجمالي التكاليف</td><td>{total_costs:,.2f} ج.م</td></tr>
                     <tr><td>إجمالي الإيرادات المتوقعة</td><td>{est_revenue:,.2f} ج.م</td></tr>
-                    <tr style="font-weight: bold; background-color: #c8e6c9;"><td>صافي الربح</td><td>{net_profit:,.2f} ج.م</td></tr>
+                    <tr style="font-weight: bold; background-color: #bae6fd;"><td>صافي الربح</td><td>{net_profit:,.2f} ج.م</td></tr>
                 </table>
             </div>
             """
@@ -592,7 +595,7 @@ if selected_cycle_id:
                 f"""
                 {print_html}
                 <div style="margin-top: 20px;">
-                    <button onclick="window.print()" style="background-color: #2e7d32; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif;">
+                    <button onclick="window.print()" style="background-color: #1e3a8a; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif;">
                         🖨️ اضغط هنا لطباعة التقرير / حفظ PDF
                     </button>
                 </div>
