@@ -7,13 +7,13 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم واجهة الأزرق الفاتح والشريط الجانبي الأزرق الغامق
+# 1. إعدادات الصفحة وتصميم واجهة الأزرق الفاتح والشريط الجانبي المخفي (يظهر بالأسهم)
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Broiler Farm Manager V9 - Blue Theme",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="collapsed",  # الشريط الجانبي مخفي ولا يظهر إلا بالضغط على الأسهم
 )
 
 st.markdown(
