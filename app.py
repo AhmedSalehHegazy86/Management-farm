@@ -208,8 +208,6 @@ init_db()
 # 4. القائمة الجانبية وإدارة الدورات
 # ---------------------------------------------------------
 st.sidebar.title("🐔 BFM")
-background-color: #ADD8E6;
-    }
 conn = get_connection()
 cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
 
