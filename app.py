@@ -7,10 +7,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم التباين الفائق وإلغاء الشريط الجانبي نهائياً
+# 1. إعدادات الصفحة وتصميم التباين الأزرق الفائق
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Broiler Farm Manager V9 - High Contrast",
+    page_title="Broiler Farm Manager V9 - Blue Contrast",
     page_icon="🐔",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -19,71 +19,81 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* إخفاء الشريط الجانبي وأزرار التحكم الخاصة به نهائياً من الشاشة */
+    /* إخفاء الشريط الجانبي تماماً */
     [data-testid="stSidebar"], [data-testid="collapsedControl"], section[data-testid="stSidebarNav"] {
         display: none !important;
         visibility: hidden !important;
     }
 
-    /* خلفية التطبيق العامة ناصعة وواضحة */
+    /* خلفية التطبيق العامة بلون أزرق نقي وفاتح يريح العين */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
-        direction: rtl;
-        background-color: #f8fafc !important; 
+        direction: rtl !important;
+        text-align: right !important;
+        background-color: #f0f9ff !important; 
         color: #000000 !important;
     }
     
-    /* رفع تباين ووضوح كافة النصوص والخطوط في الواجهة */
+    /* محاذاة ووضوح كافة النصوص والخطوط للون الأسود الداكن حصرياً */
     .stMarkdown, .stText, p, span, label, div, h1, h2, h3, h4, h5, h6 {
+        direction: rtl !important;
+        text-align: right !important;
         color: #000000 !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* عناوين الواجهة الرئيسية بخط عريض وداكن للغاية */
+    /* عناوين الواجهة الرئيسية بارزة وداكنة */
     h1, h2, h3 {
-        color: #000000 !important;
+        color: #0c4a6e !important;
         font-weight: 800 !important;
+        text-align: right !important;
     }
 
-    /* مربعات الإحصائيات والنمادج - تباين عالٍ وإطار بارز */
+    /* مربعات الإحصائيات (Metrics) والنمادج (Forms) - تباين أزرق مع خطوط سوداء */
     .stMetric, div[data-testid="stForm"] { 
         background: #ffffff !important; 
         padding: 20px !important; 
         border-radius: 12px !important; 
-        border: 2px solid #334155 !important;
+        border: 2px solid #bae6fd !important;
         border-right: 8px solid #0284c7 !important; 
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 4px 6px rgba(2, 132, 199, 0.08) !important;
+        text-align: right !important;
     }
     
     [data-testid="stMetricValue"] {
-        color: #0284c7 !important;
+        color: #0369a1 !important;
         font-weight: 900 !important;
         font-size: 2rem !important;
+        text-align: right !important;
     }
     [data-testid="stMetricLabel"] {
-        color: #000000 !important;
+        color: #0f172a !important;
         font-weight: 800 !important;
         font-size: 1.1rem !important;
+        text-align: right !important;
     }
 
-    /* حقول الإدخال بخطوط سوداء سميكة وواضحة تماماً */
-    input, select, textarea {
+    /* حقول الإدخال والقوائم المنسدلة باتجاه اليمين وخطوط سوداء واضحة */
+    input, select, textarea, [data-baseweb="select"] {
+        direction: rtl !important;
+        text-align: right !important;
         background-color: #ffffff !important;
         color: #000000 !important;
-        border: 2px solid #64748b !important;
+        border: 2px solid #38bdf8 !important;
         border-radius: 6px !important;
         font-weight: 700 !important;
     }
 
-    /* التبويبات (Tabs) بتصميم عالي التباين */
+    /* التبويبات (Tabs) بتصميم أزرق متناسق */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
+        direction: rtl !important;
     }
     .stTabs [data-baseweb="tab"] {
-        background-color: #e2e8f0;
-        border: 1px solid #94a3b8;
+        background-color: #e0f2fe;
+        border: 1px solid #7dd3fc;
         border-radius: 8px 8px 0 0;
         padding: 10px 20px;
-        color: #000000;
+        color: #0c4a6e;
         font-weight: bold;
     }
     .stTabs [aria-selected="true"] {
@@ -91,7 +101,7 @@ st.markdown(
         color: white !important;
     }
 
-    /* الأزرار بتصميم واضح وبارز */
+    /* الأزرار بلون أزرق ملكي وخطوط بيضاء واضحة */
     .stButton>button {
         background-color: #0284c7 !important;
         color: white !important;
@@ -99,16 +109,19 @@ st.markdown(
         border: 2px solid #0369a1;
         font-weight: 900 !important;
         padding: 0.6rem 1.2rem;
+        width: 100%;
     }
     .stButton>button:hover {
         background-color: #0369a1 !important;
     }
 
-    /* الجداول بإطارات واضحة وعالية التباين */
+    /* الجداول */
     [data-testid="stDataFrame"] {
         background-color: #ffffff;
         border-radius: 10px;
-        border: 2px solid #64748b;
+        border: 2px solid #7dd3fc;
+        direction: rtl !important;
+        text-align: right !important;
     }
 
     /* إخفاء عناصر النظام عند الطباعة */
@@ -218,13 +231,13 @@ def init_db():
 init_db()
 
 # ---------------------------------------------------------
-# 4. لوحة التحكم المركزية بالواجهة الرئيسية (بدلاً من الشريط الجانبي)
+# 4. لوحة التحكم وقائمة منسدلة من اتجاه اليمين لإدارة الدورات
 # ---------------------------------------------------------
 st.title("🐔 Broiler Farm Manager V9 - نظام إدارة مزارع التسمين")
 
 conn = get_connection()
 
-with st.expander("⚙️ لوحة التحكم المركزية: (إضافة دورة جديدة أو اختيار الدورة الحالية)", expanded=True):
+with st.expander("⚙️ لوحة التحكم المركزية (القائمة المنسدلة لإدارة الدورات وتعديلها)", expanded=True):
     col_m1, col_m2 = st.columns(2)
     
     with col_m1:
@@ -248,7 +261,7 @@ with st.expander("⚙️ لوحة التحكم المركزية: (إضافة د�
                 st.rerun()
 
     with col_m2:
-        st.subheader("🔄 اختيار وتعديل الدورة النشطة")
+        st.subheader("🔄 القائمة المنسدلة لاختيار وتعديل الدورة النشطة")
         cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
         
         if cycles_df.empty:
@@ -279,7 +292,7 @@ with st.expander("⚙️ لوحة التحكم المركزية: (إضافة د�
 st.markdown("---")
 
 # ---------------------------------------------------------
-# 5. واجهة التطبيق والعمليات الحسابية
+# 5. واجهة التشغيل والعمليات الحسابية
 # ---------------------------------------------------------
 if 'selected_cycle_id' in locals() and selected_cycle_id:
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
@@ -570,7 +583,7 @@ if 'selected_cycle_id' in locals() and selected_cycle_id:
             st.write("### 🖨️ 2. طباعة تقرير الدورة / حفظ كـ PDF")
             
             print_html = f"""
-            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #0284c7; border-radius: 10px; background-color: #ffffff; color: #000000;">
+            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #0284c7; border-radius: 10px; background-color: #ffffff; color: #000000; text-align: right;">
                 <h2 style="text-align: center; color: #0284c7;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
                 <hr>
                 <table style="width:100%; text-align:right; border-collapse: collapse;">
@@ -580,12 +593,12 @@ if 'selected_cycle_id' in locals() and selected_cycle_id:
                     <tr><td><strong>FCR معدل التحويل:</strong> {fcr:.2f}</td><td><strong>EPEF معامل الكفاءة:</strong> {epef:.1f}</td></tr>
                 </table>
                 <hr>
-                <h3 style="color: #000000;">💰 الملخص المالي</h3>
-                <table style="width:100%; text-align:right; border: 1px solid #cbd5e1; padding: 8px;">
-                    <tr style="background-color: #f1f5f9;"><th style="color:#000000; padding: 6px;">البند</th><th style="color:#000000; padding: 6px;">القيمة (جنية)</th></tr>
-                    <tr><td style="padding: 6px;">إجمالي التكاليف</td><td style="padding: 6px;">{total_costs:,.2f} ج.م</td></tr>
-                    <tr><td style="padding: 6px;">إجمالي الإيرادات المتوقعة</td><td style="padding: 6px;">{est_revenue:,.2f} ج.م</td></tr>
-                    <tr style="font-weight: bold; background-color: #e2e8f0;"><td style="color:#000000; padding: 6px;">صافي الربح</td><td style="color:#000000; padding: 6px;">{net_profit:,.2f} ج.م</td></tr>
+                <h3 style="color: #000000; text-align: right;">💰 الملخص المالي</h3>
+                <table style="width:100%; text-align:right; border: 1px solid #bae6fd; padding: 8px;">
+                    <tr style="background-color: #e0f2fe;"><th style="color:#000000; padding: 6px; text-align: right;">البند</th><th style="color:#000000; padding: 6px; text-align: right;">القيمة (جنية)</th></tr>
+                    <tr><td style="padding: 6px; text-align: right;">إجمالي التكاليف</td><td style="padding: 6px; text-align: right;">{total_costs:,.2f} ج.م</td></tr>
+                    <tr><td style="padding: 6px; text-align: right;">إجمالي الإيرادات المتوقعة</td><td style="padding: 6px; text-align: right;">{est_revenue:,.2f} ج.م</td></tr>
+                    <tr style="font-weight: bold; background-color: #bae6fd;"><td style="padding: 6px; text-align: right;">صافي الربح</td><td style="padding: 6px; text-align: right;">{net_profit:,.2f} ج.م</td></tr>
                 </table>
             </div>
             """
