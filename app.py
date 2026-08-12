@@ -93,7 +93,7 @@ st.markdown(
     [data-testid="stMain"] {
         margin-right: 0 !important;
         margin-left: 0 !important;
-        width: 100% !important;
+        width: 70% !important;
     }
 
 
