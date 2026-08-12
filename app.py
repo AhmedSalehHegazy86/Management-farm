@@ -10,14 +10,14 @@ import streamlit.components.v1 as components
 
 
 # =========================================================
-# 1. إعداد الصفحة (الشريط الجانبي يبدأ مفتوحاً hidden)
+# 1. إعداد الصفحة (الشريط الجانبي يبدأ مفتوحاً locked)
 # =========================================================
 
 st.set_page_config(
     page_title="Broiler Farm Manager V11 - Dynamic Sidebar",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="hidden", # يظهر الشريط الجانبي تلقائياً عند بدء التشغيل
+    initial_sidebar_state="locked", # يظهر الشريط الجانبي تلقائياً عند بدء التشغيل
 )
 
 
