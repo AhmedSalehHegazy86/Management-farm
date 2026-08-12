@@ -10,14 +10,14 @@ import streamlit.components.v1 as components
 
 
 # =========================================================
-# 1. إعداد الصفحة
+# 1. إعداد الصفحة (الشريط الجانبي يبدأ مفتوحاً expanded)
 # =========================================================
 
 st.set_page_config(
-    page_title="Broiler Farm Manager V11 - Right Sidebar",
+    page_title="Broiler Farm Manager V11 - Dynamic Sidebar",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded", # يظهر الشريط الجانبي تلقائياً عند بدء التشغيل
 )
 
 
@@ -89,7 +89,6 @@ st.markdown(
         overflow-y: auto !important;
     }
 
-    /* إلغاء أي هوامش جانبية قد تزيح المحتوى الرئيسي عند فتح الشريط */
     [data-testid="stAppViewContainer"],
     [data-testid="stMain"] {
         margin-right: 0 !important;
@@ -510,6 +509,9 @@ if "logged_in" not in st.session_state:
     st.session_state.username = ""
     st.session_state.role = ""
 
+if "just_logged_in" not in st.session_state:
+    st.session_state.just_logged_in = False
+
 
 # =========================================================
 # 6. LOGIN
@@ -549,6 +551,7 @@ if not st.session_state.logged_in:
                 st.session_state.logged_in = True
                 st.session_state.username = user_row.iloc[0]["username"]
                 st.session_state.role = user_row.iloc[0]["role"]
+                st.session_state.just_logged_in = True  # لتفعيل إغلاق الشريط الجانبي بعد الدخول
                 st.success("تم تسجيل الدخول بنجاح!")
                 st.rerun()
             else:
@@ -559,7 +562,32 @@ if not st.session_state.logged_in:
 
 
 # =========================================================
-# 7. SIDEBAR (التحكم من اليمين)
+# 7. SCRIPT TO AUTO-COLLAPSE SIDEBAR AFTER LOGIN
+# =========================================================
+
+if st.session_state.just_logged_in:
+    st.session_state.just_logged_in = False
+    components.html(
+        """
+        <script>
+            setTimeout(function() {
+                const doc = window.parent.document;
+                const headerBtns = doc.querySelectorAll('header button');
+                headerBtns.forEach(b => {
+                    const label = b.getAttribute('aria-label') || '';
+                    if (label.toLowerCase().includes('sidebar') || label.includes('القائمة')) {
+                        b.click();
+                    }
+                });
+            }, 300);
+        </script>
+        """,
+        height=0
+    )
+
+
+# =========================================================
+# 8. SIDEBAR (التحكم من اليمين)
 # =========================================================
 
 st.sidebar.markdown(
@@ -592,7 +620,7 @@ if st.sidebar.button("🚪 تسجيل الخروج", key="logout_button"):
 st.sidebar.markdown("---")
 
 # =========================================================
-# 8. إدارة المستخدمين
+# 9. إدارة المستخدمين
 # =========================================================
 
 if st.session_state.role == "مدير":
@@ -622,7 +650,7 @@ if st.session_state.role == "مدير":
 
 
 # =========================================================
-# 9. إضافة دورة
+# 10. إضافة دورة
 # =========================================================
 
 with st.sidebar.expander("➕ إضافة دورة تسمين جديدة", expanded=False):
@@ -655,7 +683,7 @@ with st.sidebar.expander("➕ إضافة دورة تسمين جديدة", expand
 
 
 # =========================================================
-# 10. اختيار الدورة
+# 11. اختيار الدورة
 # =========================================================
 
 st.sidebar.markdown("---")
@@ -714,7 +742,7 @@ else:
 
 
 # =========================================================
-# 11. MAIN APPLICATION
+# 12. MAIN APPLICATION
 # =========================================================
 
 st.title("🐔 BFM — نظام إدارة مزارع التسمين")
@@ -726,7 +754,7 @@ if selected_cycle_id is None:
 
 
 # =========================================================
-# 12. LOAD DAILY DATA
+# 13. LOAD DAILY DATA
 # =========================================================
 
 logs_df = pd.read_sql_query(
@@ -741,7 +769,7 @@ logs_df = pd.read_sql_query(
 
 
 # =========================================================
-# 13. CORE CALCULATIONS
+# 14. CORE CALCULATIONS
 # =========================================================
 
 tot_chicks = int(curr_cycle["chicks_count"])
@@ -763,7 +791,7 @@ epef = (((liveability * (last_weight_g / 1000)) / (last_day * fcr)) * 100) if fc
 
 
 # =========================================================
-# 14. TABS
+# 15. TABS
 # =========================================================
 
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
