@@ -22,7 +22,7 @@ st.markdown(
     /* إخفاء الشريط الجانبي تماماً */
     [data-testid="stSidebar"], [data-testid="collapsedControl"], section[data-testid="stSidebarNav"] {
         display: none !important;
-        visibility: hidden !important;
+        visibility: View !important;
     }
 
     /* خلفية التطبيق العامة بلون أزرق متدرج وداكن أنيق */
