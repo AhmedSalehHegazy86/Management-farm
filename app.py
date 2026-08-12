@@ -74,8 +74,8 @@ st.markdown(
         right: 0 !important;
         left: 0 !important;
         bottom: 0 !important;
-        width: 30px !important;
-        min-width: 30px !important;
+        width: 0px !important;
+        min-width: 0px !important;
         background:
             linear-gradient(
                 180deg,
@@ -93,7 +93,7 @@ st.markdown(
     [data-testid="stMain"] {
         margin-right: 0 !important;
         margin-left: 0 !important;
-        width: 70% !important;
+        width: 100% !important;
     }
 
 
