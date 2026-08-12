@@ -103,7 +103,6 @@ st.markdown(
     }
     .stTabs [aria-selected="true"] {
         background-color: #0284c7 !important;
-        color: white !important;
     }
 
     /* الأزرار بلون أزرق ملكي بارز وخطوط بيضاء واضحة */
