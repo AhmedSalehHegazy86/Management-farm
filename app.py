@@ -7,32 +7,32 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم واجهة الأزرق الفاتح والشريط الجانبي المخفي (يظهر بالأسهم)
+# 1. إعدادات الصفحة وتصميم واجهة "زرقة البحر" والشريط الجانبي المخفي
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Broiler Farm Manager V9 - Blue Theme",
+    page_title="Broiler Farm Manager V9 - Sea Blue Theme",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="collapsed",  # الشريط الجانبي مخفي ولا يظهر إلا بالضغط على الأسهم
+    initial_sidebar_state="collapsed",  # الشريط الجانبي مخفي ولا يفتح إلا من قائمة السهم
 )
 
 st.markdown(
     """
     <style>
-    /* ضبط اتجاه التطبيق بالكامل وخلفية الواجهة بالأزرق الفاتح */
+    /* ضبط اتجاه التطبيق بالكامل وخلفية الواجهة بدرجات زرقة البحر الفاتحة */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: rtl;
-        background-color: #f0f7ff !important;
+        background-color: #eaf4f9 !important;
     }
     
-    /* تنسيق الشريط الجانبي في اليمين باللون الأزرق الغامق */
+    /* تنسيق الشريط الجانبي في اليمين بلون أزرق البحر العميق */
     [data-testid="stSidebar"] {
         right: 0 !important;
         left: auto !important;
         direction: rtl !important;
         text-align: right !important;
-        background-color: #1e3a8a !important;
-        border-left: 3px solid #3b82f6;
+        background-color: #023e8a !important;
+        border-left: 3px solid #00b4d8;
     }
 
     /* محاذاة وتنسيق عناصر النصوص داخل الشريط الجانبي لتكون واضحة (لون أبيض) */
@@ -44,30 +44,30 @@ st.markdown(
     [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3 {
         text-align: right !important;
-        color: #f8fafc !important;
+        color: #ffffff !important;
         font-weight: 500;
     }
 
-    /* عناوين الواجهة الرئيسية بألوان متناسقة */
+    /* عناوين الواجهة الرئيسية بألوان متناسقة مع زرقة البحر */
     h1, h2, h3 {
-        color: #1e3a8a;
+        color: #03045e;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* تنسيق مربعات الإحصائيات (Metrics) بتدرجات الأزرق الفاتح */
+    /* تنسيق مربعات الإحصائيات (Metrics) بتدرجات زرقة البحر */
     .stMetric { 
-        background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); 
+        background: linear-gradient(135deg, #caf0f8 0%, #90e0ef 100%); 
         padding: 15px; 
         border-radius: 12px; 
-        border-right: 6px solid #1e3a8a; 
+        border-right: 6px solid #0077b6; 
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
     }
     [data-testid="stMetricValue"] {
-        color: #1e3a8a !important;
+        color: #03045e !important;
         font-weight: 700;
     }
     [data-testid="stMetricLabel"] {
-        color: #0369a1 !important;
+        color: #0077b6 !important;
         font-weight: 600;
     }
 
@@ -76,20 +76,20 @@ st.markdown(
         gap: 6px;
     }
     .stTabs [data-baseweb="tab"] {
-        background-color: #e2e8f0;
+        background-color: #ade8f4;
         border-radius: 8px 8px 0 0;
         padding: 10px 18px;
-        color: #475569;
+        color: #03045e;
         font-weight: bold;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #1e3a8a !important;
+        background-color: #0077b6 !important;
         color: white !important;
     }
 
     /* الأزرار بتصميم متناسق */
     .stButton>button {
-        background-color: #1e3a8a;
+        background-color: #0077b6;
         color: white;
         border-radius: 8px;
         border: none;
@@ -97,7 +97,7 @@ st.markdown(
         transition: 0.3s;
     }
     .stButton>button:hover {
-        background-color: #1d4ed8;
+        background-color: #03045e;
         color: white;
     }
 
@@ -208,65 +208,51 @@ def init_db():
 init_db()
 
 # ---------------------------------------------------------
-# 4. القائمة الجانبية وإدارة الدورات
+# 4. القائمة الجانبية وإدارة الدورات المتعددة
 # ---------------------------------------------------------
-st.sidebar.title("🐔 Broiler Farm Manager V9")
+st.sidebar.title("🐔 إدارة دورات التسمين")
 conn = get_connection()
-cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
 
-if cycles_df.empty:
-    st.sidebar.warning("⚠️ لا توجد دورة نشطة حالياً. أنشئ دورة جديدة لبدء العمل.")
-    with st.sidebar.form("add_first_cycle"):
-        st.write("### ➕ إضافة دورة جديدة")
-        c_name = st.text_input("اسم الدورة", "دورة يناير 2026")
+# إتاحة إضافة دورة جديدة في أي وقت من القائمة الجانبية
+with st.sidebar.expander("➕ إضافة دورة جديدة أخرى"):
+    with st.form("add_new_cycle_form"):
+        c_name = st.text_input("اسم الدورة الجديدة", f"دورة جديدة {datetime.date.today()}")
         c_chicks = st.number_input("عدد الكتاكيت الأولي", value=2000, step=100)
         c_chick_p = st.number_input("سعر الكتكوت (جنية)", value=35.0)
         c_feed_p = st.number_input("سعر طن العلف (جنية)", value=24000.0)
         c_sell_p = st.number_input("سعر بيع الكيلو (جنية)", value=85.0)
         c_target_w = st.number_input("الوزن المستهدف (كجم)", value=2.2)
-        if st.form_submit_button("إحداث وتفعيل الدورة"):
+        if st.form_submit_button("حفظ وتفعيل الدورة"):
             c = conn.cursor()
             c.execute(
                 """INSERT INTO cycles (name, chicks_count, chick_price, feed_price_ton, sell_price_kg, target_weight, start_date)
                 VALUES (?, ?, ?, ?, ?, ?, ?)""",
-                (
-                    c_name,
-                    c_chicks,
-                    c_chick_p,
-                    c_feed_p,
-                    c_sell_p,
-                    c_target_w,
-                    str(datetime.date.today()),
-                ),
+                (c_name, c_chicks, c_chick_p, c_feed_p, c_sell_p, c_target_w, str(datetime.date.today())),
             )
             conn.commit()
+            st.success("تم إضافة الدورة بنجاح!")
             st.rerun()
+
+cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
+
+if cycles_df.empty:
+    st.sidebar.warning("⚠️ لا توجد دورة نشطة حالياً. أضف دورة جديدة من الخيار أعلاه.")
     selected_cycle_id = None
 else:
     cycle_dict = dict(zip(cycles_df["name"], cycles_df["id"]))
-    selected_cycle_name = st.sidebar.selectbox(
-        "اختر الدورة النشطة", list(cycle_dict.keys())
-    )
+    selected_cycle_name = st.sidebar.selectbox("اختر الدورة النشطة للعمل عليها", list(cycle_dict.keys()))
     selected_cycle_id = cycle_dict[selected_cycle_name]
     curr_cycle = cycles_df[cycles_df["id"] == selected_cycle_id].iloc[0]
 
     st.sidebar.markdown("---")
     st.sidebar.markdown(f"🗓️ **تاريخ البدء:** {curr_cycle['start_date']}")
-    st.sidebar.markdown(
-        f"🐤 **عدد الطيور الأولي:** {curr_cycle['chicks_count']:,} طائر"
-    )
+    st.sidebar.markdown(f"🐤 **عدد الطيور الأولي:** {curr_cycle['chicks_count']:,} طائر")
 
-    with st.sidebar.expander("⚙️ تعديل أسعار وإعدادات الدورة"):
+    with st.sidebar.expander("⚙️ تعديل أسعار وإعدادات الدورة الحالية"):
         with st.form("edit_cycle_form"):
-            e_chick_p = st.number_input(
-                "سعر الكتكوت (جنية)", value=float(curr_cycle["chick_price"])
-            )
-            e_feed_p = st.number_input(
-                "سعر طن العلف (جنية)", value=float(curr_cycle["feed_price_ton"])
-            )
-            e_sell_p = st.number_input(
-                "سعر البيع/كجم (جنية)", value=float(curr_cycle["sell_price_kg"])
-            )
+            e_chick_p = st.number_input("سعر الكتكوت (جنية)", value=float(curr_cycle["chick_price"]))
+            e_feed_p = st.number_input("سعر طن العلف (جنية)", value=float(curr_cycle["feed_price_ton"]))
+            e_sell_p = st.number_input("سعر البيع/كجم (جنية)", value=float(curr_cycle["sell_price_kg"]))
             if st.form_submit_button("حفظ التحديثات"):
                 c = conn.cursor()
                 c.execute(
@@ -416,7 +402,7 @@ if selected_cycle_id:
 
         fig_w = go.Figure()
         fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="#6c757d", dash="dash", width=2)))
-        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#1e3a8a", width=3)))
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#0077b6", width=3)))
         fig_w.update_layout(title="منحنى النمو مقارنة بالمعايير القياسية", xaxis_title="اليوم", yaxis_title="متوسط الوزن (جم)")
         st.plotly_chart(fig_w, use_container_width=True)
 
@@ -571,8 +557,8 @@ if selected_cycle_id:
             st.write("### 🖨️ 2. طباعة تقرير الدورة / حفظ كـ PDF")
             
             print_html = f"""
-            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #1e3a8a; border-radius: 10px; background-color: #ffffff;">
-                <h2 style="text-align: center; color: #1e3a8a;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
+            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #0077b6; border-radius: 10px; background-color: #ffffff;">
+                <h2 style="text-align: center; color: #0077b6;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
                 <hr>
                 <table style="width:100%; text-align:right; border-collapse: collapse;">
                     <tr><td><strong>اسم الدورة:</strong> {curr_cycle['name']}</td><td><strong>تاريخ البدء:</strong> {curr_cycle['start_date']}</td></tr>
@@ -583,10 +569,10 @@ if selected_cycle_id:
                 <hr>
                 <h3 style="color: #333;">💰 الملخص المالي</h3>
                 <table style="width:100%; text-align:right; border: 1px solid #ddd; padding: 8px;">
-                    <tr style="background-color: #e0f2fe;"><th>البند</th><th>القيمة (جنية)</th></tr>
+                    <tr style="background-color: #caf0f8;"><th>البند</th><th>القيمة (جنية)</th></tr>
                     <tr><td>إجمالي التكاليف</td><td>{total_costs:,.2f} ج.م</td></tr>
                     <tr><td>إجمالي الإيرادات المتوقعة</td><td>{est_revenue:,.2f} ج.م</td></tr>
-                    <tr style="font-weight: bold; background-color: #bae6fd;"><td>صافي الربح</td><td>{net_profit:,.2f} ج.م</td></tr>
+                    <tr style="font-weight: bold; background-color: #90e0ef;"><td>صافي الربح</td><td>{net_profit:,.2f} ج.م</td></tr>
                 </table>
             </div>
             """
@@ -595,7 +581,7 @@ if selected_cycle_id:
                 f"""
                 {print_html}
                 <div style="margin-top: 20px;">
-                    <button onclick="window.print()" style="background-color: #1e3a8a; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif;">
+                    <button onclick="window.print()" style="background-color: #0077b6; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif;">
                         🖨️ اضغط هنا لطباعة التقرير / حفظ PDF
                     </button>
                 </div>
