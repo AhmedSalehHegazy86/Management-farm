@@ -74,8 +74,8 @@ st.markdown(
         right: 0 !important;
         left: 0 !important;
         bottom: 0 !important;
-        width: 350px !important;
-        min-width: 60px !important;
+        width: 60px !important;
+        min-width: 30px !important;
         background:
             linear-gradient(
                 180deg,
