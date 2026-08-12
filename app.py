@@ -243,7 +243,7 @@ st.title("🐔 BFM - نظام إدارة مزارع التسمين")
 conn = get_connection()
 
 with st.expander("لوحة التحكم", expanded=True):
-    col_m1 = st.columns(1)
+    col_m1, col_m2 = st.columns(2)
     
     with col_m1:
         st.subheader("➕ إضافة دورة تسمين جديدة")
