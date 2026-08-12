@@ -21,13 +21,13 @@ st.markdown(
     /* ضبط اتجاه التطبيق بالكامل والخلفية العامة */
     [data-testid="stAppViewContainer"] {
         direction: rtl;
-        background-color: #f8fafc;
+        background-color: #ADD8E6;
     }
     
     /* تثبيت الشريط الجانبي في اليمين بشكل قاطع وتنسيق ألوانه */
     [data-testid="stSidebar"] {
         right: 0 !important;
-        left: auto !important;
+        left: 0 !important;
         direction: rtl !important;
         text-align: right !important;
         background-color: #eef2f3 !important;
@@ -208,6 +208,8 @@ init_db()
 # 4. القائمة الجانبية وإدارة الدورات
 # ---------------------------------------------------------
 st.sidebar.title("🐔 BFM")
+background-color: #ADD8E6;
+    }
 conn = get_connection()
 cycles_df = pd.read_sql("SELECT * FROM cycles WHERE status='نشطة'", conn)
 
