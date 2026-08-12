@@ -19,7 +19,7 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* نقل الشريط الجانبي إلى اليمين وتنسيقه */
+    /* تخصيص الشريط الجانبي ليكون من اليمين ويستجيب للطي والفتح */
     [data-testid="stSidebar"] {
         direction: rtl !important;
         right: 0 !important;
