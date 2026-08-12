@@ -7,103 +7,99 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة (يجب أن تكون أول سطر)
+# 1. إعدادات الصفحة وتصميم الواجهة الاحترافية (Slate & Ocean Theme)
 # ---------------------------------------------------------
-# تم ضبط الشريط الجانبي ليكون مخفياً بشكل افتراضي ولا يفتح إلا من السهم
 st.set_page_config(
-    page_title="Broiler Farm Manager V9 - Sea Blue",
+    page_title="Broiler Farm Manager V9 - Professional Theme",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="collapsed", 
+    initial_sidebar_state="collapsed",  # إخفاء الشريط الجانبي افتراضياً
 )
 
-# ---------------------------------------------------------
-# 2. تصميم واجهة "زرقة البحر" (الألوان متناسقة بدقة)
-# ---------------------------------------------------------
 st.markdown(
     """
     <style>
-    /* 1. خلفية التطبيق: لون أزرق بحر فاتح (أفتح بدرجتين من الشريط الجانبي) */
+    /* خلفية التطبيق: رمادي-سماوي فاتح وهادئ يريح العين */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: rtl;
-        background-color: #64B5F6 !important; 
+        background-color: #f8fafc !important; 
     }
     
-    /* 2. الشريط الجانبي: لون أزرق بحر عميق وداكن (تمت إزالة التثبيت ليعمل الإخفاء التلقائي بنجاح) */
+    /* الشريط الجانبي: كحلي داكن فاخر واحترافي */
     [data-testid="stSidebar"] {
         direction: rtl !important;
-        background-color: #1565C0 !important;
+        background-color: #0f172a !important;
     }
 
-    /* 3. نصوص الشريط الجانبي (بيضاء لتكون واضحة على الخلفية الداكنة) */
+    /* نصوص الشريط الجانبي (بيضاء وواضحة) */
     [data-testid="stSidebar"] * {
-        color: #FFFFFF !important;
+        color: #f1f5f9 !important;
         text-align: right !important;
     }
 
-    /* 4. العناوين والنصوص في واجهة التطبيق الرئيسية (أزرق داكن جداً للتباين مع الخلفية الفاتحة) */
+    /* عناوين الواجهة الرئيسية (لون داكن قوي للوضوح) */
     h1, h2, h3, h4, h5, h6 {
-        color: #0D47A1 !important;
+        color: #1e293b !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     p, span, label {
-        color: #002244 !important;
+        color: #334155 !important;
         font-weight: 500;
     }
 
-    /* 5. مربعات الإحصائيات (Metrics) والبطاقات (لون أزرق ثلجي فاتح جداً للقراءة بوضوح) */
+    /* مربعات الإحصائيات (Metrics) والبطاقات (بيضاء نقية مع ظل ناعم) */
     .stMetric, div[data-testid="stForm"] { 
-        background: #E3F2FD !important; 
-        padding: 15px; 
+        background: #ffffff !important; 
+        padding: 18px; 
         border-radius: 12px; 
-        border-right: 6px solid #1565C0; 
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-right: 5px solid #0ea5e9; 
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     }
     [data-testid="stMetricValue"] {
-        color: #1565C0 !important;
+        color: #0f172a !important;
         font-weight: 700;
     }
     [data-testid="stMetricLabel"] {
-        color: #0D47A1 !important;
+        color: #64748b !important;
         font-weight: 600;
     }
 
-    /* 6. تنسيق التبويبات (Tabs) */
+    /* تنسيق التبويبات (Tabs) بشكل عصري */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 6px;
+        gap: 8px;
     }
     .stTabs [data-baseweb="tab"] {
-        background-color: #90CAF9;
+        background-color: #e2e8f0;
         border-radius: 8px 8px 0 0;
-        padding: 10px 18px;
-        color: #0D47A1;
+        padding: 10px 20px;
+        color: #475569;
         font-weight: bold;
     }
     .stTabs [aria-selected="true"] {
-        background-color: #1565C0 !important;
+        background-color: #0ea5e9 !important;
         color: white !important;
     }
 
-    /* 7. الأزرار */
+    /* الأزرار بتصميم احترافي */
     .stButton>button {
-        background-color: #1565C0 !important;
+        background-color: #0ea5e9 !important;
         color: white !important;
         border-radius: 8px;
         border: none;
         font-weight: bold;
-        transition: 0.3s;
+        transition: 0.2s;
     }
     .stButton>button:hover {
-        background-color: #0D47A1 !important;
+        background-color: #0284c7 !important;
     }
 
-    /* 8. الجداول الخلفية بيضاء لسهولة القراءة */
+    /* الجداول */
     [data-testid="stDataFrame"] {
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         border-radius: 10px;
     }
 
-    /* إخفاء واجهة التطبيق عند الطباعة */
+    /* إخفاء عناصر النظام عند الطباعة */
     @media print {
         header, [data-testid="stSidebar"], .stTabs [role="tablist"], button { 
             display: none !important; 
@@ -115,7 +111,7 @@ st.markdown(
 )
 
 # ---------------------------------------------------------
-# 3. المعايير القياسية للسلالة (40 يوماً)
+# 2. المعايير القياسية للسلالة (40 يوماً)
 # ---------------------------------------------------------
 STANDARD_BENCHMARKS = pd.DataFrame(
     [
@@ -163,7 +159,7 @@ STANDARD_BENCHMARKS = pd.DataFrame(
 )
 
 # ---------------------------------------------------------
-# 4. إدارة قاعدة البيانات وقوانين المخزون
+# 3. إدارة قاعدة البيانات وقوانين المخزون
 # ---------------------------------------------------------
 def get_connection():
     return sqlite3.connect("farm_manager_v9.db", check_same_thread=False)
@@ -210,7 +206,7 @@ def init_db():
 init_db()
 
 # ---------------------------------------------------------
-# 5. القائمة الجانبية وإدارة الدورات المتعددة
+# 4. القائمة الجانبية وإدارة الدورات المتعددة
 # ---------------------------------------------------------
 st.sidebar.title("🐔 إدارة دورات التسمين")
 conn = get_connection()
@@ -265,7 +261,7 @@ else:
                 st.rerun()
 
 # ---------------------------------------------------------
-# 6. واجهة التطبيق والعمليات الحسابية
+# 5. واجهة التطبيق والعمليات الحسابية
 # ---------------------------------------------------------
 st.title("🐔 Broiler Farm Manager V9 - نظام إدارة مزارع التسمين")
 
@@ -332,8 +328,8 @@ if selected_cycle_id:
             st.write("### 🌡️ درجة الحرارة والرطوبة اليومية")
             if not logs_df.empty:
                 fig_env = go.Figure()
-                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة (°C)", line=dict(color="#d90429", width=2)))
-                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة (%)", line=dict(color="#1565C0", width=2)))
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة (°C)", line=dict(color="#ef4444", width=2)))
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة (%)", line=dict(color="#0ea5e9", width=2)))
                 fig_env.update_layout(xaxis_title="اليوم", yaxis_title="القيمة", margin=dict(l=20, r=20, t=30, b=20), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,0.7)')
                 st.plotly_chart(fig_env, use_container_width=True)
 
@@ -341,8 +337,8 @@ if selected_cycle_id:
             st.write("### 💧 استهلاك العلف والمياه اليومي")
             if not logs_df.empty:
                 fig_cons = go.Figure()
-                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["feed_kg"], name="العلف (كجم)", marker_color="#fb8500"))
-                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه (لتر)", marker_color="#0D47A1"))
+                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["feed_kg"], name="العلف (كجم)", marker_color="#f59e0b"))
+                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه (لتر)", marker_color="#0ea5e9"))
                 fig_cons.update_layout(barmode="group", xaxis_title="اليوم", yaxis_title="الكمية", margin=dict(l=20, r=20, t=30, b=20), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,0.7)')
                 st.plotly_chart(fig_cons, use_container_width=True)
 
@@ -402,8 +398,8 @@ if selected_cycle_id:
         merged_df = pd.merge(STANDARD_BENCHMARKS, logs_df[["day", "weight_g", "feed_kg"]], on="day", how="left")
 
         fig_w = go.Figure()
-        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="#0D47A1", dash="dash", width=2)))
-        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#1565C0", width=4)))
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="#64748b", dash="dash", width=2)))
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#0ea5e9", width=4)))
         fig_w.update_layout(title="منحنى النمو مقارنة بالمعايير القياسية", xaxis_title="اليوم", yaxis_title="متوسط الوزن (جم)", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,0.7)')
         st.plotly_chart(fig_w, use_container_width=True)
 
@@ -558,8 +554,8 @@ if selected_cycle_id:
             st.write("### 🖨️ 2. طباعة تقرير الدورة / حفظ كـ PDF")
             
             print_html = f"""
-            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #1565C0; border-radius: 10px; background-color: #ffffff;">
-                <h2 style="text-align: center; color: #1565C0;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
+            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #0ea5e9; border-radius: 10px; background-color: #ffffff;">
+                <h2 style="text-align: center; color: #0ea5e9;">🐔 تقرير أداء دورة التسمين الرسمية</h2>
                 <hr>
                 <table style="width:100%; text-align:right; border-collapse: collapse;">
                     <tr><td><strong>اسم الدورة:</strong> {curr_cycle['name']}</td><td><strong>تاريخ البدء:</strong> {curr_cycle['start_date']}</td></tr>
@@ -570,10 +566,10 @@ if selected_cycle_id:
                 <hr>
                 <h3 style="color: #333;">💰 الملخص المالي</h3>
                 <table style="width:100%; text-align:right; border: 1px solid #ddd; padding: 8px;">
-                    <tr style="background-color: #E3F2FD;"><th style="color:#0D47A1;">البند</th><th style="color:#0D47A1;">القيمة (جنية)</th></tr>
+                    <tr style="background-color: #f1f5f9;"><th style="color:#0f172a;">البند</th><th style="color:#0f172a;">القيمة (جنية)</th></tr>
                     <tr><td>إجمالي التكاليف</td><td>{total_costs:,.2f} ج.م</td></tr>
                     <tr><td>إجمالي الإيرادات المتوقعة</td><td>{est_revenue:,.2f} ج.م</td></tr>
-                    <tr style="font-weight: bold; background-color: #90CAF9;"><td style="color:#0D47A1;">صافي الربح</td><td style="color:#0D47A1;">{net_profit:,.2f} ج.م</td></tr>
+                    <tr style="font-weight: bold; background-color: #e2e8f0;"><td style="color:#0f172a;">صافي الربح</td><td style="color:#0f172a;">{net_profit:,.2f} ج.م</td></tr>
                 </table>
             </div>
             """
@@ -582,7 +578,7 @@ if selected_cycle_id:
                 f"""
                 {print_html}
                 <div style="margin-top: 20px;">
-                    <button onclick="window.print()" style="background-color: #1565C0; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif; font-weight: bold;">
+                    <button onclick="window.print()" style="background-color: #0ea5e9; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif; font-weight: bold;">
                         🖨️ اضغط هنا لطباعة التقرير / حفظ PDF
                     </button>
                 </div>
