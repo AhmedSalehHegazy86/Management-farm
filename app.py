@@ -14,7 +14,7 @@ import streamlit.components.v1 as components
 # =========================================================
 
 st.set_page_config(
-    page_title="Broiler Farm Manager V11",
+    page_title="Broiler Farm Manager V11 - Right Sidebar",
     page_icon="🐔",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -22,7 +22,7 @@ st.set_page_config(
 
 
 # =========================================================
-# 2. التصميم الاحترافي
+# 2. التصميم الاحترافي (تثبيت الشريط الجانبي من اليمين تماماً)
 # =========================================================
 
 st.markdown(
@@ -30,7 +30,7 @@ st.markdown(
     <style>
 
     /* =====================================================
-       GENERAL APP
+       GENERAL APP (RTL)
        ===================================================== */
 
     html,
@@ -64,23 +64,18 @@ st.markdown(
 
 
     /* =====================================================
-       SIDEBAR — OVERLAY
-       لا يحجز مساحة من الصفحة الرئيسية
+       SIDEBAR — RIGHT OVERLAY PANEL
        ===================================================== */
 
     [data-testid="stSidebar"] {
-
         direction: rtl !important;
-
         position: fixed !important;
-
         top: 0 !important;
         right: 0 !important;
+        left: auto !important;
         bottom: 0 !important;
-
         width: 350px !important;
         min-width: 350px !important;
-
         background:
             linear-gradient(
                 180deg,
@@ -88,27 +83,14 @@ st.markdown(
                 #0f172a 45%,
                 #172554 100%
             ) !important;
-
         border-left: 2px solid #38bdf8 !important;
-
-        box-shadow:
-            -10px 0 35px rgba(0, 0, 0, 0.45) !important;
-
+        box-shadow: -10px 0 35px rgba(0, 0, 0, 0.55) !important;
         z-index: 999999 !important;
-
         overflow-y: auto !important;
     }
 
-
-    /*
-       منع الـ Sidebar من دفع الصفحة الرئيسية
-    */
-
-    [data-testid="stAppViewContainer"] {
-        margin-right: 0 !important;
-        margin-left: 0 !important;
-    }
-
+    /* إلغاء أي هوامش جانبية قد تزيح المحتوى الرئيسي عند فتح الشريط */
+    [data-testid="stAppViewContainer"],
     [data-testid="stMain"] {
         margin-right: 0 !important;
         margin-left: 0 !important;
@@ -117,393 +99,219 @@ st.markdown(
 
 
     /* =====================================================
-       SIDEBAR CONTENT
+       SIDEBAR CONTENT & BUTTONS
        ===================================================== */
 
     [data-testid="stSidebarContent"] {
-
         direction: rtl !important;
-
-        padding-top: 1.5rem !important;
-        padding-right: 1rem !important;
-        padding-left: 1rem !important;
-        padding-bottom: 2rem !important;
+        padding: 1.5rem 1rem 2rem 1rem !important;
     }
 
     [data-testid="stSidebar"] * {
-
         direction: rtl !important;
-
         text-align: right !important;
-
         color: #f8fafc !important;
     }
 
-
-    /* =====================================================
-       SIDEBAR COLLAPSE / OPEN BUTTON
-       زر Streamlit العلوي
-       ===================================================== */
-
+    /* زر إظهار/إخفاء الشريط الجانبي في أعلى اليمين */
     [data-testid="stSidebarCollapsedControl"] {
-
         position: fixed !important;
-
         top: 12px !important;
         right: 12px !important;
-
         width: 48px !important;
         height: 48px !important;
-
         z-index: 1000000 !important;
-
         background:
             linear-gradient(
                 135deg,
                 #0284c7,
                 #0369a1
             ) !important;
-
         border: 2px solid #38bdf8 !important;
-
         border-radius: 14px !important;
-
-        box-shadow:
-            0 6px 22px rgba(0, 0, 0, 0.40) !important;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.40) !important;
     }
 
     [data-testid="stSidebarCollapsedControl"] button {
-
         width: 48px !important;
         height: 48px !important;
-
         background: transparent !important;
-
         border: none !important;
-
         color: white !important;
     }
 
     [data-testid="stSidebarCollapsedControl"] svg {
-
         width: 27px !important;
         height: 27px !important;
-
         color: white !important;
     }
 
 
     /* =====================================================
-       TITLES
+       TITLES & HEADINGS
        ===================================================== */
 
-    h1,
-    h2,
-    h3 {
-
+    h1, h2, h3 {
         direction: rtl !important;
-
         text-align: right !important;
-
         color: #e0f2fe !important;
-
         font-weight: 900 !important;
     }
-
-
-    /* =====================================================
-       SIDEBAR TITLES
-       ===================================================== */
 
     [data-testid="stSidebar"] h1,
     [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3 {
-
         color: #bae6fd !important;
-
         font-weight: 900 !important;
     }
 
 
     /* =====================================================
-       METRICS
+       METRICS & FORMS
        ===================================================== */
 
     [data-testid="stMetric"] {
-
         background: #ffffff !important;
-
         padding: 18px !important;
-
         border-radius: 14px !important;
-
         border: 2px solid #38bdf8 !important;
-
         border-right: 8px solid #0284c7 !important;
-
-        box-shadow:
-            0 5px 18px rgba(0, 0, 0, 0.25) !important;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25) !important;
     }
 
     [data-testid="stMetric"] * {
-
         color: #000000 !important;
-
         text-align: right !important;
     }
 
     [data-testid="stMetricValue"] {
-
         color: #0369a1 !important;
-
         font-size: 2rem !important;
-
         font-weight: 900 !important;
     }
 
     [data-testid="stMetricLabel"] {
-
         color: #0f172a !important;
-
         font-weight: 800 !important;
     }
 
-
-    /* =====================================================
-       FORMS
-       ===================================================== */
-
     div[data-testid="stForm"] {
-
         background: rgba(255,255,255,0.96) !important;
-
         padding: 20px !important;
-
         border-radius: 14px !important;
-
         border: 2px solid #38bdf8 !important;
-
         border-right: 8px solid #0284c7 !important;
-
-        box-shadow:
-            0 5px 18px rgba(0,0,0,0.25) !important;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.25) !important;
     }
 
     div[data-testid="stForm"] * {
-
         color: #000000 !important;
-
         text-align: right !important;
     }
 
 
     /* =====================================================
-       INPUTS
+       INPUTS & CONTROLS
        ===================================================== */
 
-    input,
-    textarea,
-    select {
-
+    input, textarea, select {
         direction: rtl !important;
-
         text-align: right !important;
-
         background-color: #ffffff !important;
-
         color: #000000 !important;
-
         border: 2px solid #0284c7 !important;
-
         border-radius: 7px !important;
-
         font-weight: 700 !important;
     }
 
-
-    /* =====================================================
-       SELECTBOX
-       ===================================================== */
-
     [data-baseweb="select"] {
-
         direction: rtl !important;
-
         background-color: #ffffff !important;
-
         color: #000000 !important;
-
         border-radius: 7px !important;
     }
 
-
-    /* =====================================================
-       BUTTONS
-       ===================================================== */
-
     .stButton > button {
-
         width: 100% !important;
-
         background:
             linear-gradient(
                 135deg,
                 #0284c7,
                 #0369a1
             ) !important;
-
         color: #ffffff !important;
-
         border: 2px solid #38bdf8 !important;
-
         border-radius: 9px !important;
-
         font-weight: 900 !important;
-
         min-height: 45px !important;
-
         transition: all 0.2s ease !important;
     }
 
     .stButton > button:hover {
-
         background:
             linear-gradient(
                 135deg,
                 #0369a1,
                 #075985
             ) !important;
-
         transform: translateY(-1px);
-
-        box-shadow:
-            0 5px 15px rgba(0,0,0,0.25) !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.25) !important;
     }
 
 
     /* =====================================================
-       TABS
+       TABS & DATAFRAMES
        ===================================================== */
 
     .stTabs [data-baseweb="tab-list"] {
-
         gap: 7px;
-
         direction: rtl !important;
-
         background: transparent !important;
     }
 
     .stTabs [data-baseweb="tab"] {
-
         background: #0f172a !important;
-
         border: 1px solid #38bdf8 !important;
-
         border-radius: 9px 9px 0 0 !important;
-
         padding: 10px 16px !important;
-
         color: #e0f2fe !important;
-
         font-weight: 800 !important;
     }
 
     .stTabs [aria-selected="true"] {
-
         background: #0284c7 !important;
-
         color: #ffffff !important;
     }
 
-
-    /* =====================================================
-       DATAFRAME
-       ===================================================== */
-
     [data-testid="stDataFrame"] {
-
         background: #ffffff !important;
-
         border-radius: 12px !important;
-
         border: 2px solid #38bdf8 !important;
-
         direction: rtl !important;
     }
 
 
     /* =====================================================
-       ALERTS
-       ===================================================== */
-
-    [data-testid="stAlert"] {
-
-        border-radius: 10px !important;
-
-        font-weight: 700 !important;
-    }
-
-
-    /* =====================================================
-       MOBILE
+       RESPONSIVE & PRINT
        ===================================================== */
 
     @media (max-width: 768px) {
-
         [data-testid="stSidebar"] {
-
             width: 86vw !important;
-
             min-width: 86vw !important;
-        }
-
-        [data-testid="stSidebarCollapsedControl"] {
-
-            top: 8px !important;
-
-            right: 8px !important;
-
-            width: 44px !important;
-
-            height: 44px !important;
-        }
-
-        [data-testid="stSidebarCollapsedControl"] button {
-
-            width: 44px !important;
-
-            height: 44px !important;
-        }
-
-        [data-testid="stMainBlockContainer"] {
-
-            padding-left: 1rem !important;
-
-            padding-right: 1rem !important;
         }
     }
 
-
-    /* =====================================================
-       PRINT
-       ===================================================== */
-
     @media print {
-
         header,
         [data-testid="stSidebar"],
         [data-testid="stSidebarCollapsedControl"],
         .stTabs [role="tablist"],
         button {
-
             display: none !important;
         }
-
         .stApp {
-
             background: white !important;
-
             color: black !important;
         }
     }
@@ -585,14 +393,8 @@ def hash_password(password):
 
 
 def init_db():
-
     conn = get_connection()
-
     c = conn.cursor()
-
-    # -----------------------------------------------------
-    # Users
-    # -----------------------------------------------------
 
     c.execute(
         """
@@ -605,28 +407,15 @@ def init_db():
         """
     )
 
-    c.execute(
-        "SELECT COUNT(*) FROM users"
-    )
-
+    c.execute("SELECT COUNT(*) FROM users")
     if c.fetchone()[0] == 0:
-
         c.execute(
             """
-            INSERT INTO users
-            (username, password, role)
+            INSERT INTO users (username, password, role)
             VALUES (?, ?, ?)
             """,
-            (
-                "admin",
-                hash_password("admin123"),
-                "مدير",
-            )
+            ("admin", hash_password("admin123"), "مدير")
         )
-
-    # -----------------------------------------------------
-    # Cycles
-    # -----------------------------------------------------
 
     c.execute(
         """
@@ -643,10 +432,6 @@ def init_db():
         )
         """
     )
-
-    # -----------------------------------------------------
-    # Daily logs
-    # -----------------------------------------------------
 
     c.execute(
         """
@@ -667,10 +452,6 @@ def init_db():
         """
     )
 
-    # -----------------------------------------------------
-    # Inventory
-    # -----------------------------------------------------
-
     c.execute(
         """
         CREATE TABLE IF NOT EXISTS inventory_purchases (
@@ -682,16 +463,11 @@ def init_db():
         """
     )
 
-    c.execute(
-        "SELECT COUNT(*) FROM inventory_purchases"
-    )
-
+    c.execute("SELECT COUNT(*) FROM inventory_purchases")
     if c.fetchone()[0] == 0:
-
         c.executemany(
             """
-            INSERT INTO inventory_purchases
-            (item_name, qty_added, min_limit)
+            INSERT INTO inventory_purchases (item_name, qty_added, min_limit)
             VALUES (?, ?, ?)
             """,
             [
@@ -701,10 +477,6 @@ def init_db():
                 ("مطهر (لتر)", 20, 5),
             ]
         )
-
-    # -----------------------------------------------------
-    # Veterinary logs
-    # -----------------------------------------------------
 
     c.execute(
         """
@@ -722,12 +494,10 @@ def init_db():
     )
 
     conn.commit()
-
     return conn
 
 
 init_db()
-
 conn = get_connection()
 
 
@@ -736,11 +506,8 @@ conn = get_connection()
 # =========================================================
 
 if "logged_in" not in st.session_state:
-
     st.session_state.logged_in = False
-
     st.session_state.username = ""
-
     st.session_state.role = ""
 
 
@@ -749,33 +516,12 @@ if "logged_in" not in st.session_state:
 # =========================================================
 
 if not st.session_state.logged_in:
-
     st.markdown(
         """
-        <div style="
-            max-width:600px;
-            margin:80px auto 20px auto;
-            text-align:center;
-        ">
-            <div style="
-                font-size:70px;
-                margin-bottom:10px;
-            ">
-                🐔
-            </div>
-
-            <h1 style="
-                text-align:center !important;
-                color:#e0f2fe !important;
-            ">
-                BFM
-            </h1>
-
-            <p style="
-                text-align:center !important;
-                font-size:20px;
-                font-weight:700;
-            ">
+        <div style="max-width:600px; margin:80px auto 20px auto; text-align:center;">
+            <div style="font-size:70px; margin-bottom:10px;">🐔</div>
+            <h1 style="text-align:center !important; color:#e0f2fe !important;">BFM</h1>
+            <p style="text-align:center !important; font-size:20px; font-weight:700;">
                 نظام إدارة مزارع التسمين
             </p>
         </div>
@@ -784,300 +530,127 @@ if not st.session_state.logged_in:
     )
 
     with st.form("login_form"):
-
         st.subheader("🔐 تسجيل الدخول")
-
-        u_input = st.text_input(
-            "اسم المستخدم"
-        )
-
-        p_input = st.text_input(
-            "الرقم السري",
-            type="password"
-        )
-
-        submit_login = st.form_submit_button(
-            "دخول للنظام"
-        )
+        u_input = st.text_input("اسم المستخدم")
+        p_input = st.text_input("الرقم السري", type="password")
+        submit_login = st.form_submit_button("دخول للنظام")
 
         if submit_login:
-
             user_row = pd.read_sql_query(
                 """
-                SELECT *
-                FROM users
-                WHERE username = ?
-                AND password = ?
+                SELECT * FROM users
+                WHERE username = ? AND password = ?
                 """,
                 conn,
-                params=(
-                    u_input.strip(),
-                    hash_password(p_input),
-                )
+                params=(u_input.strip(), hash_password(p_input))
             )
 
             if not user_row.empty:
-
                 st.session_state.logged_in = True
-
-                st.session_state.username = (
-                    user_row.iloc[0]["username"]
-                )
-
-                st.session_state.role = (
-                    user_row.iloc[0]["role"]
-                )
-
-                st.success(
-                    "تم تسجيل الدخول بنجاح!"
-                )
-
+                st.session_state.username = user_row.iloc[0]["username"]
+                st.session_state.role = user_row.iloc[0]["role"]
+                st.success("تم تسجيل الدخول بنجاح!")
                 st.rerun()
-
             else:
+                st.error("اسم المستخدم أو الرقم السري غير صحيح!")
 
-                st.error(
-                    "اسم المستخدم أو الرقم السري غير صحيح!"
-                )
-
-    st.info(
-        "الحساب الافتراضي الأول: admin / admin123"
-    )
-
+    st.info("الحساب الافتراضي الأول: admin / admin123")
     st.stop()
 
 
 # =========================================================
-# 7. SIDEBAR
+# 7. SIDEBAR (التحكم من اليمين)
 # =========================================================
 
 st.sidebar.markdown(
     """
-    <div style="
-        text-align:center;
-        padding:10px;
-        border-bottom:1px solid #38bdf8;
-        margin-bottom:15px;
-    ">
+    <div style="text-align:center; padding:10px; border-bottom:1px solid #38bdf8; margin-bottom:15px;">
         <div style="font-size:45px;">🐔</div>
-
-        <div style="
-            font-size:22px;
-            font-weight:900;
-            color:#bae6fd;
-        ">
-            BFM Manager
-        </div>
-
-        <div style="
-            font-size:12px;
-            color:#94a3b8;
-        ">
-            Broiler Farm Management
-        </div>
+        <div style="font-size:22px; font-weight:900; color:#bae6fd;">BFM Manager</div>
+        <div style="font-size:12px; color:#94a3b8;">Broiler Farm Management</div>
     </div>
     """,
     unsafe_allow_html=True,
 )
 
-
-st.sidebar.title(
-    f"👤 {st.session_state.username}"
-)
-
+st.sidebar.title(f"👤 {st.session_state.username}")
 st.sidebar.markdown(
     f"""
-    <div style="
-        background:#172554;
-        padding:10px;
-        border-radius:10px;
-        border:1px solid #38bdf8;
-        margin-bottom:15px;
-    ">
-        <strong>الصلاحية:</strong>
-        {st.session_state.role}
+    <div style="background:#172554; padding:10px; border-radius:10px; border:1px solid #38bdf8; margin-bottom:15px;">
+        <strong>الصلاحية:</strong> {st.session_state.role}
     </div>
     """,
     unsafe_allow_html=True,
 )
 
-
-if st.sidebar.button(
-    "🚪 تسجيل الخروج",
-    key="logout_button"
-):
-
+if st.sidebar.button("🚪 تسجيل الخروج", key="logout_button"):
     st.session_state.logged_in = False
-
     st.session_state.username = ""
-
     st.session_state.role = ""
-
     st.rerun()
 
-
 st.sidebar.markdown("---")
-
 
 # =========================================================
 # 8. إدارة المستخدمين
 # =========================================================
 
 if st.session_state.role == "مدير":
-
-    with st.sidebar.expander(
-        "👥 إدارة المستخدمين",
-        expanded=False
-    ):
-
+    with st.sidebar.expander("👥 إدارة المستخدمين", expanded=False):
         with st.form("add_user_form"):
+            new_user = st.text_input("اسم المستخدم الجديد")
+            new_pass = st.text_input("الرقم السري", type="password")
+            new_role = st.selectbox("الصلاحية", ["مستخدم عادي", "مدير"])
 
-            new_user = st.text_input(
-                "اسم المستخدم الجديد"
-            )
-
-            new_pass = st.text_input(
-                "الرقم السري",
-                type="password"
-            )
-
-            new_role = st.selectbox(
-                "الصلاحية",
-                [
-                    "مستخدم عادي",
-                    "مدير"
-                ]
-            )
-
-            if st.form_submit_button(
-                "إضافة المستخدم"
-            ):
-
+            if st.form_submit_button("إضافة المستخدم"):
                 if new_user and new_pass:
-
                     try:
-
                         c = conn.cursor()
-
                         c.execute(
                             """
-                            INSERT INTO users
-                            (username, password, role)
+                            INSERT INTO users (username, password, role)
                             VALUES (?, ?, ?)
                             """,
-                            (
-                                new_user.strip(),
-                                hash_password(new_pass),
-                                new_role,
-                            )
+                            (new_user.strip(), hash_password(new_pass), new_role)
                         )
-
                         conn.commit()
-
-                        st.success(
-                            f"تم إضافة المستخدم {new_user}"
-                        )
-
+                        st.success(f"تم إضافة المستخدم {new_user}")
                     except sqlite3.IntegrityError:
-
-                        st.error(
-                            "اسم المستخدم موجود مسبقاً!"
-                        )
-
+                        st.error("اسم المستخدم موجود مسبقاً!")
                 else:
-
-                    st.warning(
-                        "يرجى إدخال اسم المستخدم والرقم السري."
-                    )
+                    st.warning("يرجى إدخال اسم المستخدم والرقم السري.")
 
 
 # =========================================================
 # 9. إضافة دورة
 # =========================================================
 
-with st.sidebar.expander(
-    "➕ إضافة دورة تسمين جديدة",
-    expanded=False
-):
+with st.sidebar.expander("➕ إضافة دورة تسمين جديدة", expanded=False):
+    with st.form("add_new_cycle_form"):
+        c_name = st.text_input("اسم الدورة الجديدة", f"دورة {datetime.date.today()}")
+        c_chicks = st.number_input("عدد الكتاكيت الأولي", min_value=1, value=2000, step=100)
+        c_chick_p = st.number_input("سعر الكتكوت (جنية)", min_value=0.0, value=35.0)
+        c_feed_p = st.number_input("سعر طن العلف (جنية)", min_value=0.0, value=24000.0)
+        c_sell_p = st.number_input("سعر بيع الكيلو (جنية)", min_value=0.0, value=85.0)
+        c_target_w = st.number_input("الوزن المستهدف (كجم)", min_value=0.1, value=2.2)
 
-    with st.form(
-        "add_new_cycle_form"
-    ):
-
-        c_name = st.text_input(
-            "اسم الدورة الجديدة",
-            f"دورة {datetime.date.today()}"
-        )
-
-        c_chicks = st.number_input(
-            "عدد الكتاكيت الأولي",
-            min_value=1,
-            value=2000,
-            step=100
-        )
-
-        c_chick_p = st.number_input(
-            "سعر الكتكوت (جنية)",
-            min_value=0.0,
-            value=35.0
-        )
-
-        c_feed_p = st.number_input(
-            "سعر طن العلف (جنية)",
-            min_value=0.0,
-            value=24000.0
-        )
-
-        c_sell_p = st.number_input(
-            "سعر بيع الكيلو (جنية)",
-            min_value=0.0,
-            value=85.0
-        )
-
-        c_target_w = st.number_input(
-            "الوزن المستهدف (كجم)",
-            min_value=0.1,
-            value=2.2
-        )
-
-        if st.form_submit_button(
-            "💾 حفظ وتفعيل الدورة"
-        ):
-
+        if st.form_submit_button("💾 حفظ وتفعيل الدورة"):
             c = conn.cursor()
-
             c.execute(
                 """
-                INSERT INTO cycles
-                (
-                    name,
-                    chicks_count,
-                    chick_price,
-                    feed_price_ton,
-                    sell_price_kg,
-                    target_weight,
-                    start_date,
-                    status
+                INSERT INTO cycles (
+                    name, chicks_count, chick_price, feed_price_ton,
+                    sell_price_kg, target_weight, start_date, status
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?, 'نشطة')
                 """,
                 (
-                    c_name,
-                    c_chicks,
-                    c_chick_p,
-                    c_feed_p,
-                    c_sell_p,
-                    c_target_w,
-                    str(datetime.date.today()),
+                    c_name, c_chicks, c_chick_p, c_feed_p,
+                    c_sell_p, c_target_w, str(datetime.date.today())
                 )
             )
-
             conn.commit()
-
-            st.success(
-                "تم إضافة الدورة بنجاح!"
-            )
-
+            st.success("تم إضافة الدورة بنجاح!")
             st.rerun()
 
 
@@ -1086,137 +659,57 @@ with st.sidebar.expander(
 # =========================================================
 
 st.sidebar.markdown("---")
-
-st.sidebar.subheader(
-    "🔄 الدورة النشطة"
-)
-
+st.sidebar.subheader("🔄 الدورة النشطة")
 
 cycles_df = pd.read_sql_query(
     """
-    SELECT *
-    FROM cycles
+    SELECT * FROM cycles
     WHERE status = 'نشطة'
     ORDER BY id DESC
     """,
     conn
 )
 
-
 selected_cycle_id = None
 curr_cycle = None
 
-
 if cycles_df.empty:
-
-    st.sidebar.warning(
-        "⚠️ لا توجد دورة نشطة حالياً."
-    )
-
+    st.sidebar.warning("⚠️ لا توجد دورة نشطة حالياً.")
 else:
-
-    cycle_dict = dict(
-        zip(
-            cycles_df["name"],
-            cycles_df["id"]
-        )
-    )
-
-    selected_cycle_name = st.sidebar.selectbox(
-        "اختر الدورة",
-        list(cycle_dict.keys())
-    )
-
-    selected_cycle_id = cycle_dict[
-        selected_cycle_name
-    ]
-
-    curr_cycle = cycles_df[
-        cycles_df["id"] == selected_cycle_id
-    ].iloc[0]
-
+    cycle_dict = dict(zip(cycles_df["name"], cycles_df["id"]))
+    selected_cycle_name = st.sidebar.selectbox("اختر الدورة", list(cycle_dict.keys()))
+    selected_cycle_id = cycle_dict[selected_cycle_name]
+    curr_cycle = cycles_df[cycles_df["id"] == selected_cycle_id].iloc[0]
 
     st.sidebar.markdown(
         f"""
-        <div style="
-            background:#0f172a;
-            padding:12px;
-            border-radius:10px;
-            border:1px solid #38bdf8;
-            line-height:2;
-        ">
-        🗓️ <strong>البداية:</strong>
-        {curr_cycle['start_date']}<br>
-
-        🐤 <strong>العدد:</strong>
-        {int(curr_cycle['chicks_count']):,}<br>
-
-        🎯 <strong>الهدف:</strong>
-        {float(curr_cycle['target_weight']):.2f} كجم
+        <div style="background:#0f172a; padding:12px; border-radius:10px; border:1px solid #38bdf8; line-height:2;">
+            🗓️ <strong>البداية:</strong> {curr_cycle['start_date']}<br>
+            🐤 <strong>العدد:</strong> {int(curr_cycle['chicks_count']):,}<br>
+            🎯 <strong>الهدف:</strong> {float(curr_cycle['target_weight']):.2f} كجم
         </div>
         """,
         unsafe_allow_html=True
     )
 
+    with st.sidebar.expander("⚙️ تعديل أسعار الدورة"):
+        with st.form("edit_cycle_form"):
+            e_chick_p = st.number_input("سعر الكتكوت", value=float(curr_cycle["chick_price"]))
+            e_feed_p = st.number_input("سعر طن العلف", value=float(curr_cycle["feed_price_ton"]))
+            e_sell_p = st.number_input("سعر البيع / كجم", value=float(curr_cycle["sell_price_kg"]))
 
-    with st.sidebar.expander(
-        "⚙️ تعديل أسعار الدورة"
-    ):
-
-        with st.form(
-            "edit_cycle_form"
-        ):
-
-            e_chick_p = st.number_input(
-                "سعر الكتكوت",
-                value=float(
-                    curr_cycle["chick_price"]
-                )
-            )
-
-            e_feed_p = st.number_input(
-                "سعر طن العلف",
-                value=float(
-                    curr_cycle["feed_price_ton"]
-                )
-            )
-
-            e_sell_p = st.number_input(
-                "سعر البيع / كجم",
-                value=float(
-                    curr_cycle["sell_price_kg"]
-                )
-            )
-
-            if st.form_submit_button(
-                "💾 حفظ التحديثات"
-            ):
-
+            if st.form_submit_button("💾 حفظ التحديثات"):
                 c = conn.cursor()
-
                 c.execute(
                     """
                     UPDATE cycles
-                    SET
-                        chick_price = ?,
-                        feed_price_ton = ?,
-                        sell_price_kg = ?
+                    SET chick_price = ?, feed_price_ton = ?, sell_price_kg = ?
                     WHERE id = ?
                     """,
-                    (
-                        e_chick_p,
-                        e_feed_p,
-                        e_sell_p,
-                        selected_cycle_id,
-                    )
+                    (e_chick_p, e_feed_p, e_sell_p, selected_cycle_id)
                 )
-
                 conn.commit()
-
-                st.success(
-                    "تم تحديث الأسعار."
-                )
-
+                st.success("تم تحديث الأسعار.")
                 st.rerun()
 
 
@@ -1224,21 +717,11 @@ else:
 # 11. MAIN APPLICATION
 # =========================================================
 
-st.title(
-    "🐔 BFM — نظام إدارة مزارع التسمين"
-)
-
-st.caption(
-    "Broiler Farm Manager • V11 Professional"
-)
-
+st.title("🐔 BFM — نظام إدارة مزارع التسمين")
+st.caption("Broiler Farm Manager • V11 Professional")
 
 if selected_cycle_id is None:
-
-    st.warning(
-        "⚠️ أضف دورة تسمين من زر الشريط العلوي لبدء العمل."
-    )
-
+    st.warning("⚠️ أضف دورة تسمين من القائمة الجانبية (أعلى اليمين) لبدء العمل.")
     st.stop()
 
 
@@ -1248,8 +731,7 @@ if selected_cycle_id is None:
 
 logs_df = pd.read_sql_query(
     """
-    SELECT *
-    FROM daily_logs
+    SELECT * FROM daily_logs
     WHERE cycle_id = ?
     ORDER BY day ASC
     """,
@@ -1262,95 +744,22 @@ logs_df = pd.read_sql_query(
 # 13. CORE CALCULATIONS
 # =========================================================
 
-tot_chicks = int(
-    curr_cycle["chicks_count"]
-)
+tot_chicks = int(curr_cycle["chicks_count"])
+tot_mortality = int(logs_df["mortality"].sum()) if not logs_df.empty else 0
+live_birds = max(tot_chicks - tot_mortality, 0)
+mortality_pct = (tot_mortality / tot_chicks * 100) if tot_chicks > 0 else 0
+liveability = max(100 - mortality_pct, 0)
 
-tot_mortality = int(
-    logs_df["mortality"].sum()
-) if not logs_df.empty else 0
+tot_feed_kg = float(logs_df["feed_kg"].sum()) if not logs_df.empty else 0
+tot_water_l = float(logs_df["water_l"].sum()) if not logs_df.empty else 0
+last_day = int(logs_df["day"].max()) if not logs_df.empty else 1
 
+valid_weights = logs_df[logs_df["weight_g"] > 0] if not logs_df.empty else pd.DataFrame()
+last_weight_g = float(valid_weights.iloc[-1]["weight_g"]) if not valid_weights.empty else 45
 
-live_birds = max(
-    tot_chicks - tot_mortality,
-    0
-)
-
-
-mortality_pct = (
-    tot_mortality /
-    tot_chicks *
-    100
-    if tot_chicks > 0
-    else 0
-)
-
-
-liveability = max(
-    100 - mortality_pct,
-    0
-)
-
-
-tot_feed_kg = (
-    float(logs_df["feed_kg"].sum())
-    if not logs_df.empty
-    else 0
-)
-
-
-tot_water_l = (
-    float(logs_df["water_l"].sum())
-    if not logs_df.empty
-    else 0
-)
-
-
-last_day = (
-    int(logs_df["day"].max())
-    if not logs_df.empty
-    else 1
-)
-
-
-valid_weights = (
-    logs_df[logs_df["weight_g"] > 0]
-    if not logs_df.empty
-    else pd.DataFrame()
-)
-
-
-last_weight_g = (
-    float(valid_weights.iloc[-1]["weight_g"])
-    if not valid_weights.empty
-    else 45
-)
-
-
-tot_weight_kg = (
-    live_birds *
-    last_weight_g /
-    1000
-)
-
-
-fcr = (
-    tot_feed_kg /
-    tot_weight_kg
-    if tot_weight_kg > 0
-    else 0
-)
-
-
-epef = (
-    (
-        liveability *
-        (last_weight_g / 1000) /
-        (last_day * fcr)
-    ) * 100
-    if fcr > 0 and last_day > 0
-    else 0
-)
+tot_weight_kg = (live_birds * last_weight_g) / 1000
+fcr = (tot_feed_kg / tot_weight_kg) if tot_weight_kg > 0 else 0
+epef = (((liveability * (last_weight_g / 1000)) / (last_day * fcr)) * 100) if fcr > 0 and last_day > 0 else 0
 
 
 # =========================================================
@@ -1375,161 +784,44 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
 # =========================================================
 
 with tab1:
-
-    st.subheader(
-        f"📌 أداء الدورة: {curr_cycle['name']}"
-    )
-
+    st.subheader(f"📌 أداء الدورة: {curr_cycle['name']}")
     c1, c2, c3, c4, c5 = st.columns(5)
 
-    c1.metric(
-        "🐔 الطيور الحية",
-        f"{live_birds:,}"
-    )
-
-    c2.metric(
-        "☠️ النفوق",
-        f"{mortality_pct:.2f}%"
-    )
-
-    c3.metric(
-        "🌾 العلف",
-        f"{tot_feed_kg:,.1f} كجم"
-    )
-
-    c4.metric(
-        "📊 FCR",
-        f"{fcr:.2f}"
-    )
-
-    c5.metric(
-        "🏆 EPEF",
-        f"{epef:.1f}"
-    )
-
+    c1.metric("🐔 الطيور الحية", f"{live_birds:,}")
+    c2.metric("☠️ النفوق", f"{mortality_pct:.2f}%")
+    c3.metric("🌾 العلف", f"{tot_feed_kg:,.1f} كجم")
+    c4.metric("📊 FCR", f"{fcr:.2f}")
+    c5.metric("🏆 EPEF", f"{epef:.1f}")
 
     if mortality_pct > 5:
-
-        st.error(
-            "🚨 تنبيه: نسبة النفوق تجاوزت 5%."
-        )
-
+        st.error("🚨 تنبيه: نسبة النفوق تجاوزت 5%.")
     if fcr > 1.8:
-
-        st.warning(
-            "⚠️ تنبيه: FCR أعلى من 1.80."
-        )
-
+        st.warning("⚠️ تنبيه: FCR أعلى من 1.80.")
 
     st.markdown("---")
-
-
     left, right = st.columns(2)
 
-
     with left:
-
-        st.subheader(
-            "🌡️ البيئة اليومية"
-        )
-
+        st.subheader("🌡️ البيئة اليومية")
         if not logs_df.empty:
-
             fig_env = go.Figure()
-
-            fig_env.add_trace(
-                go.Scatter(
-                    x=logs_df["day"],
-                    y=logs_df["temp"],
-                    name="الحرارة °C",
-                    line=dict(
-                        color="#ef4444",
-                        width=3
-                    )
-                )
-            )
-
-            fig_env.add_trace(
-                go.Scatter(
-                    x=logs_df["day"],
-                    y=logs_df["humidity"],
-                    name="الرطوبة %",
-                    line=dict(
-                        color="#0284c7",
-                        width=3
-                    )
-                )
-            )
-
-            fig_env.update_layout(
-                xaxis_title="اليوم",
-                yaxis_title="القيمة",
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(255,255,255,0.95)",
-                margin=dict(
-                    l=20,
-                    r=20,
-                    t=30,
-                    b=20
-                )
-            )
-
-            st.plotly_chart(
-                fig_env,
-                use_container_width=True
-            )
-
+            fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة °C", line=dict(color="#ef4444", width=3)))
+            fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة %", line=dict(color="#0284c7", width=3)))
+            fig_env.update_layout(xaxis_title="اليوم", yaxis_title="القيمة", paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(255,255,255,0.95)", margin=dict(l=20, r=20, t=30, b=20))
+            st.plotly_chart(fig_env, use_container_width=True)
         else:
-
-            st.info(
-                "لا توجد بيانات بيئية بعد."
-            )
-
+            st.info("لا توجد بيانات بيئية بعد.")
 
     with right:
-
-        st.subheader(
-            "🌾 استهلاك العلف والمياه"
-        )
-
+        st.subheader("🌾 استهلاك العلف والمياه")
         if not logs_df.empty:
-
             fig_cons = go.Figure()
-
-            fig_cons.add_trace(
-                go.Bar(
-                    x=logs_df["day"],
-                    y=logs_df["feed_kg"],
-                    name="العلف"
-                )
-            )
-
-            fig_cons.add_trace(
-                go.Bar(
-                    x=logs_df["day"],
-                    y=logs_df["water_l"],
-                    name="المياه"
-                )
-            )
-
-            fig_cons.update_layout(
-                barmode="group",
-                xaxis_title="اليوم",
-                yaxis_title="الكمية",
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="rgba(255,255,255,0.95)"
-            )
-
-            st.plotly_chart(
-                fig_cons,
-                use_container_width=True
-            )
-
+            fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["feed_kg"], name="العلف"))
+            fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه"))
+            fig_cons.update_layout(barmode="group", xaxis_title="اليوم", yaxis_title="الكمية", paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(255,255,255,0.95)")
+            st.plotly_chart(fig_cons, use_container_width=True)
         else:
-
-            st.info(
-                "لا توجد بيانات استهلاك بعد."
-            )
+            st.info("لا توجد بيانات استهلاك بعد.")
 
 
 # =========================================================
@@ -1537,224 +829,67 @@ with tab1:
 # =========================================================
 
 with tab2:
+    st.subheader("📝 التسجيل اليومي")
+    next_day_val = min(last_day + 1, 40) if not logs_df.empty else 1
 
-    st.subheader(
-        "📝 التسجيل اليومي"
-    )
-
-    next_day_val = (
-        min(last_day + 1, 40)
-        if not logs_df.empty
-        else 1
-    )
-
-
-    with st.form(
-        "daily_entry_form"
-    ):
-
+    with st.form("daily_entry_form"):
         c1, c2, c3, c4, c5 = st.columns(5)
-
-        in_day = c1.number_input(
-            "اليوم",
-            min_value=1,
-            max_value=40,
-            value=next_day_val
-        )
-
-        in_feed = c2.number_input(
-            "العلف كجم",
-            min_value=0.0,
-            step=10.0
-        )
-
-        in_water = c3.number_input(
-            "المياه لتر",
-            min_value=0.0,
-            step=10.0
-        )
-
-        in_mort = c4.number_input(
-            "النفوق",
-            min_value=0,
-            step=1
-        )
-
-        in_weight = c5.number_input(
-            "الوزن جم",
-            min_value=0.0,
-            step=10.0
-        )
-
+        in_day = c1.number_input("اليوم", min_value=1, max_value=40, value=next_day_val)
+        in_feed = c2.number_input("العلف كجم", min_value=0.0, step=10.0)
+        in_water = c3.number_input("المياه لتر", min_value=0.0, step=10.0)
+        in_mort = c4.number_input("النفوق", min_value=0, step=1)
+        in_weight = c5.number_input("الوزن جم", min_value=0.0, step=10.0)
 
         c6, c7, c8, c9 = st.columns(4)
+        in_temp = c6.number_input("الحرارة °C", value=30.0)
+        in_hum = c7.number_input("الرطوبة %", value=60.0)
+        in_amm = c8.number_input("الأمونيا PPM", value=10.0)
+        in_notes = c9.text_input("ملاحظات")
 
-        in_temp = c6.number_input(
-            "الحرارة °C",
-            value=30.0
-        )
-
-        in_hum = c7.number_input(
-            "الرطوبة %",
-            value=60.0
-        )
-
-        in_amm = c8.number_input(
-            "الأمونيا PPM",
-            value=10.0
-        )
-
-        in_notes = c9.text_input(
-            "ملاحظات"
-        )
-
-
-        if st.form_submit_button(
-            "💾 حفظ بيانات اليوم"
-        ):
-
+        if st.form_submit_button("💾 حفظ بيانات اليوم"):
             if in_mort > tot_chicks:
-
-                st.error(
-                    "عدد النافق لا يمكن أن يتجاوز العدد الأولي."
-                )
-
+                st.error("عدد النافق لا يمكن أن يتجاوز العدد الأولي.")
             else:
-
                 c = conn.cursor()
-
                 c.execute(
                     """
-                    INSERT OR REPLACE INTO daily_logs
-                    (
-                        cycle_id,
-                        day,
-                        feed_kg,
-                        water_l,
-                        mortality,
-                        weight_g,
-                        temp,
-                        humidity,
-                        ammonia,
-                        notes
+                    INSERT OR REPLACE INTO daily_logs (
+                        cycle_id, day, feed_kg, water_l, mortality,
+                        weight_g, temp, humidity, ammonia, notes
                     )
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
-                        selected_cycle_id,
-                        in_day,
-                        in_feed,
-                        in_water,
-                        in_mort,
-                        in_weight,
-                        in_temp,
-                        in_hum,
-                        in_amm,
-                        in_notes,
+                        selected_cycle_id, in_day, in_feed, in_water, in_mort,
+                        in_weight, in_temp, in_hum, in_amm, in_notes
                     )
                 )
-
                 conn.commit()
-
-                st.success(
-                    f"تم حفظ بيانات اليوم {in_day}."
-                )
-
+                st.success(f"تم حفظ بيانات اليوم {in_day}.")
                 st.rerun()
 
-
     st.markdown("---")
-
     if not logs_df.empty:
-
         calc_df = logs_df.copy()
-
-        calc_df["feed_cum"] = (
-            calc_df["feed_kg"].cumsum()
-        )
-
-        calc_df["mort_cum"] = (
-            calc_df["mortality"].cumsum()
-        )
-
-        calc_df["live_birds_day"] = (
-            tot_chicks -
-            calc_df["mort_cum"]
-        )
-
-        calc_df["biomass_day_kg"] = (
-            calc_df["live_birds_day"] *
-            calc_df["weight_g"] /
-            1000
-        )
-
-        calc_df["fcr_cum"] = (
-            calc_df["feed_cum"] /
-            calc_df["biomass_day_kg"].replace(
-                0,
-                pd.NA
-            )
-        )
+        calc_df["feed_cum"] = calc_df["feed_kg"].cumsum()
+        calc_df["mort_cum"] = calc_df["mortality"].cumsum()
+        calc_df["live_birds_day"] = tot_chicks - calc_df["mort_cum"]
+        calc_df["biomass_day_kg"] = (calc_df["live_birds_day"] * calc_df["weight_g"]) / 1000
+        calc_df["fcr_cum"] = calc_df["feed_cum"] / calc_df["biomass_day_kg"].replace(0, pd.NA)
 
         display_cols = [
-            "day",
-            "feed_kg",
-            "water_l",
-            "mortality",
-            "weight_g",
-            "biomass_day_kg",
-            "fcr_cum",
-            "temp",
-            "humidity",
-            "ammonia",
-            "notes",
+            "day", "feed_kg", "water_l", "mortality", "weight_g",
+            "biomass_day_kg", "fcr_cum", "temp", "humidity", "ammonia", "notes"
         ]
-
         renamed_cols = {
-
-            "day": "اليوم",
-
-            "feed_kg": "العلف كجم",
-
-            "water_l": "المياه لتر",
-
-            "mortality": "النفوق",
-
-            "weight_g": "الوزن جم",
-
-            "biomass_day_kg":
-                "الكتلة الحية كجم",
-
-            "fcr_cum":
-                "FCR تراكمي",
-
-            "temp":
-                "الحرارة",
-
-            "humidity":
-                "الرطوبة",
-
-            "ammonia":
-                "الأمونيا",
-
-            "notes":
-                "ملاحظات",
+            "day": "اليوم", "feed_kg": "العلف كجم", "water_l": "المياه لتر",
+            "mortality": "النفوق", "weight_g": "الوزن جم", "biomass_day_kg": "الكتلة الحية كجم",
+            "fcr_cum": "FCR تراكمي", "temp": "الحرارة", "humidity": "الرطوبة",
+            "ammonia": "الأمونيا", "notes": "ملاحظات"
         }
-
-        st.dataframe(
-            calc_df[
-                display_cols
-            ].rename(
-                columns=renamed_cols
-            ),
-            use_container_width=True
-        )
-
+        st.dataframe(calc_df[display_cols].rename(columns=renamed_cols), use_container_width=True)
     else:
-
-        st.info(
-            "لم يتم تسجيل بيانات يومية بعد."
-        )
+        st.info("لم يتم تسجيل بيانات يومية بعد.")
 
 
 # =========================================================
@@ -1762,63 +897,19 @@ with tab2:
 # =========================================================
 
 with tab3:
-
-    st.subheader(
-        "📈 مقارنة النمو بالمعايير"
-    )
-
+    st.subheader("📈 مقارنة النمو بالمعايير")
     merged_df = pd.merge(
         STANDARD_BENCHMARKS,
-        logs_df[
-            ["day", "weight_g"]
-        ] if not logs_df.empty
-        else pd.DataFrame(
-            columns=["day", "weight_g"]
-        ),
+        logs_df[["day", "weight_g"]] if not logs_df.empty else pd.DataFrame(columns=["day", "weight_g"]),
         on="day",
         how="left"
     )
 
-
     fig_w = go.Figure()
-
-    fig_w.add_trace(
-        go.Scatter(
-            x=merged_df["day"],
-            y=merged_df["std_weight"],
-            name="القياسي",
-            line=dict(
-                color="#64748b",
-                dash="dash",
-                width=2
-            )
-        )
-    )
-
-    fig_w.add_trace(
-        go.Scatter(
-            x=merged_df["day"],
-            y=merged_df["weight_g"],
-            name="الفعلي",
-            line=dict(
-                color="#0284c7",
-                width=4
-            )
-        )
-    )
-
-    fig_w.update_layout(
-        title="منحنى النمو",
-        xaxis_title="اليوم",
-        yaxis_title="الوزن جم",
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(255,255,255,0.95)"
-    )
-
-    st.plotly_chart(
-        fig_w,
-        use_container_width=True
-    )
+    fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="القياسي", line=dict(color="#64748b", dash="dash", width=2)))
+    fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الفعلي", line=dict(color="#0284c7", width=4)))
+    fig_w.update_layout(title="منحنى النمو", xaxis_title="اليوم", yaxis_title="الوزن جم", paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(255,255,255,0.95)")
+    st.plotly_chart(fig_w, use_container_width=True)
 
 
 # =========================================================
@@ -1826,181 +917,70 @@ with tab3:
 # =========================================================
 
 with tab4:
-
-    st.subheader(
-        "📦 إدارة المخزون"
-    )
-
-
-    starter_used = (
-        logs_df[
-            logs_df["day"] <= 10
-        ]["feed_kg"].sum()
-        if not logs_df.empty
-        else 0
-    )
-
-    grower_used = (
-        logs_df[
-            (logs_df["day"] > 10) &
-            (logs_df["day"] <= 25)
-        ]["feed_kg"].sum()
-        if not logs_df.empty
-        else 0
-    )
-
-    finisher_used = (
-        logs_df[
-            logs_df["day"] > 25
-        ]["feed_kg"].sum()
-        if not logs_df.empty
-        else 0
-    )
-
+    st.subheader("📦 إدارة المخزون")
+    starter_used = logs_df[logs_df["day"] <= 10]["feed_kg"].sum() if not logs_df.empty else 0
+    grower_used = logs_df[(logs_df["day"] > 10) & (logs_df["day"] <= 25)]["feed_kg"].sum() if not logs_df.empty else 0
+    finisher_used = logs_df[logs_df["day"] > 25]["feed_kg"].sum() if not logs_df.empty else 0
 
     purchases_df = pd.read_sql_query(
         """
-        SELECT
-            item_name,
-            SUM(qty_added) AS total_added,
-            MAX(min_limit) AS min_limit
+        SELECT item_name, SUM(qty_added) AS total_added, MAX(min_limit) AS min_limit
         FROM inventory_purchases
         GROUP BY item_name
         """,
         conn
     )
 
-
     inventory_status = []
-
-
     for _, row in purchases_df.iterrows():
-
         item = row["item_name"]
-
-        added = float(
-            row["total_added"]
-        )
-
-        limit = float(
-            row["min_limit"]
-        )
-
+        added = float(row["total_added"])
+        limit = float(row["min_limit"])
 
         if "بادئ" in item:
-
             used = starter_used
-
         elif "نامي" in item:
-
             used = grower_used
-
         elif "ناهي" in item:
-
             used = finisher_used
-
         else:
-
             used = 0
 
-
         available = added - used
+        status = "⚠️ إعادة طلب" if available < limit else "✅ متوفر"
 
-        status = (
-            "⚠️ إعادة طلب"
-            if available < limit
-            else "✅ متوفر"
-        )
+        inventory_status.append({
+            "الصنف": item,
+            "إجمالي المشتريات": added,
+            "المستهلك": used,
+            "الرصيد": available,
+            "حد الأمان": limit,
+            "الحالة": status,
+        })
 
-
-        inventory_status.append(
-            {
-                "الصنف": item,
-                "إجمالي المشتريات": added,
-                "المستهلك": used,
-                "الرصيد": available,
-                "حد الأمان": limit,
-                "الحالة": status,
-            }
-        )
-
-
-    inv_summary_df = pd.DataFrame(
-        inventory_status
-    )
-
-
+    inv_summary_df = pd.DataFrame(inventory_status)
     if not inv_summary_df.empty:
-
-        st.dataframe(
-            inv_summary_df,
-            use_container_width=True
-        )
-
-
-        reorder = inv_summary_df[
-            inv_summary_df["الرصيد"] <
-            inv_summary_df["حد الأمان"]
-        ]
-
-
+        st.dataframe(inv_summary_df, use_container_width=True)
+        reorder = inv_summary_df[inv_summary_df["الرصيد"] < inv_summary_df["حد الأمان"]]
         for _, r in reorder.iterrows():
+            st.warning(f"⚠️ إعادة طلب: {r['الصنف']} — الرصيد {r['الرصيد']:.1f}")
 
-            st.warning(
-                f"⚠️ إعادة طلب: {r['الصنف']} "
-                f"— الرصيد {r['الرصيد']:.1f}"
-            )
+        with st.expander("➕ إضافة توريد جديد"):
+            with st.form("add_stock_form"):
+                st_item = st.selectbox("الصنف", inv_summary_df["الصنف"].tolist())
+                st_qty = st.number_input("الكمية", min_value=0.0, step=100.0)
 
-
-        with st.expander(
-            "➕ إضافة توريد جديد"
-        ):
-
-            with st.form(
-                "add_stock_form"
-            ):
-
-                st_item = st.selectbox(
-                    "الصنف",
-                    inv_summary_df["الصنف"].tolist()
-                )
-
-                st_qty = st.number_input(
-                    "الكمية",
-                    min_value=0.0,
-                    step=100.0
-                )
-
-                if st.form_submit_button(
-                    "💾 حفظ التوريد"
-                ):
-
+                if st.form_submit_button("💾 حفظ التوريد"):
                     c = conn.cursor()
-
                     c.execute(
                         """
-                        INSERT INTO
-                        inventory_purchases
-                        (
-                            item_name,
-                            qty_added,
-                            min_limit
-                        )
+                        INSERT INTO inventory_purchases (item_name, qty_added, min_limit)
                         VALUES (?, ?, ?)
                         """,
-                        (
-                            st_item,
-                            st_qty,
-                            500
-                        )
+                        (st_item, st_qty, 500)
                     )
-
                     conn.commit()
-
-                    st.success(
-                        "تم إضافة التوريد."
-                    )
-
+                    st.success("تم إضافة التوريد.")
                     st.rerun()
 
 
@@ -2009,95 +989,36 @@ with tab4:
 # =========================================================
 
 with tab5:
-
-    st.subheader(
-        "💉 السجل البيطري"
-    )
-
-
-    with st.form(
-        "vet_entry"
-    ):
-
+    st.subheader("💉 السجل البيطري")
+    with st.form("vet_entry"):
         c1, c2, c3, c4 = st.columns(4)
-
-        v_date = c1.date_input(
-            "التاريخ",
-            datetime.date.today()
-        )
-
-        v_age = c2.number_input(
-            "العمر",
-            min_value=1,
-            value=last_day
-        )
-
-        v_sym = c3.text_input(
-            "الأعراض"
-        )
-
-        v_diag = c4.text_input(
-            "التشخيص"
-        )
-
+        v_date = c1.date_input("التاريخ", datetime.date.today())
+        v_age = c2.number_input("العمر", min_value=1, value=last_day)
+        v_sym = c3.text_input("الأعراض")
+        v_diag = c4.text_input("التشخيص")
 
         c5, c6 = st.columns(2)
+        v_treat = c5.text_input("العلاج / التحصينة")
+        v_withdraw = c6.number_input("فترة السحب أيام", min_value=0, value=3)
 
-        v_treat = c5.text_input(
-            "العلاج / التحصينة"
-        )
-
-        v_withdraw = c6.number_input(
-            "فترة السحب أيام",
-            min_value=0,
-            value=3
-        )
-
-
-        if st.form_submit_button(
-            "💾 حفظ السجل"
-        ):
-
+        if st.form_submit_button("💾 حفظ السجل"):
             c = conn.cursor()
-
             c.execute(
                 """
-                INSERT INTO vet_logs
-                (
-                    cycle_id,
-                    date,
-                    age,
-                    symptoms,
-                    diagnosis,
-                    treatment,
-                    withdrawal_days
+                INSERT INTO vet_logs (
+                    cycle_id, date, age, symptoms, diagnosis, treatment, withdrawal_days
                 )
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,
-                (
-                    selected_cycle_id,
-                    str(v_date),
-                    v_age,
-                    v_sym,
-                    v_diag,
-                    v_treat,
-                    v_withdraw,
-                )
+                (selected_cycle_id, str(v_date), v_age, v_sym, v_diag, v_treat, v_withdraw)
             )
-
             conn.commit()
-
-            st.success(
-                "تم تسجيل السجل البيطري."
-            )
-
+            st.success("تم تسجيل السجل البيطري.")
             st.rerun()
-
 
     vet_df = pd.read_sql_query(
         """
-        SELECT *
-        FROM vet_logs
+        SELECT * FROM vet_logs
         WHERE cycle_id = ?
         ORDER BY date DESC
         """,
@@ -2105,38 +1026,13 @@ with tab5:
         params=(selected_cycle_id,)
     )
 
-
     if not vet_df.empty:
-
-        vet_df[
-            "انتهاء السحب"
-        ] = (
-            vet_df["age"] +
-            vet_df["withdrawal_days"]
-        )
-
+        vet_df["انتهاء السحب"] = vet_df["age"] + vet_df["withdrawal_days"]
         renamed = {
-
-            "date": "التاريخ",
-
-            "age": "العمر",
-
-            "symptoms": "الأعراض",
-
-            "diagnosis": "التشخيص",
-
-            "treatment": "العلاج",
-
-            "withdrawal_days":
-                "فترة السحب",
+            "date": "التاريخ", "age": "العمر", "symptoms": "الأعراض",
+            "diagnosis": "التشخيص", "treatment": "العلاج", "withdrawal_days": "فترة السحب"
         }
-
-        st.dataframe(
-            vet_df.rename(
-                columns=renamed
-            ),
-            use_container_width=True
-        )
+        st.dataframe(vet_df.rename(columns=renamed), use_container_width=True)
 
 
 # =========================================================
@@ -2144,202 +1040,42 @@ with tab5:
 # =========================================================
 
 with tab6:
-
-    st.subheader(
-        "💰 التحليل المالي"
-    )
-
-
-    chick_cost = (
-        tot_chicks *
-        float(curr_cycle["chick_price"])
-    )
-
-
-    feed_cost = (
-        tot_feed_kg / 1000 *
-        float(curr_cycle["feed_price_ton"])
-    )
-
-
-    total_costs = (
-        chick_cost +
-        feed_cost
-    )
-
-
-    est_revenue = (
-        tot_weight_kg *
-        float(curr_cycle["sell_price_kg"])
-    )
-
-
-    net_profit = (
-        est_revenue -
-        total_costs
-    )
-
-
-    breakeven_kg = (
-        total_costs /
-        float(curr_cycle["sell_price_kg"])
-        if float(
-            curr_cycle["sell_price_kg"]
-        ) > 0
-        else 0
-    )
-
-
-    cost_per_kg = (
-        total_costs /
-        tot_weight_kg
-        if tot_weight_kg > 0
-        else 0
-    )
-
+    st.subheader("💰 التحليل المالي")
+    chick_cost = tot_chicks * float(curr_cycle["chick_price"])
+    feed_cost = (tot_feed_kg / 1000) * float(curr_cycle["feed_price_ton"])
+    total_costs = chick_cost + feed_cost
+    est_revenue = tot_weight_kg * float(curr_cycle["sell_price_kg"])
+    net_profit = est_revenue - total_costs
+    breakeven_kg = (total_costs / float(curr_cycle["sell_price_kg"])) if float(curr_cycle["sell_price_kg"]) > 0 else 0
+    cost_per_kg = (total_costs / tot_weight_kg) if tot_weight_kg > 0 else 0
 
     m1, m2, m3, m4 = st.columns(4)
+    m1.metric("إجمالي التكاليف", f"{total_costs:,.2f} ج.م")
+    m2.metric("الإيرادات", f"{est_revenue:,.2f} ج.م")
+    m3.metric("صافي الربح", f"{net_profit:,.2f} ج.م")
+    m4.metric("نقطة التعادل", f"{breakeven_kg:,.1f} كجم")
 
-
-    m1.metric(
-        "إجمالي التكاليف",
-        f"{total_costs:,.2f} ج.م"
-    )
-
-    m2.metric(
-        "الإيرادات",
-        f"{est_revenue:,.2f} ج.م"
-    )
-
-    m3.metric(
-        "صافي الربح",
-        f"{net_profit:,.2f} ج.م"
-    )
-
-    m4.metric(
-        "نقطة التعادل",
-        f"{breakeven_kg:,.1f} كجم"
-    )
-
-
-    st.info(
-        f"""
-        تكلفة إنتاج الكيلو:
-        **{cost_per_kg:.2f} ج.م**
-        """
-    )
-
-
+    st.info(f"تكلفة إنتاج الكيلو: **{cost_per_kg:.2f} ج.م**")
     st.markdown("---")
-
-    st.subheader(
-        "🎛️ تحليل الحساسية"
-    )
-
+    st.subheader("🎛️ تحليل الحساسية")
 
     s1, s2, s3 = st.columns(3)
+    sim_feed_price = s1.slider("سعر طن العلف", 15000, 35000, int(curr_cycle["feed_price_ton"]), 500)
+    sim_sell_price = s2.slider("سعر البيع / كجم", 50, 120, int(curr_cycle["sell_price_kg"]), 1)
+    sim_mortality = s3.slider("النفوق النهائي %", 1.0, 15.0, float(mortality_pct if mortality_pct > 0 else 3), 0.5)
 
-
-    sim_feed_price = s1.slider(
-        "سعر طن العلف",
-        15000,
-        35000,
-        int(
-            curr_cycle["feed_price_ton"]
-        ),
-        500
-    )
-
-
-    sim_sell_price = s2.slider(
-        "سعر البيع / كجم",
-        50,
-        120,
-        int(
-            curr_cycle["sell_price_kg"]
-        ),
-        1
-    )
-
-
-    sim_mortality = s3.slider(
-        "النفوق النهائي %",
-        1.0,
-        15.0,
-        float(
-            mortality_pct
-            if mortality_pct > 0
-            else 3
-        ),
-        0.5
-    )
-
-
-    sim_live_birds = (
-        tot_chicks *
-        (
-            1 -
-            sim_mortality / 100
-        )
-    )
-
-
-    sim_tot_weight_kg = (
-        sim_live_birds *
-        float(
-            curr_cycle["target_weight"]
-        )
-    )
-
-
+    sim_live_birds = tot_chicks * (1 - sim_mortality / 100)
+    sim_tot_weight_kg = sim_live_birds * float(curr_cycle["target_weight"])
     simulated_fcr = 1.60
-
-
-    sim_feed_kg = (
-        sim_tot_weight_kg *
-        simulated_fcr
-    )
-
-
-    sim_costs = (
-        chick_cost +
-        (
-            sim_feed_kg / 1000
-        ) *
-        sim_feed_price
-    )
-
-
-    sim_revenue = (
-        sim_tot_weight_kg *
-        sim_sell_price
-    )
-
-
-    sim_profit = (
-        sim_revenue -
-        sim_costs
-    )
-
+    sim_feed_kg = sim_tot_weight_kg * simulated_fcr
+    sim_costs = chick_cost + (sim_feed_kg / 1000) * sim_feed_price
+    sim_revenue = sim_tot_weight_kg * sim_sell_price
+    sim_profit = sim_revenue - sim_costs
 
     x1, x2, x3 = st.columns(3)
-
-
-    x1.metric(
-        "التكلفة التقديرية",
-        f"{sim_costs:,.2f} ج.م"
-    )
-
-    x2.metric(
-        "الإيراد التقديري",
-        f"{sim_revenue:,.2f} ج.م"
-    )
-
-    x3.metric(
-        "الربح التقديري",
-        f"{sim_profit:,.2f} ج.م",
-        delta=f"{sim_profit - net_profit:,.2f}"
-    )
+    x1.metric("التكلفة التقديرية", f"{sim_costs:,.2f} ج.م")
+    x2.metric("الإيراد التقديري", f"{sim_revenue:,.2f} ج.م")
+    x3.metric("الربح التقديري", f"{sim_profit:,.2f} ج.م", delta=f"{sim_profit - net_profit:,.2f}")
 
 
 # =========================================================
@@ -2347,287 +1083,77 @@ with tab6:
 # =========================================================
 
 with tab7:
-
-    st.subheader(
-        "🖨️ التقارير والتصدير"
-    )
-
-
+    st.subheader("🖨️ التقارير والتصدير")
     col1, col2 = st.columns(2)
 
-
-    # -----------------------------------------------------
-    # Excel
-    # -----------------------------------------------------
-
     with col1:
-
-        st.write(
-            "### 📥 التقرير Excel"
-        )
-
-
+        st.write("### 📥 التقرير Excel")
         buffer = io.BytesIO()
-
-
-        with pd.ExcelWriter(
-            buffer,
-            engine="openpyxl"
-        ) as writer:
-
+        with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
             summary_report = pd.DataFrame(
                 [
-                    {
-                        "المؤشر": "اسم الدورة",
-                        "القيمة": str(
-                            curr_cycle["name"]
-                        )
-                    },
-                    {
-                        "المؤشر": "تاريخ البدء",
-                        "القيمة": str(
-                            curr_cycle["start_date"]
-                        )
-                    },
-                    {
-                        "المؤشر": "العدد الأولي",
-                        "القيمة": tot_chicks
-                    },
-                    {
-                        "المؤشر": "الطيور الحية",
-                        "القيمة": live_birds
-                    },
-                    {
-                        "المؤشر": "النفوق %",
-                        "القيمة":
-                            f"{mortality_pct:.2f}%"
-                    },
-                    {
-                        "المؤشر": "العلف كجم",
-                        "القيمة": tot_feed_kg
-                    },
-                    {
-                        "المؤشر": "FCR",
-                        "القيمة": round(fcr, 2)
-                    },
-                    {
-                        "المؤشر": "EPEF",
-                        "القيمة": round(epef, 1)
-                    },
-                    {
-                        "المؤشر": "التكاليف",
-                        "القيمة": total_costs
-                    },
-                    {
-                        "المؤشر": "الإيرادات",
-                        "القيمة": est_revenue
-                    },
-                    {
-                        "المؤشر": "صافي الربح",
-                        "القيمة": net_profit
-                    },
+                    {"المؤشر": "اسم الدورة", "القيمة": str(curr_cycle["name"])},
+                    {"المؤشر": "تاريخ البدء", "القيمة": str(curr_cycle["start_date"])},
+                    {"المؤشر": "العدد الأولي", "القيمة": tot_chicks},
+                    {"المؤشر": "الطيور الحية", "القيمة": live_birds},
+                    {"المؤشر": "النفوق %", "القيمة": f"{mortality_pct:.2f}%"},
+                    {"المؤشر": "العلف كجم", "القيمة": tot_feed_kg},
+                    {"المؤشر": "FCR", "القيمة": round(fcr, 2)},
+                    {"المؤشر": "EPEF", "القيمة": round(epef, 1)},
+                    {"المؤشر": "التكاليف", "القيمة": total_costs},
+                    {"المؤشر": "الإيرادات", "القيمة": est_revenue},
+                    {"المؤشر": "صافي الربح", "القيمة": net_profit},
                 ]
             )
-
-
-            summary_report.to_excel(
-                writer,
-                sheet_name="ملخص الدورة",
-                index=False
-            )
-
+            summary_report.to_excel(writer, sheet_name="ملخص الدورة", index=False)
 
             if not logs_df.empty:
+                logs_df.to_excel(writer, sheet_name="التسجيل اليومي", index=False)
 
-                logs_df.to_excel(
-                    writer,
-                    sheet_name="التسجيل اليومي",
-                    index=False
-                )
-
-
-            inv_summary_df.to_excel(
-                writer,
-                sheet_name="المخزون",
-                index=False
-            )
-
+            inv_summary_df.to_excel(writer, sheet_name="المخزون", index=False)
 
             if not vet_df.empty:
-
-                vet_df.to_excel(
-                    writer,
-                    sheet_name="السجل البيطري",
-                    index=False
-                )
-
+                vet_df.to_excel(writer, sheet_name="السجل البيطري", index=False)
 
         buffer.seek(0)
-
-
         st.download_button(
             label="📥 تحميل التقرير الشامل",
             data=buffer.getvalue(),
-            file_name=(
-                f"BFM_Report_"
-                f"{selected_cycle_name}.xlsx"
-            ),
-            mime=(
-                "application/vnd.openxmlformats-officedocument."
-                "spreadsheetml.sheet"
-            )
+            file_name=f"BFM_Report_{selected_cycle_name}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
-
-
-    # -----------------------------------------------------
-    # Print
-    # -----------------------------------------------------
 
     with col2:
-
-        st.write(
-            "### 🖨️ طباعة / PDF"
-        )
-
-
+        st.write("### 🖨️ طباعة / PDF")
         print_html = f"""
-
-        <div style="
-            direction:rtl;
-            font-family:Arial;
-            background:white;
-            color:#000;
-            padding:25px;
-            border:2px solid #0284c7;
-            border-radius:12px;
-        ">
-
-            <h2 style="
-                text-align:center;
-                color:#0284c7;
-            ">
-                🐔 تقرير دورة التسمين
-            </h2>
-
+        <div style="direction:rtl; font-family:Arial; background:white; color:#000; padding:25px; border:2px solid #0284c7; border-radius:12px;">
+            <h2 style="text-align:center; color:#0284c7;">🐔 تقرير دورة التسمين</h2>
             <hr>
-
-            <p>
-                <strong>الدورة:</strong>
-                {curr_cycle['name']}
-            </p>
-
-            <p>
-                <strong>تاريخ البدء:</strong>
-                {curr_cycle['start_date']}
-            </p>
-
-            <p>
-                <strong>العدد الأولي:</strong>
-                {tot_chicks:,}
-            </p>
-
-            <p>
-                <strong>الطيور الحية:</strong>
-                {live_birds:,}
-            </p>
-
-            <p>
-                <strong>النفوق:</strong>
-                {mortality_pct:.2f}%
-            </p>
-
-            <p>
-                <strong>العلف:</strong>
-                {tot_feed_kg:,.1f} كجم
-            </p>
-
-            <p>
-                <strong>FCR:</strong>
-                {fcr:.2f}
-            </p>
-
-            <p>
-                <strong>EPEF:</strong>
-                {epef:.1f}
-            </p>
-
+            <p><strong>الدورة:</strong> {curr_cycle['name']}</p>
+            <p><strong>تاريخ البدء:</strong> {curr_cycle['start_date']}</p>
+            <p><strong>العدد الأولي:</strong> {tot_chicks:,}</p>
+            <p><strong>الطيور الحية:</strong> {live_birds:,}</p>
+            <p><strong>النفوق:</strong> {mortality_pct:.2f}%</p>
+            <p><strong>العلف:</strong> {tot_feed_kg:,.1f} كجم</p>
+            <p><strong>FCR:</strong> {fcr:.2f}</p>
+            <p><strong>EPEF:</strong> {epef:.1f}</p>
             <hr>
-
-            <h3>
-                💰 الملخص المالي
-            </h3>
-
-            <table style="
-                width:100%;
-                border-collapse:collapse;
-            ">
-
-                <tr>
-                    <td style="padding:8px;">
-                        إجمالي التكاليف
-                    </td>
-
-                    <td style="padding:8px;">
-                        {total_costs:,.2f}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td style="padding:8px;">
-                        الإيرادات
-                    </td>
-
-                    <td style="padding:8px;">
-                        {est_revenue:,.2f}
-                    </td>
-                </tr>
-
-                <tr style="
-                    background:#e0f2fe;
-                    font-weight:bold;
-                ">
-
-                    <td style="padding:8px;">
-                        صافي الربح
-                    </td>
-
-                    <td style="padding:8px;">
-                        {net_profit:,.2f}
-                    </td>
-
-                </tr>
-
+            <h3>💰 الملخص المالي</h3>
+            <table style="width:100%; border-collapse:collapse;">
+                <tr><td style="padding:8px;">إجمالي التكاليف</td><td style="padding:8px;">{total_costs:,.2f}</td></tr>
+                <tr><td style="padding:8px;">الإيرادات</td><td style="padding:8px;">{est_revenue:,.2f}</td></tr>
+                <tr style="background:#e0f2fe; font-weight:bold;"><td style="padding:8px;">صافي الربح</td><td style="padding:8px;">{net_profit:,.2f}</td></tr>
             </table>
-
         </div>
         """
-
 
         components.html(
             f"""
             {print_html}
-
-            <div style="
-                margin-top:20px;
-            ">
-
-                <button
-                    onclick="window.print()"
-                    style="
-                        width:100%;
-                        padding:14px;
-                        background:#0284c7;
-                        color:white;
-                        border:none;
-                        border-radius:8px;
-                        font-size:17px;
-                        font-weight:bold;
-                        cursor:pointer;
-                    "
-                >
+            <div style="margin-top:20px;">
+                <button onclick="window.print()" style="width:100%; padding:14px; background:#0284c7; color:white; border:none; border-radius:8px; font-size:17px; font-weight:bold; cursor:pointer;">
                     🖨️ طباعة التقرير / حفظ PDF
                 </button>
-
             </div>
             """,
             height=650,
@@ -2642,16 +1168,8 @@ with tab7:
 st.markdown(
     """
     <hr>
-
-    <div style="
-        text-align:center;
-        color:#94a3b8;
-        padding:15px;
-        font-size:13px;
-    ">
-        🐔 BFM — Broiler Farm Manager V11
-        <br>
-        نظام إدارة مزارع التسمين
+    <div style="text-align:center; color:#94a3b8; padding:15px; font-size:13px;">
+        🐔 BFM — Broiler Farm Manager V11<br>نظام إدارة مزارع التسمين
     </div>
     """,
     unsafe_allow_html=True
