@@ -7,31 +7,31 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم واجهة الأزرق الفاتح والشريط الجانبي المخفي الأرزق الغامق
+# 1. إعدادات الصفحة وتصميم واجهة الأزرق الفاتح والشريط الجانبي الأزرق الغامق
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Broiler Farm Manager V9 - Blue Theme",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="collapsed",  # جعل الشريط الجانبي مخفياً افتراضياً
+    initial_sidebar_state="collapsed",
 )
 
 st.markdown(
     """
     <style>
     /* ضبط اتجاه التطبيق بالكامل وخلفية الواجهة بالأزرق الفاتح */
-    [data-testid="stAppViewContainer"] {
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: rtl;
-        background-color: #f0f7ff;
+        background-color: #f0f7ff !important;
     }
     
-    /* تثبيت الشريط الجانبي في اليمين وتمليئه باللون الأزرق الغامق */
+    /* تنسيق الشريط الجانبي في اليمين باللون الأزرق الغامق */
     [data-testid="stSidebar"] {
         right: 0 !important;
         left: auto !important;
         direction: rtl !important;
         text-align: right !important;
-        background-color: #1e3a8a !important; /* أزرق غامق */
+        background-color: #1e3a8a !important;
         border-left: 3px solid #3b82f6;
     }
 
