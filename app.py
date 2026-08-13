@@ -100,7 +100,7 @@ st.markdown(
     }
     .stTabs [aria-selected="true"] {
         background-color: #0284c7 !important;
-        color: white !important;
+        color: black !important;
     }
 
     .stButton>button {
