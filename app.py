@@ -28,20 +28,17 @@ st.markdown(
     }
  
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
-        direction: rtl;
         text-align: right !important;
         background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important; 
         color: #ffffff !important;
     }
     
     [data-testid="stSidebar"] * {
-        direction: rtl;
         text-align: right !important;
         color: #f8fafc !important;
     }
 
     .stMarkdown, .stText, p, span, label, div {
-        direction: rtl;
         text-align: right !important;
         color: #f8fafc !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -93,7 +90,6 @@ st.markdown(
 
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
-        direction: rtl;
     }
     .stTabs [data-baseweb="tab"] {
         background-color: #1e293b;
@@ -125,7 +121,6 @@ st.markdown(
         background-color: #ffffff;
         border-radius: 10px;
         border: 2px solid #38bdf8;
-        direction: rtl;
         text-align: right !important;
     }
 
