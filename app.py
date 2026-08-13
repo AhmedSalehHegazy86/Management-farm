@@ -13,11 +13,12 @@ st.set_page_config(
     page_title="Broiler Farm Manager - Secure Auth",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="collapsed")
+    initial_sidebar_state="collapsed"
+)
+
 st.markdown(
-    """)
+    """
     <style>
-    
     [data-testid="stSidebar"] {
         direction: rtl !important;
         right: auto !important;
@@ -25,7 +26,6 @@ st.markdown(
         background-color: #0f172a !important;
         border-left: 0px solid #38bdf8 !important;
     }
-
  
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: rtl !important;
@@ -40,7 +40,6 @@ st.markdown(
         color: #f8fafc !important;
     }
 
-
     .stMarkdown, .stText, p, span, label, div {
         direction: rtl !important;
         text-align: right !important;
@@ -48,14 +47,12 @@ st.markdown(
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    /* عناوين الواجهة الرئيسية بارزة وفاتحة */
     h1, h2, h3 {
         color: #e0f2fe !important;
         font-weight: 800 !important;
         text-align: right !important;
     }
 
-    /* مربعات الإحصائيات (Metrics) والنمادج (Forms) - خلفية بيضاء نقية وخطوط سوداء داكنة */
     .stMetric, div[data-testid="stForm"] { 
         background: #ffffff !important; 
         padding: 20px !important; 
@@ -84,7 +81,6 @@ st.markdown(
         text-align: right !important;
     }
 
-    /* حقول الإدخال والقوائم المنسدلة باتجاه اليمين وخطوط سوداء واضحة */
     input, select, textarea, [data-baseweb="select"] {
         direction: rtl !important;
         text-align: right !important;
@@ -95,7 +91,6 @@ st.markdown(
         font-weight: 700 !important;
     }
 
-    /* التبويبات (Tabs) بتصميم أزرق متناسق وعالي التباين */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
         direction: rtl !important;
@@ -113,7 +108,6 @@ st.markdown(
         color: white !important;
     }
 
-    /* الأزرار بلون أزرق ملكي بارز وخطوط بيضاء واضحة */
     .stButton>button {
         background-color: #0284c7 !important;
         color: white !important;
@@ -127,7 +121,6 @@ st.markdown(
         background-color: #0369a1 !important;
     }
 
-    /* الجداول */
     [data-testid="stDataFrame"] {
         background-color: #ffffff;
         border-radius: 10px;
@@ -136,7 +129,6 @@ st.markdown(
         text-align: right !important;
     }
 
-    /* إخفاء عناصر النظام عند الطباعة */
     @media print {
         header, [data-testid="stSidebar"], .stTabs [role="tablist"], button { 
             display: none !important; 
@@ -196,7 +188,7 @@ STANDARD_BENCHMARKS = pd.DataFrame(
 )
 
 # ---------------------------------------------------------
-# 3. إدارة قاعدة البيانات وإنشاء جداول المستخدمين والدورات
+# 3. إدارة قاعدة البيانات وإنشاء الجداول
 # ---------------------------------------------------------
 def get_connection():
     return sqlite3.connect("farm_manager_v9.db", check_same_thread=False)
@@ -205,7 +197,6 @@ def init_db():
     conn = get_connection()
     c = conn.cursor()
 
-    # جدول المستخدمين
     c.execute("""CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE,
@@ -213,7 +204,6 @@ def init_db():
         role TEXT
     )""")
 
-    # إضافة حساب مدير افتراضي إذا لم يكن موجوداً
     c.execute("SELECT COUNT(*) FROM users")
     if c.fetchone()[0] == 0:
         c.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", ("admin", "admin123", "مدير"))
@@ -296,7 +286,6 @@ if st.sidebar.button("🚪 تسجيل الخروج"):
 st.sidebar.markdown("---")
 st.sidebar.title("🐔 لوحة التحكم والإدارة")
 
-# خيار خاص بالمدير لإضافة مستخدمين جدد
 if st.session_state.role == "مدير":
     with st.sidebar.expander("👥 إدارة المستخدمين (إضافة مستخدم)", expanded=False):
         with st.form("add_user_form"):
