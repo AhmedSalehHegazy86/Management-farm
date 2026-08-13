@@ -21,7 +21,6 @@ st.markdown(
     <style>
     /* تخصيص الخلفية العامة بتدرج أزرق داكن لامع وحيوي */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
-        direction: rtl !important;
         text-align: right !important;
         background: radial-gradient(circle at 50% 0%, #1e40af 0%, #0f172a 70%, #020617 100%) !important;
         background-attachment: fixed !important;
