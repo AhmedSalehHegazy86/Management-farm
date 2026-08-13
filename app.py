@@ -308,24 +308,26 @@ if st.session_state.role == "مدير":
                 else:
                     st.warning("يرجى إدخال اسم المستخدم والرقم السري!")
 
-with st.sidebar.expander("➕ إضافة دورة تسمين جديدة", expanded=False):
-    with st.form("add_new_cycle_form_sidebar"):
-        c_name = st.text_input("اسم الدورة الجديدة", f"دورة جديدة {datetime.date.today()}")
-        c_chicks = st.number_input("عدد الكتاكيت الأولي", value=2000, step=100)
-        c_chick_p = st.number_input("سعر الكتكوت (جنية)", value=35.0)
-        c_feed_p = st.number_input("سعر طن العلف (جنية)", value=24000.0)
-        c_sell_p = st.number_input("سعر بيع الكيلو (جنية)", value=85.0)
-        c_target_w = st.number_input("الوزن المستهدف (كجم)", value=2.2)
-        if st.form_submit_button("حفظ وتفعيل الدورة"):
-            c = conn.cursor()
-            c.execute(
-                """INSERT INTO cycles (name, chicks_count, chick_price, feed_price_ton, sell_price_kg, target_weight, start_date)
-                VALUES (?, ?, ?, ?, ?, ?, ?)""",
-                (c_name, c_chicks, c_chick_p, c_feed_p, c_sell_p, c_target_w, str(datetime.date.today())),
-            )
-            conn.commit()
-            st.success("تم إضافة الدورة بنجاح!")
-            st.rerun()
+# --- إضافة دورة جديدة (مخصصة للمدير فقط) ---
+if st.session_state.role == "مدير":
+    with st.sidebar.expander("➕ إضافة دورة تسمين جديدة", expanded=False):
+        with st.form("add_new_cycle_form_sidebar"):
+            c_name = st.text_input("اسم الدورة الجديدة", f"دورة جديدة {datetime.date.today()}")
+            c_chicks = st.number_input("عدد الكتاكيت الأولي", value=2000, step=100)
+            c_chick_p = st.number_input("سعر الكتكوت (جنية)", value=35.0)
+            c_feed_p = st.number_input("سعر طن العلف (جنية)", value=24000.0)
+            c_sell_p = st.number_input("سعر بيع الكيلو (جنية)", value=85.0)
+            c_target_w = st.number_input("الوزن المستهدف (كجم)", value=2.2)
+            if st.form_submit_button("حفظ وتفعيل الدورة"):
+                c = conn.cursor()
+                c.execute(
+                    """INSERT INTO cycles (name, chicks_count, chick_price, feed_price_ton, sell_price_kg, target_weight, start_date)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                    (c_name, c_chicks, c_chick_p, c_feed_p, c_sell_p, c_target_w, str(datetime.date.today())),
+                )
+                conn.commit()
+                st.success("تم إضافة الدورة بنجاح!")
+                st.rerun()
 
 st.sidebar.markdown("---")
 st.sidebar.subheader("🔄 اختيار وتعديل الدورة النشطة")
@@ -343,20 +345,44 @@ else:
     st.sidebar.markdown(f"🗓️ **تاريخ البدء:** {curr_cycle['start_date']}")
     st.sidebar.markdown(f"🐤 **العدد الأولي:** {curr_cycle['chicks_count']:,} طائر")
 
-    with st.sidebar.expander("⚙️ تعديل أسعار وإعدادات الدورة الحالية"):
-        with st.form("edit_cycle_form_sidebar"):
-            e_chick_p = st.number_input("تعديل سعر الكتكوت (جنية)", value=float(curr_cycle["chick_price"]))
-            e_feed_p = st.number_input("تعديل سعر طن العلف (جنية)", value=float(curr_cycle["feed_price_ton"]))
-            e_sell_p = st.number_input("تعديل سعر البيع/كجم (جنية)", value=float(curr_cycle["sell_price_kg"]))
-            if st.form_submit_button("حفظ التحديثات"):
-                c = conn.cursor()
-                c.execute(
-                    "UPDATE cycles SET chick_price=?, feed_price_ton=?, sell_price_kg=? WHERE id=?",
-                    (e_chick_p, e_feed_p, e_sell_p, selected_cycle_id),
-                )
-                conn.commit()
-                st.success("تم التحديث بنجاح!")
-                st.rerun()
+    # --- تعديل إعدادات الدورة الحالية (مخصص للمدير فقط) ---
+    if st.session_state.role == "مدير":
+        with st.sidebar.expander("⚙️ تعديل أسعار وإعدادات الدورة الحالية"):
+            with st.form("edit_cycle_form_sidebar"):
+                e_chick_p = st.number_input("تعديل سعر الكتكوت (جنية)", value=float(curr_cycle["chick_price"]))
+                e_feed_p = st.number_input("تعديل سعر طن العلف (جنية)", value=float(curr_cycle["feed_price_ton"]))
+                e_sell_p = st.number_input("تعديل سعر البيع/كجم (جنية)", value=float(curr_cycle["sell_price_kg"]))
+                if st.form_submit_button("حفظ التحديثات"):
+                    c = conn.cursor()
+                    c.execute(
+                        "UPDATE cycles SET chick_price=?, feed_price_ton=?, sell_price_kg=? WHERE id=?",
+                        (e_chick_p, e_feed_p, e_sell_p, selected_cycle_id),
+                    )
+                    conn.commit()
+                    st.success("تم التحديث بنجاح!")
+                    st.rerun()
+
+    # --- حذف دورة (مخصص للمدير فقط) ---
+    if st.session_state.role == "مدير":
+        with st.sidebar.expander("🗑️ حذف دورة تسمين"):
+            with st.form("delete_cycle_form"):
+                all_cycles_df = pd.read_sql("SELECT id, name FROM cycles", conn)
+                if not all_cycles_df.empty:
+                    del_dict = dict(zip(all_cycles_df["name"], all_cycles_df["id"]))
+                    selected_del_name = st.selectbox("اختر الدورة المراد حذفها", list(del_dict.keys()))
+                    confirm_del = st.checkbox("تأكيد الحذف (سيتم حذف السجلات واليوميات المرتبطة نهائياً)")
+                    if st.form_submit_button("حذف الدورة نهائياً"):
+                        if confirm_del:
+                            d_id = del_dict[selected_del_name]
+                            c = conn.cursor()
+                            c.execute("DELETE FROM daily_logs WHERE cycle_id=?", (d_id,))
+                            c.execute("DELETE FROM vet_logs WHERE cycle_id=?", (d_id,))
+                            c.execute("DELETE FROM cycles WHERE id=?", (d_id,))
+                            conn.commit()
+                            st.success(f"تم حذف الدورة '{selected_del_name}' بنجاح!")
+                            st.rerun()
+                        else:
+                            st.warning("يرجى تحديد خانة التأكيد أولاً!")
 
 # ---------------------------------------------------------
 # 6. واجهة التشغيل والعمليات الحسابية الرئيسية
