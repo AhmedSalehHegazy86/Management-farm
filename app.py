@@ -20,7 +20,6 @@ st.markdown(
     """
     <style>
     [data-testid="stSidebar"] {
-        direction: rtl;
         right: auto !important;
         left: 0 !important;
         background-color: #0f172a !important;
@@ -79,7 +78,6 @@ st.markdown(
     }
 
     input, select, textarea, [data-baseweb="select"] {
-        direction: rtl;
         text-align: right !important;
         background-color: #ffffff !important;
         color: #000000 !important;
