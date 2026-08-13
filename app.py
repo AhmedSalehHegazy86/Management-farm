@@ -17,7 +17,7 @@ st.set_page_config(
 )
 
 st.markdown(
-    """)
+    """
     <style>
     [data-testid="stSidebar"] {
         direction: rtl !important;
