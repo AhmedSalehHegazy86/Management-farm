@@ -30,7 +30,7 @@ st.markdown(
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         text-align: right !important;
         background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important; 
-        color: #38bdf8 !important;
+        color: #ffffff !important;
     }
     
     [data-testid="stSidebar"] * {
@@ -80,7 +80,7 @@ st.markdown(
 
     input, select, textarea, [data-baseweb="select"] {
         text-align: right !important;
-        background-color: #ffffff !important;
+        background-color: #0284c7 !important;
         color: #000000 !important;
         border: 2px solid #0284c7 !important;
         border-radius: 6px !important;
