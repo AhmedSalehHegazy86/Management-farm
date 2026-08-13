@@ -64,7 +64,6 @@ st.markdown(
     .stMetric *, div[data-testid="stForm"] * {
         color: #000000 !important;
         text-align: right !important;
-        direction:rtl !important;
     }
 
     [data-testid="stMetricValue"] {
@@ -78,6 +77,7 @@ st.markdown(
         font-weight: 800 !important;
         font-size: 1.1rem !important;
         text-align: right !important;
+        direction:rtl !important;
     }
 
     input, select, textarea, [data-baseweb="select"] {
