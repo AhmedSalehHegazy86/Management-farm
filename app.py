@@ -20,7 +20,7 @@ st.markdown(
     """
     <style>
     [data-testid="stSidebar"] {
-        direction: rtl !important;
+        direction: rt !important;
         right: auto !important;
         left: 0 !important;
         background-color: #0f172a !important;
@@ -28,7 +28,7 @@ st.markdown(
     }
  
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
-        direction: rtl !important;
+        direction: rt !important;
         text-align: right !important;
         background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important; 
         color: #ffffff !important;
