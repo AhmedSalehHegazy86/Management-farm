@@ -46,7 +46,6 @@ st.markdown(
     }
 
     h1, h2, h3 {
-        direction:rtl !important;
         color: #e0f2fe !important;
         font-weight: 800 !important;
         text-align: right !important;
@@ -65,6 +64,7 @@ st.markdown(
     .stMetric *, div[data-testid="stForm"] * {
         color: #000000 !important;
         text-align: right !important;
+        direction:rtl !important;
     }
 
     [data-testid="stMetricValue"] {
