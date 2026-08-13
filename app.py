@@ -46,6 +46,7 @@ st.markdown(
     }
 
     h1, h2, h3 {
+        direction:rtl !important;
         color: #e0f2fe !important;
         font-weight: 800 !important;
         text-align: right !important;
