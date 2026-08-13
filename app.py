@@ -121,6 +121,7 @@ st.markdown(
         border-radius: 10px;
         border: 2px solid #38bdf8;
         text-align: right !important;
+        direction:rtl !important;
     }
 
     @media print {
