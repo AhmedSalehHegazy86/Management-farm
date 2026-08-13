@@ -17,12 +17,12 @@ st.set_page_config(
 )
 
 st.markdown(
-    """
+    """)
     <style>
     [data-testid="stSidebar"] {
         direction: rtl !important;
         right: auto !important;
-        left: 0 ;
+        left: 0 !important;
         background-color: #0f172a !important;
         border-left: 0px solid #38bdf8 !important;
     }
