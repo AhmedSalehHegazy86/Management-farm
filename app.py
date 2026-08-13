@@ -40,7 +40,6 @@ st.markdown(
     }
 
     .stMarkdown, .stText, p, span, label, div {
-        direction: rtl !important;
         text-align: right !important;
         color: #f8fafc !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -258,8 +257,8 @@ if "logged_in" not in st.session_state:
 if not st.session_state.logged_in:
     st.title("🔐 تسجيل الدخول - نظام إدارة مزارع التسمين")
     with st.form("login_form"):
-        u_input = st.text_input("اسم المستخدم")
-        p_input = st.text_input("الرقم السري", type="password")
+        u_input = st.text_input("User name")
+        p_input = st.text_input("Password", type="password")
         submit_login = st.form_submit_button("دخول للنظام")
 
         if submit_login:
