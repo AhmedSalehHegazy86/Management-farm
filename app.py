@@ -653,7 +653,7 @@ if selected_cycle_id:
             
             print_html = f"""
             <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 3px solid #f59e0b; border-radius: 12px; background: linear-gradient(135deg, #fef08a 0%, #fed7aa 50%, #bbf7d0 100%); color: #000000; text-align: right;">
-                <h2 style="text-align: center; color: #b91c1c;">🐔 تقرير أداء دورة التسمين (Bright 4K)</h2>
+                <h2 style="text-align: center; color: #b91c1c;">🐔 تقرير أداء دورة التسمين</h2>
                 <hr style="border-color: #f97316;">
                 <table style="width:100%; text-align:right; border-collapse: collapse; font-weight: bold; color: #000000;">
                     <tr><td><strong>اسم الدورة:</strong> {curr_cycle['name']}</td><td><strong>تاريخ البدء:</strong> {curr_cycle['start_date']}</td></tr>
