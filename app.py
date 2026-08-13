@@ -30,7 +30,7 @@ st.markdown(
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         text-align: right !important;
         background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important; 
-        color: #ffffff !important;
+        color: #38bdf8 !important;
     }
     
     [data-testid="stSidebar"] * {
