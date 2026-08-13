@@ -20,7 +20,7 @@ st.markdown(
     """
     <style>
     [data-testid="stSidebar"] {
-        direction:rt;
+        direction:rt !important;
         right: auto !important;
         left: 0 !important;
         background-color: #0f172a !important;
