@@ -35,7 +35,6 @@ st.markdown(
     }
     
     [data-testid="stSidebar"] * {
-        direction: rtl !important;
         text-align: right !important;
         color: #f8fafc !important;
     }
@@ -208,7 +207,7 @@ def init_db():
 
     c.execute("SELECT COUNT(*) FROM users")
     if c.fetchone()[0] == 0:
-        c.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", ("admin", "admin123", "مدير"))
+        c.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", ("admin", "admin", "مدير"))
 
     c.execute("""CREATE TABLE IF NOT EXISTS cycles (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
