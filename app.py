@@ -7,7 +7,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم الألوان المتوسطة الجذابة والمريحة للعين
+# 1. إعدادات الصفحة وتصميم الخلفية متوسطة الزرقة وأماكن التسجيل السوداء مع تأثير ثلاثي الأبعاد
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Broiler Farm Manager - Secure Auth",
@@ -19,11 +19,11 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* خلفية البرنامج العامة: درجة متوسطة غنية (Slate & Navy متوازن) مريحة جداً للنظر وتمنع الإجهاد */
+    /* خلفية البرنامج العامة: درجة متوسطة الزرقة متوازنة وجميلة مع تأثير ثلاثي الأبعاد */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         text-align: right !important;
-        background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e1b4b 100%) !important; 
-        color: #f1f5f9 !important;
+        background: linear-gradient(135deg, #1e40af 0%, #1e293b 50%, #0f172a 100%) !important; 
+        color: #f8fafc !important;
     }
     
     /* الشريط الجانبي بتدرج متوازن وأنيق */
@@ -32,56 +32,56 @@ st.markdown(
         right: auto !important;
         left: 0 !important;
         background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
-        border-left: 2px solid #0ea5e9 !important;
-        box-shadow: -6px 0 25px rgba(14, 165, 233, 0.2);
+        border-left: 2px solid #3b82f6 !important;
+        box-shadow: -6px 0 25px rgba(59, 130, 246, 0.25);
     }
     
     [data-testid="stSidebar"] * {
         text-align: right !important;
-        color: #f1f5f9 !important;
+        color: #f8fafc !important;
     }
 
     .stMarkdown, .stText, p, span, label, div { 
         text-align: right !important;
-        color: #f1f5f9 !important;
+        color: #f8fafc !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     h1, h2, h3 {
-        color: #38bdf8 !important;
+        color: #60a5fa !important;
         font-weight: 800 !important;
         text-align: right !important;
-        text-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+        text-shadow: 0 2px 8px rgba(96, 165, 250, 0.4);
     }
 
-    /* تأثيرات البطاقات ونماذج التسجيل (Mid-Tone 3D Cards with Soft Contrast) مريحة وبارزة بوضوح */
-    .stMetric, div[data-testid="stForm"] { 
-        background: linear-gradient(145deg, #273548, #1e293b) !important; 
+    /* نماذج وبطاقات تسجيل البيانات باللون الأسود مع تأثير ثلاثي الأبعاد بارز وجذاب */
+    div[data-testid="stForm"], .stMetric { 
+        background: linear-gradient(145deg, #121212, #000000) !important; 
         padding: 24px !important; 
         border-radius: 16px !important; 
-        border: 2px solid #38bdf8 !important;
-        box-shadow: 0 15px 35px -8px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 255, 255, 0.1) !important;
+        border: 2px solid #3b82f6 !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), inset 0 1px 4px rgba(255, 255, 255, 0.15) !important;
         text-align: right !important;
         transform: translateY(-2px);
         transition: all 0.3s ease;
     }
 
-    .stMetric:hover, div[data-testid="stForm"]:hover {
-        box-shadow: 0 20px 40px -8px rgba(56, 189, 248, 0.3), inset 0 1px 4px rgba(255, 255, 255, 0.2) !important;
+    div[data-testid="stForm"]:hover, .stMetric:hover {
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), inset 0 1px 6px rgba(255, 255, 255, 0.25) !important;
         transform: translateY(-4px);
     }
     
-    .stMetric *, div[data-testid="stForm"] * {
-        color: #f1f5f9 !important;
+    div[data-testid="stForm"] *, .stMetric * {
+        color: #f8fafc !important;
         text-align: right !important;
     }
 
     [data-testid="stMetricValue"] {
-        color: #38bdf8 !important;
+        color: #60a5fa !important;
         font-weight: 900 !important;
         font-size: 2.2rem !important;
         text-align: right !important;
-        text-shadow: 0 2px 4px rgba(56, 189, 248, 0.2);
+        text-shadow: 0 2px 6px rgba(96, 165, 250, 0.3);
     }
     [data-testid="stMetricLabel"] {
         color: #94a3b8 !important;
@@ -90,24 +90,29 @@ st.markdown(
         text-align: right !important;
     }
 
-    /* حقول الإدخال وأماكن التسجيل: درجة متوسطة فاتحة قليلاً (Soft Off-White/Gray) لراحة العين أثناء الكتابة الطويلة دون زغللة */
+    /* حقول الإدخال وأماكن تسجيل البيانات باللون الأسود بالكامل مع تأثير ثلاثي الأبعاد */
     input, select, textarea, [data-baseweb="select"] {
         text-align: right !important;
-        background: linear-gradient(145deg, #f8fafc, #f1f5f9) !important;
-        color: #0f172a !important;
-        border: 2px solid #0ea5e9 !important;
+        background: linear-gradient(145deg, #18181b, #09090b) !important;
+        color: #ffffff !important;
+        border: 2px solid #3b82f6 !important;
         border-radius: 10px !important;
         font-weight: 700 !important;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(14, 165, 233, 0.15) !important;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 4px 12px rgba(59, 130, 246, 0.25) !important;
     }
 
-    /* التبويبات بتدرجات متوسطة جذابة ومريحة */
+    [data-baseweb="select"] * {
+        color: #ffffff !important;
+        background-color: #121212 !important;
+    }
+
+    /* التبويبات بتدرجات متوسطة الزرقة جذابة ومريحة */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
     }
     .stTabs [data-baseweb="tab"] {
         background: linear-gradient(145deg, #1e293b, #0f172a);
-        border: 2px solid #334155;
+        border: 2px solid #3b82f6;
         border-radius: 12px 12px 0 0;
         padding: 12px 24px;
         color: #94a3b8;
@@ -115,41 +120,41 @@ st.markdown(
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%) !important;
+        background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%) !important;
         color: #ffffff !important;
-        border: 2px solid #38bdf8 !important;
-        box-shadow: 0 6px 18px rgba(14, 165, 233, 0.4), inset 0 1px 3px rgba(255, 255, 255, 0.3) !important;
+        border: 2px solid #60a5fa !important;
+        box-shadow: 0 6px 18px rgba(59, 130, 246, 0.4), inset 0 1px 3px rgba(255, 255, 255, 0.3) !important;
     }
     .stTabs [aria-selected="true"] * {
         color: #ffffff !important;
     }
 
-    /* الأزرار بتأثير 3D متوازن وبارز بلون أزرق/سماوي جذاب ومريح */
+    /* الأزرار بتأثير 3D متوازن وبارز بلون أزرق جذاب */
     .stButton>button {
-        background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%) !important;
+        background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #3b82f6 100%) !important;
         color: #ffffff !important;
         border-radius: 10px;
         border: 2px solid rgba(255, 255, 255, 0.3);
         font-weight: 900 !important;
         padding: 0.7rem 1.4rem;
         width: 100%;
-        box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+        box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.4);
         transition: all 0.3s ease;
     }
     .stButton>button:hover {
-        background: linear-gradient(135deg, #0369a1 0%, #0284c7 50%, #0ea5e9 100%) !important;
-        box-shadow: 0 8px 25px rgba(14, 165, 233, 0.6), inset 0 2px 6px rgba(255, 255, 255, 0.5) !important;
+        background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 50%, #2563eb 100%) !important;
+        box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6), inset 0 2px 6px rgba(255, 255, 255, 0.5) !important;
         transform: translateY(-2px);
     }
 
     /* الجداول بتصميم عصري ومتوازن */
     [data-testid="stDataFrame"] {
-        background: linear-gradient(145deg, #273548, #1e293b);
+        background: linear-gradient(145deg, #1e293b, #0f172a);
         border-radius: 12px;
-        border: 2px solid #334155;
+        border: 2px solid #3b82f6;
         text-align: right !important;
         direction: rtl !important;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
     }
 
     @media print {
@@ -436,7 +441,7 @@ if selected_cycle_id:
 
         st.markdown("---")
         if mortality_pct > 5.0:
-            st.error("🚨 تنبيه خطر: نسبة النفوق تتجاوز الحد الأقصى المقبول (5%)!")
+            st.error("🚨 تنبيه خطر: نسبة النفوق تتجاوز الحد الأقص مقبول (5%)!")
         if fcr > 1.8 and fcr > 0:
             st.warning("⚠️ تنبيه: معدل التحويل الغذائي (FCR) أعلى من 1.8!")
 
@@ -445,13 +450,13 @@ if selected_cycle_id:
             st.write("### 🌡️ درجة الحرارة والرطوبة اليومية")
             if not logs_df.empty:
                 fig_env = go.Figure()
-                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة (°C)", line=dict(color="#38bdf8", width=3)))
-                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة (%)", line=dict(color="#0ea5e9", width=3)))
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة (°C)", line=dict(color="#3b82f6", width=3)))
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة (%)", line=dict(color="#60a5fa", width=3)))
                 fig_env.update_layout(
                     xaxis_title="اليوم", yaxis_title="القيمة",
                     margin=dict(l=20, r=20, t=30, b=20),
-                    paper_bgcolor='rgba(30,41,59,0.9)', plot_bgcolor='rgba(15,23,42,0.8)',
-                    font=dict(color='#f1f5f9', family='Segoe UI')
+                    paper_bgcolor='rgba(15,23,42,0.9)', plot_bgcolor='rgba(30,41,59,0.8)',
+                    font=dict(color='#f8fafc', family='Segoe UI')
                 )
                 st.plotly_chart(fig_env, use_container_width=True)
 
@@ -460,12 +465,12 @@ if selected_cycle_id:
             if not logs_df.empty:
                 fig_cons = go.Figure()
                 fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["feed_kg"], name="العلف (كجم)", marker_color="#f59e0b"))
-                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه (لتر)", marker_color="#0ea5e9"))
+                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه (لتر)", marker_color="#3b82f6"))
                 fig_cons.update_layout(
                     barmode="group", xaxis_title="اليوم", yaxis_title="الكمية",
                     margin=dict(l=20, r=20, t=30, b=20),
-                    paper_bgcolor='rgba(30,41,59,0.9)', plot_bgcolor='rgba(15,23,42,0.8)',
-                    font=dict(color='#f1f5f9', family='Segoe UI')
+                    paper_bgcolor='rgba(15,23,42,0.9)', plot_bgcolor='rgba(30,41,59,0.8)',
+                    font=dict(color='#f8fafc', family='Segoe UI')
                 )
                 st.plotly_chart(fig_cons, use_container_width=True)
 
@@ -526,11 +531,11 @@ if selected_cycle_id:
 
         fig_w = go.Figure()
         fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="#94a3b8", dash="dash", width=3)))
-        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#38bdf8", width=4)))
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#3b82f6", width=4)))
         fig_w.update_layout(
             title="منحنى النمو مقارنة بالمعايير القياسية", xaxis_title="اليوم", yaxis_title="متوسط الوزن (جم)",
-            paper_bgcolor='rgba(30,41,59,0.9)', plot_bgcolor='rgba(15,23,42,0.8)',
-            font=dict(color='#f1f5f9', family='Segoe UI')
+            paper_bgcolor='rgba(15,23,42,0.9)', plot_bgcolor='rgba(30,41,59,0.8)',
+            font=dict(color='#f8fafc', family='Segoe UI')
         )
         st.plotly_chart(fig_w, use_container_width=True)
 
@@ -685,8 +690,8 @@ if selected_cycle_id:
             st.write("### 🖨️ 2. طباعة تقرير الدورة / حفظ كـ PDF")
             
             print_html = f"""
-            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #0ea5e9; border-radius: 12px; background: linear-gradient(145deg, #ffffff, #f8fafc); color: #0f172a; text-align: right; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
-                <h2 style="text-align: center; color: #0284c7;">🐔 تقرير أداء دورة التسمين</h2>
+            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #3b82f6; border-radius: 12px; background: linear-gradient(145deg, #ffffff, #f8fafc); color: #0f172a; text-align: right; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
+                <h2 style="text-align: center; color: #1d4ed8;">🐔 تقرير أداء دورة التسمين</h2>
                 <hr style="border: 1px solid #e2e8f0;">
                 <table style="width:100%; text-align:right; border-collapse: collapse;">
                     <tr><td style="padding: 8px;"><strong>اسم الدورة:</strong> {curr_cycle['name']}</td><td style="padding: 8px;"><strong>تاريخ البدء:</strong> {curr_cycle['start_date']}</td></tr>
@@ -697,10 +702,10 @@ if selected_cycle_id:
                 <hr style="border: 1px solid #e2e8f0;">
                 <h3 style="color: #1e293b; text-align: right;">💰 الملخص المالي</h3>
                 <table style="width:100%; text-align:right; border: 1px solid #cbd5e1; border-collapse: collapse; padding: 8px;">
-                    <tr style="background: linear-gradient(135deg, #0284c7, #0ea5e9); color: white;"><th style="padding: 8px; text-align: right; color:white;">البند</th><th style="padding: 8px; text-align: right; color:white;">القيمة (جنية)</th></tr>
+                    <tr style="background: linear-gradient(135deg, #1d4ed8, #3b82f6); color: white;"><th style="padding: 8px; text-align: right; color:white;">البند</th><th style="padding: 8px; text-align: right; color:white;">القيمة (جنية)</th></tr>
                     <tr><td style="padding: 8px; text-align: right; border-bottom: 1px solid #e2e8f0;">إجمالي التكاليف</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #e2e8f0;">{total_costs:,.2f} ج.م</td></tr>
-                    <tr><td style="padding: 8px; text-align: right; border-bottom: 1px solid #e2e8f0;">إجمالي الإيرادات المتوقعة</td><td style="padding: 8px; text-align: right; border-bottom: 1px is solid #e2e8f0;">{est_revenue:,.2f} ج.م</td></tr>
-                    <tr style="font-weight: bold; background-color: #f0f9ff;"><td style="padding: 8px; text-align: right; color:#0369a1;">صافي الربح</td><td style="padding: 8px; text-align: right; color:#0369a1;">{net_profit:,.2f} ج.م</td></tr>
+                    <tr><td style="padding: 8px; text-align: right; border-bottom: 1px solid #e2e8f0;">إجمالي الإيرادات المتوقعة</td><td style="padding: 8px; text-align: right; border-bottom: 1px solid #e2e8f0;">{est_revenue:,.2f} ج.م</td></tr>
+                    <tr style="font-weight: bold; background-color: #eff6ff;"><td style="padding: 8px; text-align: right; color:#1d4ed8;">صافي الربح</td><td style="padding: 8px; text-align: right; color:#1d4ed8;">{net_profit:,.2f} ج.م</td></tr>
                 </table>
             </div>
             """
@@ -709,7 +714,7 @@ if selected_cycle_id:
                 f"""
                 {print_html}
                 <div style="margin-top: 20px;">
-                    <button onclick="window.print()" style="background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #38bdf8 100%); color: white; padding: 12px 24px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif; font-weight: bold; box-shadow: 0 6px 15px rgba(14, 165, 233, 0.4);">
+                    <button onclick="window.print()" style="background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 50%, #60a5fa 100%); color: white; padding: 12px 24px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif; font-weight: bold; box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);">
                         🖨️ اضغط هنا لطباعة التقرير / حفظ PDF
                     </button>
                 </div>
