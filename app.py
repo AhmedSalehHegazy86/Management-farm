@@ -310,7 +310,7 @@ if st.session_state.role == "مدير":
 
 with st.sidebar.expander("➕ إضافة دورة تسمين جديدة", expanded=False):
     with st.form("add_new_cycle_form_sidebar"):
-        c_name = st.text_input("اسم الدورة الجديدة", f"دورة ساطعة جديدة {datetime.date.today()}")
+        c_name = st.text_input("اسم الدورة الجديدة", f"دورة جديدة {datetime.date.today()}")
         c_chicks = st.number_input("عدد الكتاكيت الأولي", value=2000, step=100)
         c_chick_p = st.number_input("سعر الكتكوت (جنية)", value=35.0)
         c_feed_p = st.number_input("سعر طن العلف (جنية)", value=24000.0)
