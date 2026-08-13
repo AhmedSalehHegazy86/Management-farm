@@ -9,8 +9,8 @@ import streamlit.components.v1 as components
 # ---------------------------------------------------------
 # 1. إعدادات الصفحة وتصميم الخلفية الزرقاء المتدرجة الداكنة
 # ---------------------------------------------------------
-st.set_page_config()
-    page_title="Broiler Farm Manager - Secure Auth",
+st.set_page_config(
+    page_title="Broiler Farm Manager - Secure Auth",)
     page_icon="🐔",
     layout="wide",
     initial_sidebar_state="collapsed"
