@@ -13,7 +13,7 @@ st.set_page_config(
     page_title="Broiler Farm Manager - Secure Auth",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="collapsed", # الشريط الجانبي يبدأ مغلقاً كأيقونة في الشريط العلوي
+    initial_sidebar_state="locked", # الشريط الجانبي يبدأ مغلقاً كأيقونة في الشريط العلوي
 )
 
 st.markdown(
@@ -25,7 +25,7 @@ st.markdown(
         right: 0 !important;
         left: auto !important;
         background-color: #0f172a !important;
-        border-left: 2px solid #38bdf8 !important;
+        border-left: 0px solid #38bdf8 !important;
     }
 
     /* خلفية التطبيق العامة بلون أزرق متدرج وداكن أنيق */
