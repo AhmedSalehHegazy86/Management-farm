@@ -38,7 +38,7 @@ st.markdown(
         color: #f8fafc !important;
     }
 
-    .stMarkdown, .stText, p, span, label, div 
+    .stMarkdown, .stText, p, span, label, div { 
         direction:rtl !important;
         text-align: right !important;
         color: #f8fafc !important;
