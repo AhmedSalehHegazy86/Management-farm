@@ -13,16 +13,14 @@ st.set_page_config(
     page_title="Broiler Farm Manager - Secure Auth",
     page_icon="🐔",
     layout="wide",
-    initial_sidebar_state="locked", # الشريط الجانبي يبدأ مغلقاً كأيقونة في الشريط العلوي
-)
-
+    initial_sidebar_state="collapsed"
 st.markdown(
     """
     <style>
     /* تخصيص الشريط الجانبي ليكون من اليمين ويستجيب للطي والفتح */
     [data-testid="stSidebar"] {
         direction: rtl !important;
-        right: 0 !important;
+        right: auto !important;
         left: 0 !important;
         background-color: #0f172a !important;
         border-left: 0px solid #38bdf8 !important;
