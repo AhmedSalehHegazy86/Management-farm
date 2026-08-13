@@ -7,7 +7,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم الألوان ثلاثية الأبعاد المشبعة والمدرجة
+# 1. إعدادات الصفحة وتصميم الألوان ثلاثية الأبعاد الفاتحة والمشبعة والمدرجة
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Broiler Farm Manager - Secure Auth",
@@ -19,56 +19,56 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* خلفية البرنامج العامة بتدرجات ثلاثية الأبعاد عميقة ومشبعة */
+    /* خلفية البرنامج العامة بتدرجات ثلاثية الأبعاد فاتحة ومشبعة وحيوية */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         text-align: right !important;
-        background: linear-gradient(135deg, #0b0f19 0%, #1e1b4b 50%, #0f172a 100%) !important; 
-        color: #ffffff !important;
+        background: linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 50%, #fdf2f8 100%) !important; 
+        color: #0f172a !important;
     }
     
-    /* الشريط الجانبي بتدرج مشبع */
+    /* الشريط الجانبي بتدرج فاتح وأنيق */
     [data-testid="stSidebar"] {
         direction: rtl !important;
         right: auto !important;
         left: 0 !important;
-        background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%) !important;
-        border-left: 2px solid #8b5cf6 !important;
-        box-shadow: -5px 0 25px rgba(139, 92, 246, 0.3);
+        background: linear-gradient(180deg, #f5f3ff 0%, #e0f2fe 100%) !important;
+        border-left: 2px solid #a855f7 !important;
+        box-shadow: -5px 0 25px rgba(168, 85, 247, 0.15);
     }
     
     [data-testid="stSidebar"] * {
         text-align: right !important;
-        color: #f8fafc !important;
+        color: #1e293b !important;
     }
 
     .stMarkdown, .stText, p, span, label, div { 
         text-align: right !important;
-        color: #f8fafc !important;
+        color: #1e293b !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     h1, h2, h3 {
-        color: #f3e8ff !important;
+        color: #6d28d9 !important;
         font-weight: 800 !important;
         text-align: right !important;
-        text-shadow: 0 2px 10px rgba(168, 85, 247, 0.4);
+        text-shadow: 0 2px 8px rgba(147, 51, 234, 0.15);
     }
 
-    /* تأثيرات البطاقات والمقاييس ثلاثية الأبعاد (3D Glassmorphism / Cards) */
+    /* تأثيرات البطاقات والمقاييس ثلاثية الأبعاد البارزة على خلفية فاتحة (Light 3D Glassmorphism) */
     .stMetric, div[data-testid="stForm"] { 
-        background: linear-gradient(145deg, #ffffff, #f1f5f9) !important; 
+        background: linear-gradient(145deg, #ffffff, #f8fafc) !important; 
         padding: 22px !important; 
         border-radius: 16px !important; 
         border: 2px solid transparent !important;
         border-image: linear-gradient(135deg, #38bdf8, #8b5cf6, #ec4899) 1 !important;
-        box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.9) !important;
+        box-shadow: 0 10px 25px -5px rgba(147, 51, 234, 0.15), 0 6px 10px -4px rgba(0, 0, 0, 0.05), inset 0 2px 4px rgba(255, 255, 255, 1) !important;
         text-align: right !important;
         transform: translateY(-2px);
         transition: all 0.3s ease;
     }
 
     .stMetric:hover, div[data-testid="stForm"]:hover {
-        box-shadow: 0 16px 35px -5px rgba(56, 189, 248, 0.4), 0 10px 12px -6px rgba(139, 92, 246, 0.4), inset 0 2px 6px rgba(255, 255, 255, 1) !important;
+        box-shadow: 0 14px 30px -5px rgba(56, 189, 248, 0.25), 0 8px 12px -4px rgba(147, 51, 234, 0.2), inset 0 2px 6px rgba(255, 255, 255, 1) !important;
         transform: translateY(-4px);
     }
     
@@ -82,47 +82,47 @@ st.markdown(
         font-weight: 900 !important;
         font-size: 2.2rem !important;
         text-align: right !important;
-        text-shadow: 0 2px 4px rgba(124, 58, 237, 0.2);
+        text-shadow: 0 2px 4px rgba(124, 58, 237, 0.15);
     }
     [data-testid="stMetricLabel"] {
-        color: #1e293b !important;
+        color: #334155 !important;
         font-weight: 800 !important;
         font-size: 1.15rem !important;
         text-align: right !important;
     }
 
-    /* حقول الإدخال والقوائم بتصميم ثلاثي الأبعاد بارز */
+    /* حقول الإدخال والقوائم بتصميم ثلاثي الأبعاد بارز وفاتح */
     input, select, textarea, [data-baseweb="select"] {
         text-align: right !important;
         background: linear-gradient(145deg, #ffffff, #f8fafc) !important;
         color: #0f172a !important;
-        border: 2px solid #8b5cf6 !important;
+        border: 2px solid #a855f7 !important;
         border-radius: 8px !important;
         font-weight: 700 !important;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(139, 92, 246, 0.15) !important;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(168, 85, 247, 0.1) !important;
     }
 
-    /* التبويبات بتدرجات مشبعة ثلاثية الأبعاد */
+    /* التبويبات بتدرجات فاتحة مشبعة ثلاثية الأبعاد */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
     }
     .stTabs [data-baseweb="tab"] {
-        background: linear-gradient(145deg, #1e1b4b, #311042);
-        border: 2px solid #8b5cf6;
+        background: linear-gradient(145deg, #e0e7ff, #f3e8ff);
+        border: 2px solid #c084fc;
         border-radius: 12px 12px 0 0;
         padding: 12px 24px;
-        color: #f3e8ff;
+        color: #581c87;
         font-weight: bold;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     }
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%) !important;
         color: #ffffff !important;
         border: 2px solid #f59e0b !important;
-        box-shadow: 0 6px 15px rgba(236, 72, 153, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
+        box-shadow: 0 6px 15px rgba(236, 72, 153, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.4) !important;
     }
 
-    /* الأزرار بتأثير 3D متدرج فائق الإشباع */
+    /* الأزرار بتأثير 3D متدرج فائق الإشباع والحيوية */
     .stButton>button {
         background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%) !important;
         color: #ffffff !important;
@@ -131,12 +131,12 @@ st.markdown(
         font-weight: 900 !important;
         padding: 0.7rem 1.4rem;
         width: 100%;
-        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+        box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.4);
         transition: all 0.3s ease;
     }
     .stButton>button:hover {
         background: linear-gradient(135deg, #7c3aed 0%, #db2777 50%, #d97706 100%) !important;
-        box-shadow: 0 8px 25px rgba(236, 72, 153, 0.7), inset 0 2px 6px rgba(255, 255, 255, 0.7) !important;
+        box-shadow: 0 8px 25px rgba(236, 72, 153, 0.6), inset 0 2px 6px rgba(255, 255, 255, 0.6) !important;
         transform: translateY(-2px);
     }
 
@@ -144,10 +144,10 @@ st.markdown(
     [data-testid="stDataFrame"] {
         background: linear-gradient(145deg, #ffffff, #f8fafc);
         border-radius: 12px;
-        border: 2px solid #8b5cf6;
+        border: 2px solid #c084fc;
         text-align: right !important;
         direction: rtl !important;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     }
 
     @media print {
@@ -448,8 +448,8 @@ if selected_cycle_id:
                 fig_env.update_layout(
                     xaxis_title="اليوم", yaxis_title="القيمة",
                     margin=dict(l=20, r=20, t=30, b=20),
-                    paper_bgcolor='rgba(15,23,42,0.8)', plot_bgcolor='rgba(30,27,75,0.6)',
-                    font=dict(color='#f8fafc', family='Segoe UI')
+                    paper_bgcolor='rgba(255,255,255,0.95)', plot_bgcolor='rgba(248,250,252,0.9)',
+                    font=dict(color='#0f172a', family='Segoe UI')
                 )
                 st.plotly_chart(fig_env, use_container_width=True)
 
@@ -462,8 +462,8 @@ if selected_cycle_id:
                 fig_cons.update_layout(
                     barmode="group", xaxis_title="اليوم", yaxis_title="الكمية",
                     margin=dict(l=20, r=20, t=30, b=20),
-                    paper_bgcolor='rgba(15,23,42,0.8)', plot_bgcolor='rgba(30,27,75,0.6)',
-                    font=dict(color='#f8fafc', family='Segoe UI')
+                    paper_bgcolor='rgba(255,255,255,0.95)', plot_bgcolor='rgba(248,250,252,0.9)',
+                    font=dict(color='#0f172a', family='Segoe UI')
                 )
                 st.plotly_chart(fig_cons, use_container_width=True)
 
@@ -527,8 +527,8 @@ if selected_cycle_id:
         fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#06b6d4", width=4)))
         fig_w.update_layout(
             title="منحنى النمو مقارنة بالمعايير القياسية", xaxis_title="اليوم", yaxis_title="متوسط الوزن (جم)",
-            paper_bgcolor='rgba(15,23,42,0.8)', plot_bgcolor='rgba(30,27,75,0.6)',
-            font=dict(color='#f8fafc', family='Segoe UI')
+            paper_bgcolor='rgba(255,255,255,0.95)', plot_bgcolor='rgba(248,250,252,0.9)',
+            font=dict(color='#0f172a', family='Segoe UI')
         )
         st.plotly_chart(fig_w, use_container_width=True)
 
@@ -683,7 +683,7 @@ if selected_cycle_id:
             st.write("### 🖨️ 2. طباعة تقرير الدورة / حفظ كـ PDF")
             
             print_html = f"""
-            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #8b5cf6; border-radius: 12px; background: linear-gradient(145deg, #ffffff, #f8fafc); color: #0f172a; text-align: right; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #a855f7; border-radius: 12px; background: linear-gradient(145deg, #ffffff, #f8fafc); color: #0f172a; text-align: right; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
                 <h2 style="text-align: center; color: #7c3aed;">🐔 تقرير أداء دورة التسمين</h2>
                 <hr style="border: 1px solid #e2e8f0;">
                 <table style="width:100%; text-align:right; border-collapse: collapse;">
@@ -707,7 +707,7 @@ if selected_cycle_id:
                 f"""
                 {print_html}
                 <div style="margin-top: 20px;">
-                    <button onclick="window.print()" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); color: white; padding: 12px 24px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif; font-weight: bold; box-shadow: 0 6px 15px rgba(236, 72, 153, 0.5);">
+                    <button onclick="window.print()" style="background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%); color: white; padding: 12px 24px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif; font-weight: bold; box-shadow: 0 6px 15px rgba(236, 72, 153, 0.4);">
                         🖨️ اضغط هنا لطباعة التقرير / حفظ PDF
                     </button>
                 </div>
