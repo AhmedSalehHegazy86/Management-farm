@@ -29,7 +29,6 @@ st.markdown(
     }
 
     [data-testid="stSidebar"] {
-        direction: rtl !important;
         right: auto !important;
         left: 0 !important;
         background-color: #0b1329 !important;
