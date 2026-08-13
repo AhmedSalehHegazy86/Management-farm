@@ -17,7 +17,7 @@ st.set_page_config(
 st.markdown(
     """)
     <style>
-    /* تخصيص الشريط الجانبي ليكون من اليمين ويستجيب للطي والفتح */
+    
     [data-testid="stSidebar"] {
         direction: rtl !important;
         right: auto !important;
@@ -26,7 +26,7 @@ st.markdown(
         border-left: 0px solid #38bdf8 !important;
     }
 
-    /* خلفية التطبيق العامة بلون أزرق متدرج وداكن أنيق */
+ 
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: rtl !important;
         text-align: right !important;
@@ -40,7 +40,7 @@ st.markdown(
         color: #f8fafc !important;
     }
 
-    /* محاذاة ووضوح كافة النصوص والعناوين العلوية على الخلفية الداكنة */
+
     .stMarkdown, .stText, p, span, label, div {
         direction: rtl !important;
         text-align: right !important;
