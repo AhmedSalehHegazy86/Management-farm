@@ -80,7 +80,7 @@ st.markdown(
 
     input, select, textarea, [data-baseweb="select"] {
         text-align: right !important;
-        background-color: #0284c7 !important;
+        background-color: #ffffff !important;
         color: #000000 !important;
         border: 2px solid #0284c7 !important;
         border-radius: 6px !important;
