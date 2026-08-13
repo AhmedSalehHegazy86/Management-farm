@@ -15,7 +15,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 st.markdown(
-    """
+    """)
     <style>
     /* تخصيص الشريط الجانبي ليكون من اليمين ويستجيب للطي والفتح */
     [data-testid="stSidebar"] {
