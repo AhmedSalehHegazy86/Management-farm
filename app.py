@@ -7,10 +7,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # ---------------------------------------------------------
-# 1. إعدادات الصفحة وتصميم الخلفية الزرقاء المتدرجة اللامعة
+# 1. إعدادات الصفحة وتصميم الألوان 4K (أصفر، برتقالي، أخضر، أحمر)
 # ---------------------------------------------------------
 st.set_page_config(
-    page_title="Broiler Farm Manager - Secure Auth",
+    page_title="Broiler Farm Manager - Ultra 4K Vivid",
     page_icon="🐔",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -19,65 +19,67 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* تخصيص الخلفية العامة بتدرج أزرق داكن لامع وحيوي */
+    /* خلفية متدرجة فائقة الوضوح (4K Ultra Glow) بين البرتقالي والأصفر والأخضر والأحمر */
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
         direction: right !important;
         text-align: right !important;
-        background: radial-gradient(circle at 50% 0%, #1e40af 0%, #0f172a 70%, #020617 100%) !important;
+        background: radial-gradient(circle at 50% 0%, rgba(250, 204, 21, 0.25) 0%, rgba(249, 115, 22, 0.2) 40%, rgba(22, 163, 74, 0.15) 70%, rgba(185, 28, 28, 0.2) 100%), #0f172a !important;
         background-attachment: fixed !important;
-        color: #ffffff !important;
+        color: #f8fafc !important;
     }
 
     [data-testid="stSidebar"] {
         right: auto !important;
         left: 0 !important;
-        background-color: #0b1329 !important;
-        border-left: 1px solid #38bdf8 !important;
+        background: linear-gradient(180deg, #18181b 0%, #27272a 100%) !important;
+        border-left: 2px solid #f97316 !important;
     }
     
     [data-testid="stSidebar"] * {
         text-align: right !important;
-        color: #f8fafc !important;
+        color: #fef08a !important;
     }
 
     .stMarkdown, .stText, p, span, label, div {
         text-align: right !important;
-        color: #f8fafc !important;
+        color: #fef08a !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     h1, h2, h3 {
-        color: #e0f2fe !important;
-        font-weight: 800 !important;
+        color: #facc15 !important;
+        font-weight: 900 !important;
         text-align: right !important;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        text-shadow: 0 0 15px rgba(250, 204, 21, 0.6), 0 2px 4px rgba(0,0,0,0.8);
     }
 
+    /* بطاقات المترك والفوُرم بنظام تداخل الألوان 4K الحية والزاهية */
     .stMetric, div[data-testid="stForm"] { 
-        background: rgba(255, 255, 255, 0.95) !important; 
-        padding: 20px !important; 
-        border-radius: 12px !important; 
-        border: 2px solid #38bdf8 !important;
-        border-right: 8px solid #0284c7 !important; 
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+        background: linear-gradient(135deg, rgba(254, 240, 138, 0.95) 0%, rgba(254, 215, 170, 0.95) 50%, rgba(187, 247, 208, 0.95) 100%) !important; 
+        padding: 22px !important; 
+        border-radius: 16px !important; 
+        border: 2px solid #f59e0b !important;
+        border-right: 10px solid #ea580c !important; 
+        box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4), inset 0 2px 6px rgba(255, 255, 255, 0.8) !important;
         text-align: right !important;
     }
     
     .stMetric *, div[data-testid="stForm"] * {
-        color: #000000 !important;
+        color: #18181b !important;
         text-align: right !important;
     }
 
     [data-testid="stMetricValue"] {
-        color: #0369a1 !important;
+        color: #b91c1c !important;
         font-weight: 900 !important;
-        font-size: 2rem !important;
+        font-size: 2.2rem !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         text-align: right !important;
     }
     [data-testid="stMetricLabel"] {
-        color: #0f172a !important;
-        font-weight: 800 !important;
-        font-size: 1.1rem !important;
+        color: #15803d !important;
+        font-weight: 900 !important;
+        font-size: 1.2rem !important;
         text-align: right !important;
     }
 
@@ -85,49 +87,55 @@ st.markdown(
         direction: rtl !important;
         text-align: right !important;
         background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 2px solid #0284c7 !important;
-        border-radius: 6px !important;
-        font-weight: 700 !important;
+        color: #18181b !important;
+        border: 2px solid #f97316 !important;
+        border-radius: 8px !important;
+        font-weight: 800 !important;
     }
 
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
+        gap: 10px;
         direction: rtl !important;
     }
     .stTabs [data-baseweb="tab"] {
-        background-color: #1e293b;
-        border: 1px solid #38bdf8;
-        border-radius: 8px 8px 0 0;
-        padding: 10px 20px;
-        color: #e0f2fe;
-        font-weight: bold;
+        background: linear-gradient(135deg, #18181b 0%, #27272a 100%);
+        border: 2px solid #f59e0b;
+        border-radius: 10px 10px 0 0;
+        padding: 12px 24px;
+        color: #fef08a;
+        font-weight: 900;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
     .stTabs [aria-selected="true"] {
-        background-color: #0284c7 !important;
-        color: white !important;
+        background: linear-gradient(135deg, #ea580c 0%, #ca8a04 100%) !important;
+        color: #ffffff !important;
+        border-color: #facc15 !important;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     }
 
     .stButton>button {
-        background-color: #0284c7 !important;
+        background: linear-gradient(135deg, #ea580c 0%, #16a34a 100%) !important;
         color: white !important;
-        border-radius: 8px;
-        border: 2px solid #38bdf8;
+        border-radius: 10px;
+        border: 2px solid #facc15;
         font-weight: 900 !important;
-        padding: 0.6rem 1.2rem;
+        padding: 0.7rem 1.4rem;
         width: 100%;
-        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.4);
+        box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5);
+        text-shadow: 0 1px 2px rgba(0,0,0,0.4);
     }
     .stButton>button:hover {
-        background-color: #0369a1 !important;
+        background: linear-gradient(135deg, #c2410c 0%, #15803d 100%) !important;
+        border-color: #ffffff !important;
     }
 
     [data-testid="stDataFrame"] {
         background-color: #ffffff;
-        border-radius: 10px;
-        border: 2px solid #38bdf8;
+        border-radius: 12px;
+        border: 2px solid #f59e0b;
         direction: rtl !important;
         text-align: right !important;
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
     }
 
     @media print {
@@ -192,7 +200,7 @@ STANDARD_BENCHMARKS = pd.DataFrame(
 # 3. إدارة قاعدة البيانات وإنشاء الجداول
 # ---------------------------------------------------------
 def get_connection():
-    return sqlite3.connect("farm_manager_v9.db", check_same_thread=False)
+    return sqlite3.connect("farm_manager_4k_v1.db", check_same_thread=False)
 
 def init_db():
     conn = get_connection()
@@ -256,7 +264,7 @@ if "logged_in" not in st.session_state:
     st.session_state.role = ""
 
 if not st.session_state.logged_in:
-    st.title("🔐 تسجيل الدخول - نظام إدارة مزارع التسمين")
+    st.title("🔐 تسجيل الدخول - نظام إدارة مزارع التسمين (4K Ultra)")
     with st.form("login_form"):
         u_input = st.text_input("User name")
         p_input = st.text_input("Password", type="password")
@@ -307,7 +315,7 @@ if st.session_state.role == "مدير":
 
 with st.sidebar.expander("➕ إضافة دورة تسمين جديدة", expanded=False):
     with st.form("add_new_cycle_form_sidebar"):
-        c_name = st.text_input("اسم الدورة الجديدة", f"دورة جديدة {datetime.date.today()}")
+        c_name = st.text_input("اسم الدورة الجديدة", f"دورة 4K جديدة {datetime.date.today()}")
         c_chicks = st.number_input("عدد الكتاكيت الأولي", value=2000, step=100)
         c_chick_p = st.number_input("سعر الكتكوت (جنية)", value=35.0)
         c_feed_p = st.number_input("سعر طن العلف (جنية)", value=24000.0)
@@ -358,7 +366,7 @@ else:
 # ---------------------------------------------------------
 # 6. واجهة التشغيل والعمليات الحسابية الرئيسية
 # ---------------------------------------------------------
-st.title("🐔 BFM - نظام إدارة مزارع التسمين")
+st.title("🐔 BFM - نظام إدارة مزارع التسمين (Ultra 4K)")
 
 if selected_cycle_id:
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
@@ -423,9 +431,9 @@ if selected_cycle_id:
             st.write("### 🌡️ درجة الحرارة والرطوبة اليومية")
             if not logs_df.empty:
                 fig_env = go.Figure()
-                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة (°C)", line=dict(color="#ef4444", width=3)))
-                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة (%)", line=dict(color="#38bdf8", width=3)))
-                fig_env.update_layout(xaxis_title="اليوم", yaxis_title="القيمة", margin=dict(l=20, r=20, t=30, b=20), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,0.9)')
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["temp"], name="الحرارة (°C)", line=dict(color="#ef4444", width=4)))
+                fig_env.add_trace(go.Scatter(x=logs_df["day"], y=logs_df["humidity"], name="الرطوبة (%)", line=dict(color="#10b981", width=4)))
+                fig_env.update_layout(xaxis_title="اليوم", yaxis_title="القيمة", margin=dict(l=20, r=20, t=30, b=20), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,0.95)')
                 st.plotly_chart(fig_env, use_container_width=True)
 
         with col_right:
@@ -433,8 +441,8 @@ if selected_cycle_id:
             if not logs_df.empty:
                 fig_cons = go.Figure()
                 fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["feed_kg"], name="العلف (كجم)", marker_color="#f59e0b"))
-                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه (لتر)", marker_color="#0284c7"))
-                fig_cons.update_layout(barmode="group", xaxis_title="اليوم", yaxis_title="الكمية", margin=dict(l=20, r=20, t=30, b=20), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,0.9)')
+                fig_cons.add_trace(go.Bar(x=logs_df["day"], y=logs_df["water_l"], name="المياه (لتر)", marker_color="#10b981"))
+                fig_cons.update_layout(barmode="group", xaxis_title="اليوم", yaxis_title="الكمية", margin=dict(l=20, r=20, t=30, b=20), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,0.95)')
                 st.plotly_chart(fig_cons, use_container_width=True)
 
     # --- Tab 2: التسجيل اليومي ---
@@ -493,9 +501,9 @@ if selected_cycle_id:
         merged_df = pd.merge(STANDARD_BENCHMARKS, logs_df[["day", "weight_g", "feed_kg"]], on="day", how="left")
 
         fig_w = go.Figure()
-        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="#94a3b8", dash="dash", width=2)))
-        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#38bdf8", width=4)))
-        fig_w.update_layout(title="منحنى النمو مقارنة بالمعايير القياسية", xaxis_title="اليوم", yaxis_title="متوسط الوزن (جم)", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,0.9)')
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["std_weight"], name="الوزن القياسي (جم)", line=dict(color="#f97316", dash="dash", width=3)))
+        fig_w.add_trace(go.Scatter(x=merged_df["day"], y=merged_df["weight_g"], name="الوزن الفعلي (جم)", line=dict(color="#10b981", width=5)))
+        fig_w.update_layout(title="منحنى النمو مقارنة بالمعايير القياسية", xaxis_title="اليوم", yaxis_title="متوسط الوزن (جم)", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(255,255,255,0.95)')
         st.plotly_chart(fig_w, use_container_width=True)
 
     # --- Tab 4: إدارة المخزون الديناميكي ---
@@ -649,22 +657,22 @@ if selected_cycle_id:
             st.write("### 🖨️ 2. طباعة تقرير الدورة / حفظ كـ PDF")
             
             print_html = f"""
-            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 2px solid #0284c7; border-radius: 10px; background-color: #ffffff; color: #000000; text-align: right;">
-                <h2 style="text-align: center; color: #0284c7;">🐔 تقرير أداء دورة التسمين</h2>
-                <hr>
-                <table style="width:100%; text-align:right; border-collapse: collapse;">
+            <div style="direction: rtl; font-family: Arial, sans-serif; padding: 20px; border: 3px solid #f59e0b; border-radius: 12px; background: linear-gradient(135deg, #fef08a 0%, #fed7aa 50%, #bbf7d0 100%); color: #18181b; text-align: right;">
+                <h2 style="text-align: center; color: #b91c1c; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">🐔 تقرير أداء دورة التسمين (Ultra 4K)</h2>
+                <hr style="border-color: #f97316;">
+                <table style="width:100%; text-align:right; border-collapse: collapse; font-weight: bold;">
                     <tr><td><strong>اسم الدورة:</strong> {curr_cycle['name']}</td><td><strong>تاريخ البدء:</strong> {curr_cycle['start_date']}</td></tr>
                     <tr><td><strong>العدد الأولي:</strong> {tot_chicks:,} طائر</td><td><strong>الطيور الحية:</strong> {live_birds:,} طائر</td></tr>
                     <tr><td><strong>نسبة النفوق:</strong> {mortality_pct:.2f}%</td><td><strong>إجمالي العلف:</strong> {tot_feed_kg:,.1f} كجم</td></tr>
                     <tr><td><strong>FCR معدل التحويل:</strong> {fcr:.2f}</td><td><strong>EPEF معامل الكفاءة:</strong> {epef:.1f}</td></tr>
                 </table>
-                <hr>
-                <h3 style="color: #000000; text-align: right;">💰 الملخص المالي</h3>
-                <table style="width:100%; text-align:right; border: 1px solid #bae6fd; padding: 8px;">
-                    <tr style="background-color: #e0f2fe;"><th style="color:#000000; padding: 6px; text-align: right;">البند</th><th style="color:#000000; padding: 6px; text-align: right;">القيمة (جنية)</th></tr>
-                    <tr><td style="padding: 6px; text-align: right;">إجمالي التكاليف</td><td style="padding: 6px; text-align: right;">{total_costs:,.2f} ج.م</td></tr>
-                    <tr><td style="padding: 6px; text-align: right;">إجمالي الإيرادات المتوقعة</td><td style="padding: 6px; text-align: right;">{est_revenue:,.2f} ج.م</td></tr>
-                    <tr style="font-weight: bold; background-color: #bae6fd;"><td style="padding: 6px; text-align: right;">صافي الربح</td><td style="padding: 6px; text-align: right;">{net_profit:,.2f} ج.م</td></tr>
+                <hr style="border-color: #f97316;">
+                <h3 style="color: #15803d; text-align: right;">💰 الملخص المالي</h3>
+                <table style="width:100%; text-align:right; border: 2px solid #ea580c; border-collapse: collapse; padding: 8px;">
+                    <tr style="background-color: #ea580c; color: white;"><th style="padding: 8px; text-align: right;">البند</th><th style="padding: 8px; text-align: right;">القيمة (جنية)</th></tr>
+                    <tr style="border-bottom: 1px solid #f97316;"><td style="padding: 8px; text-align: right;">إجمالي التكاليف</td><td style="padding: 8px; text-align: right;">{total_costs:,.2f} ج.م</td></tr>
+                    <tr style="border-bottom: 1px solid #f97316;"><td style="padding: 8px; text-align: right;">إجمالي الإيرادات المتوقعة</td><td style="padding: 8px; text-align: right;">{est_revenue:,.2f} ج.م</td></tr>
+                    <tr style="font-weight: bold; background-color: #16a34a; color: white;"><td style="padding: 8px; text-align: right;">صافي الربح</td><td style="padding: 8px; text-align: right;">{net_profit:,.2f} ج.م</td></tr>
                 </table>
             </div>
             """
@@ -673,11 +681,11 @@ if selected_cycle_id:
                 f"""
                 {print_html}
                 <div style="margin-top: 20px;">
-                    <button onclick="window.print()" style="background-color: #0284c7; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif; font-weight: bold;">
+                    <button onclick="window.print()" style="background: linear-gradient(135deg, #ea580c 0%, #16a34a 100%); color: white; padding: 14px 24px; border: 2px solid #facc15; border-radius: 8px; font-size: 16px; cursor: pointer; width: 100%; font-family: Arial, sans-serif; font-weight: 900; box-shadow: 0 4px 15px rgba(234, 88, 12, 0.4);">
                         🖨️ اضغط هنا لطباعة التقرير / حفظ PDF
                     </button>
                 </div>
                 """,
-                height=500,
+                height=520,
                 scrolling=True
             )
